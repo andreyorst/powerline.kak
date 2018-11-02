@@ -8,6 +8,8 @@
 # ╰─────────────────────────────────────╯
 
 # Options
+declare-option -hidden str-list powerline_themes
+
 declare-option -hidden str powerline_separator ''
 declare-option -hidden str powerline_separator_thin ''
 
@@ -187,7 +189,7 @@ powerline-toggle -params 1..2 %{ evaluate-commands %sh{
 }}
 
 define-command -override -docstring "powerline-theme <theme>: apply theme to powerline" \
--shell-script-candidates %{ for i in "base16 default"; do printf %s\\n $i; done} \
+-shell-script-candidates %{ eval "set -- $kak_opt_powerline_themes"; while [ "$1" ]; do echo $1; shift; done} \
 powerline-theme -params 1 %{ evaluate-commands %sh{
     echo "powerline-theme-$1"
     echo "powerline-rebuild"
