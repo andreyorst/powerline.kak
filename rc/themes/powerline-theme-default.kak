@@ -1,7 +1,6 @@
 # Kakoune default color scheme
 
 define-command powerline-theme-default %{
-    set-option global powerline_background0 black
     set-option global powerline_background1 blue
     set-option global powerline_background2 cyan
     set-option global powerline_background3 green
@@ -11,7 +10,9 @@ define-command powerline-theme-default %{
     set-option global powerline_foreground1 blue
     set-option global powerline_foreground2 magenta
     set-option global powerline_foreground3 green
-    set-option global powerline_foreground4 yellow
+
+    set-option global powerline_buffile_bg black
+    set-option global powerline_buffile_fg yellow
 }
 
 # For Code
