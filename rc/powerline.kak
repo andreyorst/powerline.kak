@@ -50,7 +50,7 @@ powerline-update-position %{ evaluate-commands %sh{
 }}
 
 define-command -override -hidden \
-powerline-update-readonly %{ set-option global powerline_readonly %sh{
+powerline-update-readonly %{ set-option window powerline_readonly %sh{
     if [ -w ${kak_buffile} ]; then
         echo ''
     else
@@ -59,7 +59,7 @@ powerline-update-readonly %{ set-option global powerline_readonly %sh{
 }}
 
 define-command -override -hidden \
-powerline-update-branch %{ set-option global powerline_git_branch %sh{
+powerline-update-branch %{ set-option window powerline_git_branch %sh{
     branch=$(cd "${kak_buffile%/*}" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null)
     if [ ! -z $branch ]; then
         echo "$branch "
@@ -73,9 +73,8 @@ hook global WinCreate .* %{
     powerline-update-position
     hook window NormalKey (j|k) powerline-update-position
     hook window NormalIdle .* powerline-update-position
+    hook global WinDisplay .* %{powerline-rebuild}
 }
-
-hook global WinDisplay .* %{powerline-rebuild}
 
 # Modeline
 define-command -override -docstring "construct powerline acorrdingly to configuration options" \
@@ -96,11 +95,13 @@ powerline-rebuild %{
         fi
 
         if [ "$kak_opt_powerline_module_git" = "true" ]; then
-            fg=$kak_opt_powerline_git_fg
-            bg=$kak_opt_powerline_git_bg
-            git="$left_thin{$fg,$bg} %opt{powerline_git_branch} "
-            next_bg=$kak_opt_powerline_line_column_bg
-            next_fg=$kak_opt_powerline_line_column_fg
+            if [ -n "$kak_opt_powerline_git_branch" ]; then
+                fg=$kak_opt_powerline_git_fg
+                bg=$kak_opt_powerline_git_bg
+                git="$left_thin{$fg,$bg} %opt{powerline_git_branch} "
+                next_bg=$kak_opt_powerline_line_column_bg
+                next_fg=$kak_opt_powerline_line_column_fg
+            fi
         fi
         if [ "$kak_opt_powerline_module_bufname" = "true" ]; then
             fg=$kak_opt_powerline_bufname_fg
