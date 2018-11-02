@@ -1,8 +1,6 @@
-##
-## base16.kak by lenormf
-##
+# Powerline colorscheme for base16 Kakoune theme
 
-evaluate-commands %sh{
+define-command -hidden powerline-theme-base16 %{ evaluate-commands %sh{
     black_lighterer='rgb:383838'
     black_lighter='rgb:2D2D2D'
     black_light='rgb:1C1C1C'
@@ -15,60 +13,23 @@ evaluate-commands %sh{
     orange_dark='rgb:DC9656'
     orange_light='rgb:F7CA88'
     purple_dark='rgb:BA8BAF'
-
-    ## code
     echo "
-        face global value ${orange_dark}+b
-        face global type ${orange_light}
-        face global variable ${magenta_dark}
-        face global module ${green_dark}
-        face global function ${cyan_light}
-        face global string ${green_dark}
-        face global keyword ${purple_dark}+b
-        face global operator ${cyan_light}
-        face global attribute ${orange_dark}
-        face global comment ${grey_dark}
-        face global meta ${orange_light}
-        face global builtin default+b
+        set-option global powerline_git_fg         ${cyan_light}
+        set-option global powerline_git_bg         ${black_lighterer}
+        set-option global powerline_bufname_fg     ${black_light}
+        set-option global powerline_bufname_bg     ${cyan_light}
+        set-option global powerline_line_column_fg ${grey_light}
+        set-option global powerline_line_column_bg ${grey_dark}
+        set-option global powerline_mode_info_fg   ${black_lighterer}
+        set-option global powerline_mode_info_bg   ${black_lighterer}
+        set-option global powerline_filetype_fg    ${grey_light}
+        set-option global powerline_filetype_bg    ${grey_dark}
+        set-option global powerline_client_fg      ${black_lighter}
+        set-option global powerline_client_bg      ${orange_light}
+        set-option global powerline_session_fg     ${black_lighter}
+        set-option global powerline_session_bg     ${orange_dark}
+        set-option global powerline_position_fg    ${black_lighterer}
+        set-option global powerline_position_bg    ${magenta_dark}
     "
+}}
 
-    ## markup
-    echo "
-        face global title blue
-        face global header ${cyan_light}
-        face global bold ${orange_light}
-        face global italic ${orange_dark}
-        face global mono ${green_dark}
-        face global block ${orange_dark}
-        face global link blue
-        face global bullet ${magenta_light}
-        face global list ${magenta_dark}
-    "
-
-    ## builtin
-    echo "
-        face global Default ${grey_light},${black_lighter}
-        face global PrimarySelection white,blue+fg
-        face global SecondarySelection black,blue+fg
-        face global PrimaryCursor black,white+fg
-        face global SecondaryCursor black,white+fg
-        face global PrimaryCursorEol black,${cyan_light}+fg
-        face global SecondaryCursorEol black,${cyan_light}+fg
-        face global LineNumbers ${grey_light},${black_lighter}
-        face global LineNumberCursor ${grey_light},rgb:282828+b
-        face global MenuForeground ${grey_light},blue
-        face global MenuBackground blue,${grey_light}
-        face global MenuInfo ${cyan_light}
-        face global Information ${black_light},${cyan_light}
-        face global Error ${grey_light},${magenta_light}
-        face global StatusLine ${grey_light},${black_lighterer}
-        face global StatusLineMode ${orange_dark}
-        face global StatusLineInfo ${cyan_light}
-        face global StatusLineValue ${green_dark}
-        face global StatusCursor ${black_lighterer},${cyan_light}
-        face global Prompt ${black_light},${cyan_light}
-        face global MatchingChar ${cyan_light},${black_light}+b
-        face global BufferPadding ${cyan_light},${black_lighter}
-        face global Whitespace ${grey_dark}+f
-    "
-}
