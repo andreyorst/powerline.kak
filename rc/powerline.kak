@@ -8,10 +8,8 @@
 # ╰─────────────────────────────────────╯
 
 # Options
-declare-option -hidden str powerline_separator_left ''
-declare-option -hidden str powerline_separator_left_thin ''
-declare-option -hidden str powerline_separator_right ''
-declare-option -hidden bool powerline_bidirectional_separators false
+declare-option -hidden str powerline_separator ''
+declare-option -hidden str powerline_separator_thin ''
 
 declare-option -hidden str powerline_pos_percent
 declare-option -hidden str powerline_git_branch
@@ -60,7 +58,7 @@ powerline-update-readonly %{ set-option window powerline_readonly %sh{
 
 define-command -override -hidden \
 powerline-update-branch %{ set-option window powerline_git_branch %sh{
-    if [ "$kak_opt_powerline_module_git" = true ]; then
+    if [ "$kak_opt_powerline_module_git" = "true" ]; then
         branch=$(cd "${kak_buffile%/*}" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null)
     fi
     if [ -n $branch ]; then
@@ -82,83 +80,61 @@ hook global WinCreate .* %{
 define-command -override -docstring "construct powerline acorrdingly to configuration options" \
 powerline-rebuild %{
     set-option global modelinefmt %sh{
-        left=$kak_opt_powerline_separator_left
-        left_thin=$kak_opt_powerline_separator_left_thin
-        if [ "$kak_opt_powerline_bidirectional_separators" = "true" ]; then
-            right1=$kak_opt_powerline_separator_right
-            right2=$right1
-        else
-            fg=$kak_opt_powerline_line_column_bg
-            bg=$kak_opt_powerline_bufname_bg
-            right1="{$fg,$bg}$kak_opt_powerline_separator_left{$bg}"
-            fg=$kak_opt_powerline_mode_info_fg
-            bg=$kak_opt_powerline_line_column_bg
-            right2="{$fg,$bg}$kak_opt_powerline_separator_left{$bg}"
-        fi
-
+        normal=$kak_opt_powerline_separator
+        thin=$kak_opt_powerline_separator_thin
         if [ "$kak_opt_powerline_module_git" = "true" ]; then
+            fg=$kak_opt_powerline_git_fg
+            bg=$kak_opt_powerline_git_bg
             if [ -n "$kak_opt_powerline_git_branch" ]; then
-                fg=$kak_opt_powerline_git_fg
-                bg=$kak_opt_powerline_git_bg
-                git="$left_thin{$fg,$bg} %opt{powerline_git_branch} "
-                next_bg=$kak_opt_powerline_line_column_bg
-                next_fg=$kak_opt_powerline_line_column_fg
+                git="$thin{$fg,$bg} %opt{powerline_git_branch} "
             fi
+            next_bg=default
+            next_fg=$kak_opt_powerline_line_column_bg
         fi
         if [ "$kak_opt_powerline_module_bufname" = "true" ]; then
             fg=$kak_opt_powerline_bufname_fg
             bg=$kak_opt_powerline_bufname_bg
-            bufname="{$bg}$left{$fg,$bg} %val{bufname}{{context_info}}%opt{powerline_readonly} "
-            next_fg=$bg
-            next_bg=$kak_opt_powerline_line_column_bg
+            bufname="{$bg}$normal{$fg,$bg} %val{bufname}{{context_info}}%opt{powerline_readonly} "
+            next_bg=$bg
+            next_fg=$kak_opt_powerline_line_column_bg
         fi
         if [ "$kak_opt_powerline_module_line_column" = "true" ]; then
-            bg=$kak_opt_powerline_line_column_bg
             fg=$kak_opt_powerline_line_column_fg
-            if [ "$kak_opt_powerline_module_bufname" = "false" ]; then
-                right1="{$bg,$bg}$kak_opt_powerline_separator_left{$bg}"
-            fi
-            line_column="{${next_fg:-$fg},${next_bg:-$bg}}$right1{$fg,$bg} %val{cursor_line}{$fg,$bg}:{$fg,$bg}%val{cursor_char_column} "
+            bg=$kak_opt_powerline_line_column_bg
+            line_column="{${next_fg:-$fg},${next_bg:-default}}$normal{$fg,$bg} %val{cursor_line}{$fg,$bg}:{$fg,$bg}%val{cursor_char_column} "
             next_bg=$bg
             next_fg=$bg
         fi
         if [ "$kak_opt_powerline_module_mode_info" = "true" ]; then
             bg=$kak_opt_powerline_mode_info_bg
             fg=$kak_opt_powerline_mode_info_fg
-            if [ "$kak_opt_powerline_module_line_column" = "false" ]; then
-                if [ "$kak_opt_powerline_module_bufname" = "true" ]; then
-                    if [ "$kak_opt_powerline_bidirectional_separators" = "false" ]; then
-                        right2="{$bg,$fg}$kak_opt_powerline_separator_left{$bg}"
-                    fi
-                fi
-            fi
-            mode_info="{${next_fg:-$fg},$bg}$right2 {{mode_info}} "
+            mode_info="{$bg,${next_bg:-default}}$normal{default,default} {{mode_info}} "
             next_bg="default"
         fi
         if [ "$kak_opt_powerline_module_filetype" = "true" ]; then
             bg=$kak_opt_powerline_filetype_bg
             fg=$kak_opt_powerline_filetype_fg
             if [ ! -z "$kak_opt_filetype" ]; then
-                filetype="{$bg,$next_bg}$left{$fg,$bg} %opt{filetype} "
+                filetype="{$bg,${next_bg:-default}}$normal{$fg,$bg} %opt{filetype} "
                 next_bg=$bg
             fi
         fi
         if [ "$kak_opt_powerline_module_client" = "true" ]; then
             bg=$kak_opt_powerline_client_bg
             fg=$kak_opt_powerline_client_fg
-            client="{$bg,$next_bg}$left{$fg,$bg} %val{client} "
+            client="{$bg,${next_bg:-default}}$normal{$fg,$bg} %val{client} "
             next_bg=$bg
         fi
         if [ "$kak_opt_powerline_module_session" = "true" ]; then
             bg=$kak_opt_powerline_session_bg
             fg=$kak_opt_powerline_session_fg
-            session="{$bg,$next_bg}$left{$fg,$bg} %val{session} "
+            session="{$bg,${next_bg:-default}}$normal{$fg,$bg} %val{session} "
             next_bg=$bg
         fi
         if [ "$kak_opt_powerline_module_position" = "true" ]; then
             bg=$kak_opt_powerline_position_bg
             fg=$kak_opt_powerline_position_fg
-            position="{$bg,${next_bg:-default}}$left{$fg,$bg} ≣ %opt{powerline_pos_percent} "
+            position="{$bg,${next_bg:-default}}$normal{$fg,$bg} ≣ %opt{powerline_pos_percent} "
         fi
 
         echo "$git$bufname$line_column$mode_info$filetype$client$session$position"
@@ -177,17 +153,15 @@ powerline-separator -params 1 %{ evaluate-commands %sh{
         separator=$1
     fi
     case $separator in
-        arrow)    left=''; thin=''; bidirectional="false" ;;
-        curve)    left=''; thin=''; bidirectional="false" ;;
-        flame)    left=''; thin=''; bidirectional="false" ;;
-        triangle) left=''; thin=''; bidirectional="true"; right='' ;;
-        none)     left='';  thin='';  bidirectional="false";;
+        arrow)    normal=''; thin='';;
+        curve)    normal=''; thin='';;
+        flame)    normal=''; thin='';;
+        triangle) normal=''; thin='';;
+        none)     normal='';  thin='';;
         *) exit ;;
     esac
-    echo "set-option window powerline_separator_left '$left'"
-    echo "set-option window powerline_separator_left_thin '$thin'"
-    [ -n "$right" ] && echo "set-option window powerline_separator_right '$right'"
-    echo "set-option window powerline_bidirectional_separators '$bidirectional'"
+    echo "set-option window powerline_separator '$normal'"
+    echo "set-option window powerline_separator_thin '$thin'"
     echo "powerline-rebuild"
 }}
 
@@ -212,7 +186,7 @@ powerline-toggle -params 1..2 %{ evaluate-commands %sh{
     echo "powerline-rebuild"
 }}
 
-define-command -docstring "powerline-theme <theme>: apply theme to powerline" \
+define-command -override -docstring "powerline-theme <theme>: apply theme to powerline" \
 -shell-script-candidates %{ for i in "base16 default"; do printf %s\\n $i; done} \
 powerline-theme -params 1 %{ evaluate-commands %sh{
     echo "powerline-theme-$1"
