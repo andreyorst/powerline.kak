@@ -26,19 +26,22 @@ declare-option -docstring "if set to 'true' display client module in powerline" 
 declare-option -docstring "if set to 'true' display session module in powerline"     bool powerline_module_session     true
 declare-option -docstring "if set to 'true' display position module in powerline"    bool powerline_module_position    true
 
-declare-option -hidden str powerline_bckground1 "rgb:3c3836"
-declare-option -hidden str powerline_line_column_fg "rgb:3c3836"
-declare-option -hidden str powerline_line_column_bg "rgb:504945"
-declare-option -hidden str powerline_background3 "rgb:665c54"
-declare-option -hidden str powerline_background3 "rgb:665c54"
-declare-option -hidden str powerline_background4 "rgb:7c6f64"
-declare-option -hidden str powerline_foreground0 "rgb:fbf1c7"
-declare-option -hidden str powerline_foreground1 "rgb:ebdbb2"
-declare-option -hidden str powerline_foreground2 "rgb:d5c4a1"
-declare-option -hidden str powerline_git_fg "rgb:bdae93"
-
-declare-option -hidden str powerline_buffile_bg "rgb:282828"
-declare-option -hidden str powerline_buffile_fg "rgb:a89984"
+declare-option -hidden str powerline_git_fg         blue
+declare-option -hidden str powerline_git_bg         default
+declare-option -hidden str powerline_bufname_bg     yellow
+declare-option -hidden str powerline_bufname_fg     black
+declare-option -hidden str powerline_line_column_fg black
+declare-option -hidden str powerline_line_column_bg cyan
+declare-option -hidden str powerline_mode_info_fg   black
+declare-option -hidden str powerline_mode_info_bg   default
+declare-option -hidden str powerline_filetype_fg    black
+declare-option -hidden str powerline_filetype_bg    blue
+declare-option -hidden str powerline_client_fg      black
+declare-option -hidden str powerline_client_bg      cyan
+declare-option -hidden str powerline_session_fg     black
+declare-option -hidden str powerline_session_bg     magenta
+declare-option -hidden str powerline_position_fg    black
+declare-option -hidden str powerline_position_bg    yellow
 
 # Commands
 define-command -override -hidden \
@@ -59,7 +62,7 @@ define-command -override -hidden \
 powerline-update-branch %{ set-option global powerline_git_branch %sh{
     branch=$(cd "${kak_buffile%/*}" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null)
     if [ ! -z $branch ]; then
-        echo "$kak_opt_powerline_separator_left_thin $branch "
+        echo "$branch "
     else
         echo ""
     fi
@@ -79,70 +82,80 @@ define-command -override -docstring "construct powerline acorrdingly to configur
 powerline-rebuild %{
     set-option global modelinefmt %sh{
         left=$kak_opt_powerline_separator_left
+        left_thin=$kak_opt_powerline_separator_left_thin
         if [ "$kak_opt_powerline_bidirectional_separators" = "true" ]; then
             right1=$kak_opt_powerline_separator_right
             right2=$right1
         else
-            fg=$kak_opt_powerline_buffile_fg
-            bg=$kak_opt_powerline_buffile_bg
-            right1="{$bg,$fg}$kak_opt_powerline_separator_left{$bg}"
-            fg=default
-            bg=default
-            right2="{$bg,$bg}$kak_opt_powerline_separator_left{$bg}"
+            fg=$kak_opt_powerline_line_column_bg
+            bg=$kak_opt_powerline_bufname_bg
+            right1="{$fg,$bg}$kak_opt_powerline_separator_left{$bg}"
+            fg=$kak_opt_powerline_mode_info_fg
+            bg=$kak_opt_powerline_line_column_bg
+            right2="{$fg,$bg}$kak_opt_powerline_separator_left{$bg}"
         fi
 
         if [ "$kak_opt_powerline_module_git" = "true" ]; then
             fg=$kak_opt_powerline_git_fg
-            git="{$fg}%opt{powerline_git_branch} "
+            bg=$kak_opt_powerline_git_bg
+            git="$left_thin{$fg,$bg} %opt{powerline_git_branch} "
             next_bg=$kak_opt_powerline_line_column_bg
             next_fg=$kak_opt_powerline_line_column_fg
         fi
         if [ "$kak_opt_powerline_module_bufname" = "true" ]; then
-            fg=$kak_opt_powerline_buffile_fg
-            bg=$kak_opt_powerline_buffile_bg
-            bufname="{$fg}$left{$bg,$fg} %val{bufname}{{context_info}}%opt{powerline_readonly} "
-            next_bg=$bg2
-            next_fg=$fg
+            fg=$kak_opt_powerline_bufname_fg
+            bg=$kak_opt_powerline_bufname_bg
+            bufname="{$bg}$left{$fg,$bg} %val{bufname}{{context_info}}%opt{powerline_readonly} "
+            next_fg=$bg
+            next_bg=$kak_opt_powerline_line_column_bg
         fi
         if [ "$kak_opt_powerline_module_line_column" = "true" ]; then
-            if [ "$kak_opt_powerline_module_bufname" = "false" ]; then
-                right1="{$bg2,$bg1}$kak_opt_powerline_separator_left{$bg2}"
-            fi
             bg=$kak_opt_powerline_line_column_bg
             fg=$kak_opt_powerline_line_column_fg
-            line_column="{${next_fg:-$fg},${next_bg:-$bg}}$right1{default,$bg2} {$fg2,$bg2}%val{cursor_line}{$fg2,$bg2}:{$fg2,$bg2}%val{cursor_char_column} "
-            next_bg=$bg2
-            next_fg=$bg2
+            if [ "$kak_opt_powerline_module_bufname" = "false" ]; then
+                right1="{$bg,$bg}$kak_opt_powerline_separator_left{$bg}"
+            fi
+            line_column="{${next_fg:-$fg},${next_bg:-$bg}}$right1{$fg,$bg} %val{cursor_line}{$fg,$bg}:{$fg,$bg}%val{cursor_char_column} "
+            next_bg=$bg
+            next_fg=$bg
         fi
         if [ "$kak_opt_powerline_module_mode_info" = "true" ]; then
+            bg=$kak_opt_powerline_mode_info_bg
+            fg=$kak_opt_powerline_mode_info_fg
             if [ "$kak_opt_powerline_module_line_column" = "false" ]; then
                 if [ "$kak_opt_powerline_module_bufname" = "true" ]; then
                     if [ "$kak_opt_powerline_bidirectional_separators" = "false" ]; then
-                        right2="{$bg1,$fg4}$kak_opt_powerline_separator_left{$bg2}"
+                        right2="{$bg,$fg}$kak_opt_powerline_separator_left{$bg}"
                     fi
                 fi
             fi
-            mode_info="{${next_fg:-default},default}$right2 {{mode_info}} "
+            mode_info="{${next_fg:-$fg},$bg}$right2 {{mode_info}} "
             next_bg="default"
         fi
         if [ "$kak_opt_powerline_module_filetype" = "true" ]; then
+            bg=$kak_opt_powerline_filetype_bg
+            fg=$kak_opt_powerline_filetype_fg
             if [ ! -z "$kak_opt_filetype" ]; then
-                filetype="{$bg2,$next_bg}$left{$fg2,$bg2} %opt{filetype} "
-                next_bg=$bg2
+                filetype="{$bg,$next_bg}$left{$fg,$bg} %opt{filetype} "
+                next_bg=$bg
             fi
         fi
         if [ "$kak_opt_powerline_module_client" = "true" ]; then
-            client="{$bg3,$next_bg}$left{$fg1,$bg3} %val{client} "
-            next_bg=$bg3
+            bg=$kak_opt_powerline_client_bg
+            fg=$kak_opt_powerline_client_fg
+            client="{$bg,$next_bg}$left{$fg,$bg} %val{client} "
+            next_bg=$bg
         fi
         if [ "$kak_opt_powerline_module_session" = "true" ]; then
-            session="{$bg4,$next_bg}$left{$fg0,$bg4} %val{session} "
-            next_bg=$bg4
+            bg=$kak_opt_powerline_session_bg
+            fg=$kak_opt_powerline_session_fg
+            session="{$bg,$next_bg}$left{$fg,$bg} %val{session} "
+            next_bg=$bg
         fi
         if [ "$kak_opt_powerline_module_position" = "true" ]; then
-            bg=$kak_opt_powerline_buffile_bg
-            fg=$kak_opt_powerline_buffile_fg
-            position="{$bg,$next_bg}$left{$fg,$bg} ≣ %opt{powerline_pos_percent} "
+            bg=$kak_opt_powerline_position_bg
+            fg=$kak_opt_powerline_position_fg
+            position="{$bg,${next_bg:-default}}$left{$fg,$bg} ≣ %opt{powerline_pos_percent} "
         fi
 
         echo "$git$bufname$line_column$mode_info$filetype$client$session$position"
@@ -196,3 +209,9 @@ powerline-toggle -params 1..2 %{ evaluate-commands %sh{
     echo "powerline-rebuild"
 }}
 
+define-command -docstring "powerline-theme <theme>: apply theme to powerline" \
+-shell-script-candidates %{ for i in "base16 default"; do printf %s\\n $i; done} \
+powerline-theme -params 1 %{ evaluate-commands %sh{
+    echo "powerline-theme-$1"
+    echo "powerline-rebuild"
+}}
