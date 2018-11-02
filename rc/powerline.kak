@@ -63,7 +63,7 @@ powerline-update-branch %{ set-option window powerline_git_branch %sh{
     if [ "$kak_opt_powerline_module_git" = "true" ]; then
         branch=$(cd "${kak_buffile%/*}" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null)
     fi
-    if [ -n $branch ]; then
+    if [ -n "$branch" ]; then
         echo "$branch "
     else
         echo ""
