@@ -1,66 +1,21 @@
-# Kakoune default color scheme
+# Powerline colorscheme for Default Kakoune theme
 
-define-command powerline-theme-default %{
-    set-option global powerline_background1 blue
-    set-option global powerline_background2 cyan
-    set-option global powerline_background3 green
-    set-option global powerline_background4 magenta
-
-    set-option global powerline_foreground0 red
-    set-option global powerline_foreground1 blue
-    set-option global powerline_foreground2 magenta
-    set-option global powerline_foreground3 green
-
-    set-option global powerline_buffile_bg black
-    set-option global powerline_buffile_fg yellow
+define-command -hidden powerline-theme-default %{
+    set-option global powerline_git_fg         blue
+    set-option global powerline_git_bg         default
+    set-option global powerline_bufname_bg     yellow
+    set-option global powerline_bufname_fg     black
+    set-option global powerline_line_column_fg black
+    set-option global powerline_line_column_bg cyan
+    set-option global powerline_mode_info_fg   black
+    set-option global powerline_mode_info_bg   black
+    set-option global powerline_filetype_fg    black
+    set-option global powerline_filetype_bg    blue
+    set-option global powerline_client_fg      black
+    set-option global powerline_client_bg      cyan
+    set-option global powerline_session_fg     black
+    set-option global powerline_session_bg     magenta
+    set-option global powerline_position_fg    black
+    set-option global powerline_position_bg    yellow
 }
 
-# For Code
-# face global value red
-# face global type yellow
-# face global variable green
-# face global module green
-# face global function cyan
-# face global string magenta
-# face global keyword blue
-# face global operator yellow
-# face global attribute green
-# face global comment cyan
-# face global meta magenta
-# face global builtin default+b
-
-# # For markup
-# face global title blue
-# face global header cyan
-# face global bold red
-# face global italic yellow
-# face global mono green
-# face global block magenta
-# face global link cyan
-# face global bullet cyan
-# face global list yellow
-
-# # builtin faces
-# face global Default default,default
-# face global PrimarySelection white,blue+fg
-# face global SecondarySelection black,blue+fg
-# face global PrimaryCursor black,white+fg
-# face global SecondaryCursor black,white+fg
-# face global PrimaryCursorEol black,cyan+fg
-# face global SecondaryCursorEol black,cyan+fg
-# face global LineNumbers default,default
-# face global LineNumberCursor default,default+r
-# face global MenuForeground white,blue
-# face global MenuBackground blue,white
-# face global MenuInfo cyan
-# face global Information black,yellow
-# face global Error black,red
-# face global StatusLine cyan,default
-# face global StatusLineMode yellow,default
-# face global StatusLineInfo blue,default
-# face global StatusLineValue green,default
-# face global StatusCursor black,cyan
-# face global Prompt yellow,default
-# face global MatchingChar default,default+b
-# face global Whitespace default,default+f
-# face global BufferPadding blue,default
