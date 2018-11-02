@@ -1,6 +1,6 @@
-# gruvbox theme
+# Powerline colorscheme for base16 Kakoune theme
 
-evaluate-commands %sh{
+define-command -override -hidden powerline-theme-gruvbox %{ evaluate-commands %sh{
     gray="rgb:928374"
     red="rgb:fb4934"
     green="rgb:b8bb26"
@@ -23,54 +23,22 @@ evaluate-commands %sh{
     fg4="rgb:a89984"
 
     echo "
-        # Code highlighting
-        face global value     ${purple}
-        face global type      ${yellow}
-        face global variable  ${blue}
-        face global module    ${green}
-        face global function  ${fg}
-        face global string    ${green}
-        face global keyword   ${red}
-        face global operator  ${fg}
-        face global attribute ${orange}
-        face global comment   ${gray}+i
-        face global meta      ${aqua}
-        face global builtin   ${fg}+b
-
-        # Markdown highlighting
-        face global title     ${green}+b
-        face global header    ${orange}
-        face global bold      ${fg}+b
-        face global italic    ${fg}+i
-        face global mono      ${fg4}
-        face global block     ${aqua}
-        face global link      ${blue}+u
-        face global bullet    ${yellow}
-        face global list      ${fg}
-
-        face global Default            ${fg},${bg}
-        face global PrimarySelection   ${fg},${blue}+fg
-        face global SecondarySelection ${bg},${blue}+fg
-        face global PrimaryCursor      ${bg},${fg}+fg
-        face global SecondaryCursor    ${bg},${bg4}+fg
-        face global PrimaryCursorEol   ${bg},${fg4}+fg
-        face global SecondaryCursorEol ${bg},${bg2}+fg
-        face global LineNumbers        ${bg4}
-        face global LineNumberCursor   ${yellow},${bg1}
-        face global LineNumbersWrapped ${bg1}
-        face global MenuForeground     ${bg2},${blue}
-        face global MenuBackground     ${fg},${bg2}
-        face global MenuInfo           ${bg}
-        face global Information        ${bg},${fg}
-        face global Error              ${bg},${red}
-        face global StatusLine         ${fg},${bg}
-        face global StatusLineMode     ${yellow}+b
-        face global StatusLineInfo     ${purple}
-        face global StatusLineValue    ${red}
-        face global StatusCursor       ${bg},${fg}
-        face global Prompt             ${yellow}
-        face global MatchingChar       ${fg},${bg3}+b
-        face global BufferPadding      ${bg2},${bg}
-        face global Whitespace         ${bg2}+f
+        set-option global powerline_git_fg         ${yellow}
+        set-option global powerline_git_bg         ${bg}
+        set-option global powerline_bufname_fg     ${bg}
+        set-option global powerline_bufname_bg     ${fg}
+        set-option global powerline_line_column_fg ${fg0}
+        set-option global powerline_line_column_bg ${bg4}
+        set-option global powerline_mode_info_fg   ${bg}
+        set-option global powerline_mode_info_bg   ${bg}
+        set-option global powerline_filetype_fg    ${fg3}
+        set-option global powerline_filetype_bg    ${bg1}
+        set-option global powerline_client_fg      ${fg2}
+        set-option global powerline_client_bg      ${bg2}
+        set-option global powerline_session_fg     ${fg}
+        set-option global powerline_session_bg     ${bg3}
+        set-option global powerline_position_fg    ${fg0}
+        set-option global powerline_position_bg    ${bg4}
     "
-}
+}}
+

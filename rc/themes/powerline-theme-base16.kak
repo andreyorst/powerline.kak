@@ -28,8 +28,8 @@ define-command -hidden powerline-theme-base16 %{ evaluate-commands %sh{
         set-option global powerline_client_bg      ${orange_light}
         set-option global powerline_session_fg     ${black_lighter}
         set-option global powerline_session_bg     ${orange_dark}
-        set-option global powerline_position_fg    ${black_lighterer}
-        set-option global powerline_position_bg    ${magenta_dark}
+        set-option global powerline_position_fg    ${grey_light}
+        set-option global powerline_position_bg    ${black_lighterer}
     "
 }}
 
