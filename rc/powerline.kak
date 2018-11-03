@@ -26,6 +26,7 @@ declare-option -docstring "if set to 'true' display client module in powerline" 
 declare-option -docstring "if set to 'true' display session module in powerline"     bool powerline_module_session     true
 declare-option -docstring "if set to 'true' display position module in powerline"    bool powerline_module_position    true
 
+declare-option -hidden str powerline_base_bg        default
 declare-option -hidden str powerline_git_fg         blue
 declare-option -hidden str powerline_git_bg         default
 declare-option -hidden str powerline_bufname_bg     yellow
@@ -84,11 +85,13 @@ powerline-rebuild %{
     set-option global modelinefmt %sh{
         normal=$kak_opt_powerline_separator
         thin=$kak_opt_powerline_separator_thin
+        next_bg=$kak_opt_powerline_base_bg
         if [ "$kak_opt_powerline_module_git" = "true" ]; then
             fg=$kak_opt_powerline_git_fg
             bg=$kak_opt_powerline_git_bg
             if [ -n "$kak_opt_powerline_git_branch" ]; then
-                git="$thin{$fg,$bg} %opt{powerline_git_branch} "
+                [ "$next_bg" = "$bg" ] && separator=$thin || separator=$normal
+                git="{$fg,$bg}$separator %opt{powerline_git_branch} "
             fi
             next_bg=default
             next_fg=$kak_opt_powerline_line_column_bg
@@ -96,47 +99,54 @@ powerline-rebuild %{
         if [ "$kak_opt_powerline_module_bufname" = "true" ]; then
             fg=$kak_opt_powerline_bufname_fg
             bg=$kak_opt_powerline_bufname_bg
-            bufname="{$bg}$normal{$fg,$bg} %val{bufname}{{context_info}}%opt{powerline_readonly} "
+            [ "$next_bg" = "$bg" ] && separator=$thin || separator=$normal
+            bufname="{$bg}$separator{$fg,$bg} %val{bufname}{{context_info}}%opt{powerline_readonly} "
             next_bg=$bg
             next_fg=$kak_opt_powerline_line_column_bg
         fi
         if [ "$kak_opt_powerline_module_line_column" = "true" ]; then
             fg=$kak_opt_powerline_line_column_fg
             bg=$kak_opt_powerline_line_column_bg
-            line_column="{${next_fg:-$fg},${next_bg:-default}}$normal{$fg,$bg} %val{cursor_line}{$fg,$bg}:{$fg,$bg}%val{cursor_char_column} "
+            [ "$next_bg" = "$bg" ] && separator=$thin || separator=$normal
+            line_column="{${next_fg:-$fg},${next_bg:-default}}$separator{$fg,$bg} %val{cursor_line}{$fg,$bg}:{$fg,$bg}%val{cursor_char_column} "
             next_bg=$bg
             next_fg=$bg
         fi
         if [ "$kak_opt_powerline_module_mode_info" = "true" ]; then
             bg=$kak_opt_powerline_mode_info_bg
             fg=$kak_opt_powerline_mode_info_fg
-            mode_info="{$bg,${next_bg:-default}}$normal{default,default} {{mode_info}} "
+            [ "$next_bg" = "$bg" ] && separator=$thin || separator=$normal
+            mode_info="{$bg,${next_bg:-default}}$separator{default,default} {{mode_info}} "
             next_bg="default"
         fi
         if [ "$kak_opt_powerline_module_filetype" = "true" ]; then
             bg=$kak_opt_powerline_filetype_bg
             fg=$kak_opt_powerline_filetype_fg
             if [ ! -z "$kak_opt_filetype" ]; then
-                filetype="{$bg,${next_bg:-default}}$normal{$fg,$bg} %opt{filetype} "
+                [ "$next_bg" = "$bg" ] && separator=$thin || separator=$normal
+                filetype="{$bg,${next_bg:-default}}$separator{$fg,$bg} %opt{filetype} "
                 next_bg=$bg
             fi
         fi
         if [ "$kak_opt_powerline_module_client" = "true" ]; then
             bg=$kak_opt_powerline_client_bg
             fg=$kak_opt_powerline_client_fg
-            client="{$bg,${next_bg:-default}}$normal{$fg,$bg} %val{client} "
+            [ "$next_bg" = "$bg" ] && separator=$thin || separator=$normal
+            client="{$bg,${next_bg:-default}}$separator{$fg,$bg} %val{client} "
             next_bg=$bg
         fi
         if [ "$kak_opt_powerline_module_session" = "true" ]; then
             bg=$kak_opt_powerline_session_bg
             fg=$kak_opt_powerline_session_fg
-            session="{$bg,${next_bg:-default}}$normal{$fg,$bg} %val{session} "
+            [ "$next_bg" = "$bg" ] && separator=$thin || separator=$normal
+            session="{$bg,${next_bg:-default}}$separator{$fg,$bg} %val{session} "
             next_bg=$bg
         fi
         if [ "$kak_opt_powerline_module_position" = "true" ]; then
             bg=$kak_opt_powerline_position_bg
             fg=$kak_opt_powerline_position_fg
-            position="{$bg,${next_bg:-default}}$normal{$fg,$bg} ≣ %opt{powerline_pos_percent} "
+            [ "$next_bg" = "$bg" ] && separator=$thin || separator=$normal
+            position="{$bg,${next_bg:-default}}$separator{$fg,$bg} ≣ %opt{powerline_pos_percent} "
         fi
 
         echo "$git$bufname$line_column$mode_info$filetype$client$session$position"
