@@ -56,10 +56,12 @@ Lets breakdown this:
 
 You can add your own configurations here. Since all settings are window-dependent you can have different settings for different windows, filetypes, window types, etc.
 
-For example this hook will make **powerline.kak** use random separator for every new window:
+For example this hook will make **powerline.kak** use random separator for every new buffer:
 ```kak
-hook global WinCreate .* %{
-    powerline-separator random
+hook global BufCreate .* %{
+    hook -once global WinDisplay .* %{
+        powerline-separator random
+    }
 }
 ```
 
