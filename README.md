@@ -98,7 +98,7 @@ define-command -hidden powerline-theme-base16-gruvbox %{
 }
 ```
 
-That is, themes for **powerline.kak** are commands, that define colors in these variables. Each each module has foreground and background assests. Nothe that modifyers like **bold** are not supported yet. I'm thinking about it. When defining a theme, please make sure that text at the end of your command and string that you add to the `powerline_themes` are exactly the same:
+That is, themes for **powerline.kak** are commands, that define colors in these variables. Each module has foreground and background assests. Nothe that modifyers like **bold** are not supported yet. I'm thinking about it. When defining a theme, please make sure that text at the end of your command and string that you add to the `powerline_themes` are exactly the same:
 ```
 set-option -add global powerline_themes "base16-gruvbox"
 define-command   -hidden powerline-theme-base16-gruvbox %{...}
