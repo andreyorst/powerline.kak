@@ -14,17 +14,18 @@ declare-option -docstring "powerline separator chatacter with solid body" str po
 declare-option -docstring "powerline separator chatacter thin" str powerline_separator_thin ''
 
 declare-option -docstring "poweline format: order of powerline modules to render in modeline
-    default value: 'git bufname line_column mode_info filetype client session position'
+default value:
+    'git bufname line_column mode_info filetype client session position'
 
-    available modules:
-    git - current git branch
-    bufname - current file name and information about buffer
-    line_column - current line and column
-    mode_info - mode information
-    filetype - filetype of current file
-    client - client
-    session - session
-    position - percent position in file " \
+available modules:
+    git:         git branch
+    bufname:     filename and information about buffer
+    line_column: line and column
+    mode_info:   mode information
+    filetype:    filetype of current buffer
+    client:      client name
+    session:     session pid
+    position:    percent position in file " \
 str powerline_format "git bufname line_column mode_info filetype client session position"
 
 declare-option -hidden str powerline_pos_percent
@@ -59,12 +60,12 @@ declare-option -hidden str powerline_position_fg    black
 declare-option -hidden str powerline_position_bg    yellow
 
 # Commands
-define-command -override -hidden \
+define-command -hidden \
 powerline-update-position %{ evaluate-commands %sh{
     echo "set-option window powerline_pos_percent $(($kak_cursor_line * 100 / $kak_buf_line_count))%"
 }}
 
-define-command -override -hidden \
+define-command -hidden \
 powerline-update-readonly %{ set-option window powerline_readonly %sh{
     if [ -w ${kak_buffile} ]; then
         echo ''
@@ -73,7 +74,7 @@ powerline-update-readonly %{ set-option window powerline_readonly %sh{
     fi
 }}
 
-define-command -override -hidden \
+define-command -hidden \
 powerline-update-branch %{ set-option window powerline_git_branch %sh{
     if [ "$kak_opt_powerline_module_git" = "true" ]; then
         branch=$(cd "${kak_buffile%/*}" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null)
@@ -94,7 +95,7 @@ hook global WinCreate .* %{
 }
 
 # Modeline
-define-command -override -docstring "construct powerline acorrdingly to configuration options" \
+define-command -docstring "construct powerline acorrdingly to configuration options" \
 powerline-rebuild %{
     set-option global modelinefmt %sh{
         modelinefmt=
@@ -188,7 +189,7 @@ powerline-rebuild %{
     powerline-update-readonly
 }
 
-define-command -override -docstring "powerline-separator <separator>:change separators for powerline
+define-command -docstring "powerline-separator <separator>:change separators for powerline
 if <separator> is 'custom' accepts two additional separators fot normal and thin variants" \
 -shell-script-candidates %{ for i in "arrow curve flame triangle triangle-inverted none random custom"; do printf %s\\n $i; done } \
 powerline-separator -params 1..3 %{ evaluate-commands %sh{
@@ -226,7 +227,7 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
     echo "powerline-rebuild"
 }}
 
-define-command -override -docstring "powerline-toggle <part> [<state>] toggle on and off displaying of powerline parts" \
+define-command -docstring "powerline-toggle <part> [<state>] toggle on and off displaying of powerline parts" \
 -shell-script-candidates %{ for i in "git bufname line_column mode_info filetype client session position"; do printf %s\\n $i; done} \
 powerline-toggle -params 1..2 %{ evaluate-commands %sh{
     case $1 in
@@ -247,9 +248,32 @@ powerline-toggle -params 1..2 %{ evaluate-commands %sh{
     echo "powerline-rebuild"
 }}
 
-define-command -override -docstring "powerline-theme <theme>: apply theme to powerline" \
+define-command -docstring "powerline-theme <theme>: apply theme to powerline" \
 -shell-script-candidates %{ eval "set -- $kak_opt_powerline_themes"; while [ "$1" ]; do echo $1; shift; done} \
 powerline-theme -params 1 %{ evaluate-commands %sh{
     echo "powerline-theme-$1"
+    echo "powerline-rebuild"
+}}
+
+define-command -docstring "powerline-format <formatstring>: change powerline format
+default <formatstring> value:
+    'git bufname line_column mode_info filetype client session position'
+
+available modules for <formatstring>:
+    git:         git branch
+    bufname:     filename and information about buffer
+    line_column: line and column
+    mode_info:   mode information
+    filetype:    filetype of current buffer
+    client:      client name
+    session:     session pid
+    position:    percent position in file " \
+-shell-script-completion %{ for i in "git bufname line_column mode_info filetype client session position"; do printf %s\\n $i; done} \
+powerline-format -params 1.. %{ evaluate-commands %sh{
+    formatstring=
+    while [ "$1" ]; do
+        formatstring="$formatstring $1"; shift
+    done
+    echo "set-option window powerline_format %{$formatstring}"
     echo "powerline-rebuild"
 }}
