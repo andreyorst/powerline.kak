@@ -56,9 +56,9 @@ Lets breakdown this:
 - `plug` is a [plug.kak](https://github.com/andreyorst/plug.kak) command that loads **powerline.kak** plugin and configures it with last `%{...}` parameter.
 - `hook -once global WinCreate .* %{` is needed because all **powerline.kak** settings are done in context of a window. So to properly load a plugin we need an existing window.
 - `powerline-theme gruvbox` - sets the theme to `gruvbox`.
-- `powerline-separator triangle` - sets the separator to powerline's triangle.
+- `powerline-separator triangle` - sets the separator to powerline's triangle. Note that as settings are window dependent new window will use default separator, which is `triangle`. To prevent this either use separate `hook global WinCreate .* %{ powerline-separator triangle }` that will be applied to all new windows, or modify `powerline_separator` and `powerline_separator_thin` global options to your liking.
 - `powerline-format git bufname filetype mode_info line_column position` - sets the format of powerline, by adding only git, buffer name, filetype, information about mode, line_column and file position in percents.
-- `powerline-toggle line_column off` - disables part of powerline which shows current line and column.
+- `powerline-toggle line_column off` - disables part of powerline which shows current line and column. Again, you can have this disabled or enabled for certain filetypes or buffers via `hook`s , etc.
 
 You can add your own configurations here. Since all settings are window-dependent you can have different settings for different windows, filetypes, window types, etc.
 
@@ -76,18 +76,20 @@ hook global BufCreate .* %{
 You can create your own themes for **powerline.kak**. Here's the example of good theme:
 
 ```kak
-### begining of file: base16-gruvbox.kak ###
+# base16-gruvbox colorscheme for powerline.kak
+# based on https://github.com/andreyorst/base16-gruvbox.kak
 
 set-option -add global powerline_themes "base16-gruvbox"
 
 define-command -hidden powerline-theme-base16-gruvbox %{
+    set-option global powerline_base_bg        "rgb:3c3836"
     set-option global powerline_git_fg         "rgb:d5c4a1"
     set-option global powerline_git_bg         "rgb:3c3836"
     set-option global powerline_bufname_bg     "rgb:a89984"
     set-option global powerline_bufname_fg     "rgb:282828"
     set-option global powerline_line_column_fg "rgb:bdae93"
     set-option global powerline_line_column_bg "rgb:504945"
-    set-option global powerline_mode_info_fg   "rgb:3c3836"
+    set-option global powerline_mode_info_fg   "rgb:d5c4a1"
     set-option global powerline_mode_info_bg   "rgb:3c3836"
     set-option global powerline_filetype_fg    "rgb:d5c4a1"
     set-option global powerline_filetype_bg    "rgb:504945"
