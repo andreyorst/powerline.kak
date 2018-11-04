@@ -2,7 +2,7 @@
 
 set-option -add global powerline_themes "reeder"
 
-define-command -override -hidden powerline-theme-reeder %{ evaluate-commands %sh{
+define-command -hidden powerline-theme-reeder %{ evaluate-commands %sh{
     white="rgb:f9f8f6"
     white_light="rgb:f6f5f0"
     black="rgb:383838"
