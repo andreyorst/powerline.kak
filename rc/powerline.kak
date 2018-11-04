@@ -113,7 +113,7 @@ powerline-rebuild %{
             bg=$kak_opt_powerline_mode_info_bg
             fg=$kak_opt_powerline_mode_info_fg
             [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-            mode_info="{$bg,${next_bg:-default}}$separator{default,default} {{mode_info}} "
+            mode_info="$separator{default,default} {{mode_info}} "
             next_bg=$bg
         fi
         if [ "$kak_opt_powerline_module_filetype" = "true" ]; then
@@ -121,7 +121,7 @@ powerline-rebuild %{
             fg=$kak_opt_powerline_filetype_fg
             if [ ! -z "$kak_opt_filetype" ]; then
             [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-                filetype="{$bg,${next_bg:-default}}$separator{$fg,$bg} %opt{filetype} "
+                filetype="$separator{$fg,$bg} %opt{filetype} "
                 next_bg=$bg
             fi
         fi
@@ -129,21 +129,22 @@ powerline-rebuild %{
             bg=$kak_opt_powerline_client_bg
             fg=$kak_opt_powerline_client_fg
             [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-            client="{$bg,${next_bg:-default}}$separator{$fg,$bg} %val{client} "
+            client="$separator{$fg,$bg} %val{client} "
             next_bg=$bg
         fi
         if [ "$kak_opt_powerline_module_session" = "true" ]; then
             bg=$kak_opt_powerline_session_bg
             fg=$kak_opt_powerline_session_fg
             [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-            session="{$bg,${next_bg:-default}}$separator{$fg,$bg} %val{session} "
+            session="$separator{$fg,$bg} %val{session} "
             next_bg=$bg
         fi
         if [ "$kak_opt_powerline_module_position" = "true" ]; then
             bg=$kak_opt_powerline_position_bg
             fg=$kak_opt_powerline_position_fg
             [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-            position="{$bg,${next_bg:-default}}$separator{$fg,$bg} ≣ %opt{powerline_pos_percent} "
+            position="$separator{$fg,$bg} ≣ %opt{powerline_pos_percent} "
+            next_bg=$bg
         fi
 
         echo "$git$bufname$line_column$mode_info$filetype$client$session$position"
