@@ -3,8 +3,9 @@
 set-option -add global powerline_themes "default"
 
 define-command -hidden powerline-theme-default %{
+    set-option global powerline_base_bg        black
     set-option global powerline_git_fg         blue
-    set-option global powerline_git_bg         default
+    set-option global powerline_git_bg         black
     set-option global powerline_bufname_bg     yellow
     set-option global powerline_bufname_fg     black
     set-option global powerline_line_column_fg black
