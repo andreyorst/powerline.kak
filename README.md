@@ -37,7 +37,10 @@ And source the `powerline.kak` script from it. It can work on its own, but if yo
   - `custom` - use your own separators.
   - `none` - no separators.
 - `powerline-theme` - change powerline theme.
+- `powerline-format` - change order of powerline parts.
 - `powerline-rebuild` - reconstruct powerline accordingly to options. Sometimes needed when you modify options directly.
+
+All **powerline.kak** settings are applied in context of a window, therefore you can have different powerlines for different windows.
 
 ### Example configuration using **plug.kak**
 
@@ -46,6 +49,7 @@ plug "andreyorst/powerline.kak" %{
     hook -once global WinCreate .* %{
         powerline-theme gruvbox
         powerline-separator triangle
+        powerline-format git bufname filetype mode_info line_column position
         powerline-toggle line_column off
     }
 }
@@ -56,6 +60,7 @@ Lets breakdown this:
 - `hook -once global WinCreate .* %{` is needed because all **powerline.kak** settings are done in context of a window. So to properly load a plugin we need an existing window.
 - `powerline-theme gruvbox` - sets the theme to `gruvbox`.
 - `powerline-separator triangle` - sets the separator to powerline's triangle.
+- `powerline-format git bufname filetype mode_info line_column position` - sets the format of powerline, by adding only git, buffer name, filetype, information about mode, line_column and file position in percents.
 - `powerline-toggle line_column off` - disables part of powerline which shows current line and column.
 
 You can add your own configurations here. Since all settings are window-dependent you can have different settings for different windows, filetypes, window types, etc.
