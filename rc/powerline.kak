@@ -90,11 +90,10 @@ powerline-rebuild %{
             fg=$kak_opt_powerline_git_fg
             bg=$kak_opt_powerline_git_bg
             if [ -n "$kak_opt_powerline_git_branch" ]; then
-                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{${next_fg:-$fg},${next_bg:-default}}$normal"
-                git="$separator %opt{powerline_git_branch} "
+                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
+                git="$separator{$fg,$bg} %opt{powerline_git_branch} "
             fi
-            next_bg=default
-            next_fg=$kak_opt_powerline_line_column_bg
+            next_bg=$bg
         fi
         if [ "$kak_opt_powerline_module_bufname" = "true" ]; then
             fg=$kak_opt_powerline_bufname_fg
@@ -102,7 +101,6 @@ powerline-rebuild %{
             [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
             bufname="$separator{$fg,$bg} %val{bufname}{{context_info}}%opt{powerline_readonly} "
             next_bg=$bg
-            next_fg=$kak_opt_powerline_line_column_bg
         fi
         if [ "$kak_opt_powerline_module_line_column" = "true" ]; then
             fg=$kak_opt_powerline_line_column_fg
@@ -110,14 +108,13 @@ powerline-rebuild %{
             [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
             line_column="$separator{$fg,$bg} %val{cursor_line}{$fg,$bg}:{$fg,$bg}%val{cursor_char_column} "
             next_bg=$bg
-            next_fg=$bg
         fi
         if [ "$kak_opt_powerline_module_mode_info" = "true" ]; then
             bg=$kak_opt_powerline_mode_info_bg
             fg=$kak_opt_powerline_mode_info_fg
             [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
             mode_info="{$bg,${next_bg:-default}}$separator{default,default} {{mode_info}} "
-            next_bg="default"
+            next_bg=$bg
         fi
         if [ "$kak_opt_powerline_module_filetype" = "true" ]; then
             bg=$kak_opt_powerline_filetype_bg
