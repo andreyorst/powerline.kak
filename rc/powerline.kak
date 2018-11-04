@@ -13,6 +13,20 @@ declare-option -hidden str-list powerline_themes
 declare-option -docstring "powerline separator chatacter with solid body" str powerline_separator ''
 declare-option -docstring "powerline separator chatacter thin" str powerline_separator_thin ''
 
+declare-option -docstring "poweline format: order of powerline modules to render in modeline
+    default value: 'git bufname line_column mode_info filetype client session position'
+
+    available modules:
+    git - current git branch
+    bufname - current file name and information about buffer
+    line_column - current line and column
+    mode_info - mode information
+    filetype - filetype of current file
+    client - client
+    session - session
+    position - percent position in file " \
+str powerline_format "git bufname line_column mode_info filetype client session position"
+
 declare-option -hidden str powerline_pos_percent
 declare-option -hidden str powerline_git_branch
 declare-option -hidden str powerline_readonly
@@ -83,71 +97,92 @@ hook global WinCreate .* %{
 define-command -override -docstring "construct powerline acorrdingly to configuration options" \
 powerline-rebuild %{
     set-option global modelinefmt %sh{
+        modelinefmt=
         normal=$kak_opt_powerline_separator
         thin=$kak_opt_powerline_separator_thin
         next_bg=$kak_opt_powerline_base_bg
-        if [ "$kak_opt_powerline_module_git" = "true" ]; then
-            fg=$kak_opt_powerline_git_fg
-            bg=$kak_opt_powerline_git_bg
-            if [ -n "$kak_opt_powerline_git_branch" ]; then
-                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-                git="$separator{$fg,$bg} %opt{powerline_git_branch} "
-            fi
-            next_bg=$bg
-        fi
-        if [ "$kak_opt_powerline_module_bufname" = "true" ]; then
-            fg=$kak_opt_powerline_bufname_fg
-            bg=$kak_opt_powerline_bufname_bg
-            [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-            bufname="$separator{$fg,$bg} %val{bufname}{{context_info}}%opt{powerline_readonly} "
-            next_bg=$bg
-        fi
-        if [ "$kak_opt_powerline_module_line_column" = "true" ]; then
-            fg=$kak_opt_powerline_line_column_fg
-            bg=$kak_opt_powerline_line_column_bg
-            [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-            line_column="$separator{$fg,$bg} %val{cursor_line}{$fg,$bg}:{$fg,$bg}%val{cursor_char_column} "
-            next_bg=$bg
-        fi
-        if [ "$kak_opt_powerline_module_mode_info" = "true" ]; then
-            bg=$kak_opt_powerline_mode_info_bg
-            fg=$kak_opt_powerline_mode_info_fg
-            [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-            mode_info="$separator{default,default} {{mode_info}} "
-            next_bg=$bg
-        fi
-        if [ "$kak_opt_powerline_module_filetype" = "true" ]; then
-            bg=$kak_opt_powerline_filetype_bg
-            fg=$kak_opt_powerline_filetype_fg
-            if [ ! -z "$kak_opt_filetype" ]; then
-            [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-                filetype="$separator{$fg,$bg} %opt{filetype} "
+        git () {
+            if [ "$kak_opt_powerline_module_git" = "true" ]; then
+                fg=$kak_opt_powerline_git_fg
+                bg=$kak_opt_powerline_git_bg
+                if [ -n "$kak_opt_powerline_git_branch" ]; then
+                    [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
+                    modelinefmt=$modelinefmt"$separator{$fg,$bg} %opt{powerline_git_branch} "
+                fi
                 next_bg=$bg
             fi
-        fi
-        if [ "$kak_opt_powerline_module_client" = "true" ]; then
-            bg=$kak_opt_powerline_client_bg
-            fg=$kak_opt_powerline_client_fg
-            [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-            client="$separator{$fg,$bg} %val{client} "
-            next_bg=$bg
-        fi
-        if [ "$kak_opt_powerline_module_session" = "true" ]; then
-            bg=$kak_opt_powerline_session_bg
-            fg=$kak_opt_powerline_session_fg
-            [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-            session="$separator{$fg,$bg} %val{session} "
-            next_bg=$bg
-        fi
-        if [ "$kak_opt_powerline_module_position" = "true" ]; then
-            bg=$kak_opt_powerline_position_bg
-            fg=$kak_opt_powerline_position_fg
-            [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-            position="$separator{$fg,$bg} ≣ %opt{powerline_pos_percent} "
-            next_bg=$bg
-        fi
+        }
+        bufname () {
+            if [ "$kak_opt_powerline_module_bufname" = "true" ]; then
+                fg=$kak_opt_powerline_bufname_fg
+                bg=$kak_opt_powerline_bufname_bg
+                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
+                modelinefmt=$modelinefmt"$separator{$fg,$bg} %val{bufname}{{context_info}}%opt{powerline_readonly} "
+                next_bg=$bg
+            fi
+        }
+        line_column () {
+            if [ "$kak_opt_powerline_module_line_column" = "true" ]; then
+                fg=$kak_opt_powerline_line_column_fg
+                bg=$kak_opt_powerline_line_column_bg
+                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
+                modelinefmt=$modelinefmt"$separator{$fg,$bg} %val{cursor_line}{$fg,$bg}:{$fg,$bg}%val{cursor_char_column} "
+                next_bg=$bg
+            fi
+        }
+        mode_info () {
+            if [ "$kak_opt_powerline_module_mode_info" = "true" ]; then
+                bg=$kak_opt_powerline_mode_info_bg
+                fg=$kak_opt_powerline_mode_info_fg
+                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
+                modelinefmt=$modelinefmt"$separator{default,default} {{mode_info}} "
+                next_bg=$bg
+            fi
+        }
+        filetype () {
+            if [ "$kak_opt_powerline_module_filetype" = "true" ]; then
+                bg=$kak_opt_powerline_filetype_bg
+                fg=$kak_opt_powerline_filetype_fg
+                if [ ! -z "$kak_opt_filetype" ]; then
+                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
+                    modelinefmt=$modelinefmt"$separator{$fg,$bg} %opt{filetype} "
+                    next_bg=$bg
+                fi
+            fi
+        }
+        client () {
+            if [ "$kak_opt_powerline_module_client" = "true" ]; then
+                bg=$kak_opt_powerline_client_bg
+                fg=$kak_opt_powerline_client_fg
+                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
+                modelinefmt=$modelinefmt"$separator{$fg,$bg} %val{client} "
+                next_bg=$bg
+            fi
+        }
+        session () {
+            if [ "$kak_opt_powerline_module_session" = "true" ]; then
+                bg=$kak_opt_powerline_session_bg
+                fg=$kak_opt_powerline_session_fg
+                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
+                modelinefmt=$modelinefmt"$separator{$fg,$bg} %val{session} "
+                next_bg=$bg
+            fi
+        }
+        position() {
+            if [ "$kak_opt_powerline_module_position" = "true" ]; then
+                bg=$kak_opt_powerline_position_bg
+                fg=$kak_opt_powerline_position_fg
+                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
+                modelinefmt=$modelinefmt"$separator{$fg,$bg} ≣ %opt{powerline_pos_percent} "
+                next_bg=$bg
+            fi
+        }
 
-        echo "$git$bufname$line_column$mode_info$filetype$client$session$position"
+        for module in $kak_opt_powerline_format; do
+            eval $module
+        done
+        echo "$modelinefmt"
+        # echo "$git$bufname$line_column$mode_info$filetype$client$session$position"
     }
     powerline-update-branch
     powerline-update-readonly
