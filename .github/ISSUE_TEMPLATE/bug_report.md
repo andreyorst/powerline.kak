@@ -19,7 +19,7 @@ Note that lines enclosed with arrows are comments and will be deleted automatica
 
 
 ## What should happen
-<!-- Provide an example of what do you expect from fzf.kak to do -->
+<!-- Provide an example of what do you expect from powerline.kak to do -->
 
 
 ## What happens instead
@@ -30,10 +30,3 @@ Note that lines enclosed with arrows are comments and will be deleted automatica
 Kakoune version: <!-- either kakoune release or result of `git rev-parse master` command -->
 OS version: <!-- MacOS 10.14/Ubuntu 18.04/FreeBSD 11.2/etc-->
 `sh` executable version: <!-- result of `yourshell --version`
-fzf version:  <!-- result of `fzf --version`
-<!-- If your issue related to some of programs that you use with fzf add those as well -->
-`find` version: 
-`ag` version:
-`fg` version:
-`git` version:
-`ctags` version:
