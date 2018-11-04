@@ -32,14 +32,22 @@ declare-option -hidden str powerline_pos_percent
 declare-option -hidden str powerline_git_branch
 declare-option -hidden str powerline_readonly
 
-declare-option -docstring "if set to 'true' display git module in powerline"         bool powerline_module_git         true
-declare-option -docstring "if set to 'true' display bufname module in powerline"     bool powerline_module_bufname     true
-declare-option -docstring "if set to 'true' display line_column module in powerline" bool powerline_module_line_column true
-declare-option -docstring "if set to 'true' display mode_info module in powerline"   bool powerline_module_mode_info   true
-declare-option -docstring "if set to 'true' display filetype module in powerline"    bool powerline_module_filetype    true
-declare-option -docstring "if set to 'true' display client module in powerline"      bool powerline_module_client      true
-declare-option -docstring "if set to 'true' display session module in powerline"     bool powerline_module_session     true
-declare-option -docstring "if set to 'true' display position module in powerline"    bool powerline_module_position    true
+declare-option -docstring "if set to 'true' display git module in powerline" \
+bool powerline_module_git true
+declare-option -docstring "if set to 'true' display bufname module in powerline" \
+bool powerline_module_bufname true
+declare-option -docstring "if set to 'true' display line_column module in powerline" \
+bool powerline_module_line_column true
+declare-option -docstring "if set to 'true' display mode_info module in powerline" \
+bool powerline_module_mode_info true
+declare-option -docstring "if set to 'true' display filetype module in powerline" \
+bool powerline_module_filetype true
+declare-option -docstring "if set to 'true' display client module in powerline" \
+bool powerline_module_client true
+declare-option -docstring "if set to 'true' display session module in powerline" \
+bool powerline_module_session true
+declare-option -docstring "if set to 'true' display position module in powerline" \
+bool powerline_module_position true
 
 declare-option -hidden str powerline_base_bg        default
 declare-option -hidden str powerline_git_fg         blue
@@ -59,10 +67,21 @@ declare-option -hidden str powerline_session_bg     magenta
 declare-option -hidden str powerline_position_fg    black
 declare-option -hidden str powerline_position_bg    yellow
 
+declare-option -docstring "if 'true' additionally display text formatted position in file, like 'top' and  'bottom'" \
+bool powerline_position_text_format false
+
 # Commands
 define-command -hidden \
 powerline-update-position %{ evaluate-commands %sh{
-    echo "set-option window powerline_pos_percent $(($kak_cursor_line * 100 / $kak_buf_line_count))%"
+    position="$(($kak_cursor_line * 100 / $kak_buf_line_count))%"
+    if [ "$kak_opt_powerline_position_text_format" = "true" ]; then
+        if [ "$position" = "100%" ]; then
+            position="bottom"
+        elif [ $kak_cursor_line -eq 1 ]; then
+            position="top"
+        fi
+    fi
+    echo "set-option window powerline_pos_percent $position"
 }}
 
 define-command -hidden \
@@ -183,7 +202,6 @@ powerline-rebuild %{
             eval $module
         done
         echo "$modelinefmt"
-        # echo "$git$bufname$line_column$mode_info$filetype$client$session$position"
     }
     powerline-update-branch
     powerline-update-readonly
