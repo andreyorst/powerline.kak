@@ -2,7 +2,7 @@
 
 Powerline plugin for Kakoune Editor
 
-![image](https://user-images.githubusercontent.com/19470159/47937941-7d92ec00-def3-11e8-8ede-9accdef4d6f7.png)
+![image](https://user-images.githubusercontent.com/19470159/47966105-ae902f80-e05f-11e8-8ca4-76213449d3b8.png)
 
 This plugin aims to make Kakoune's powelinde more context dependent, and beautiful. **powerline.kak** adds coloring, separators, toggle behavior and support for git. Some parts, like git branch and filetype, are shown only if they are available, so there will be no filetype section while you're editing file which filetype wasnt deduced by Kakoune. Also if you're editing file that has no write access, **powerline.kak** will show you a lock symbol near the filename.0
 
