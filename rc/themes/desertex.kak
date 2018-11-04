@@ -2,7 +2,7 @@
 
 set-option -add global powerline_themes "desertex"
 
-define-command -override -hidden powerline-theme-desertex %{
+define-command -hidden powerline-theme-desertex %{
     set-option global powerline_base_bg        black
     set-option global powerline_git_fg         blue
     set-option global powerline_git_bg         black
