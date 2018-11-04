@@ -2,7 +2,7 @@
 
 set-option -add global powerline_themes "base16"
 
-define-command -hidden powerline-theme-base16 %{ evaluate-commands %sh{
+define-command -override -hidden powerline-theme-base16 %{ evaluate-commands %sh{
     black_lighterer='rgb:383838'
     black_lighter='rgb:2D2D2D'
     black_light='rgb:1C1C1C'
@@ -16,6 +16,7 @@ define-command -hidden powerline-theme-base16 %{ evaluate-commands %sh{
     orange_light='rgb:F7CA88'
     purple_dark='rgb:BA8BAF'
     echo "
+        set-option global powerline_base_bg        ${black_lighterer}
         set-option global powerline_git_fg         ${cyan_light}
         set-option global powerline_git_bg         ${black_lighterer}
         set-option global powerline_bufname_fg     ${black_light}
@@ -27,11 +28,11 @@ define-command -hidden powerline-theme-base16 %{ evaluate-commands %sh{
         set-option global powerline_filetype_fg    ${grey_light}
         set-option global powerline_filetype_bg    ${grey_dark}
         set-option global powerline_client_fg      ${black_lighter}
-        set-option global powerline_client_bg      ${orange_light}
+        set-option global powerline_client_bg      ${purple_dark}
         set-option global powerline_session_fg     ${black_lighter}
-        set-option global powerline_session_bg     ${orange_dark}
-        set-option global powerline_position_fg    ${grey_light}
-        set-option global powerline_position_bg    ${black_lighterer}
+        set-option global powerline_session_bg     ${magenta_dark}
+        set-option global powerline_position_fg    ${black_light}
+        set-option global powerline_position_bg    ${cyan_light}
     "
 }}
 
