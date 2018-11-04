@@ -2,7 +2,7 @@
 
 set-option -add global powerline_themes "gruvbox"
 
-define-command -override -hidden powerline-theme-gruvbox %{ evaluate-commands %sh{
+define-command -hidden powerline-theme-gruvbox %{ evaluate-commands %sh{
     gray="rgb:928374"
     red="rgb:fb4934"
     green="rgb:b8bb26"
@@ -25,6 +25,7 @@ define-command -override -hidden powerline-theme-gruvbox %{ evaluate-commands %s
     fg4="rgb:a89984"
 
     echo "
+        set-option global powerline_base_bg        ${bg}
         set-option global powerline_git_fg         ${yellow}
         set-option global powerline_git_bg         ${bg}
         set-option global powerline_bufname_fg     ${bg}
