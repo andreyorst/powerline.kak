@@ -42,7 +42,8 @@ declare-option -hidden -docstring "powerlinefmt is something similar to modeline
 used to store powerline configuration before passing it to modeline.
 should never be accessed or modified directly" \
 str powerlinefmt
-declare-option -hidden str powerline_next_bg ''
+
+declare-option -hidden str powerline_next_bg
 
 declare-option -docstring "if set to 'true' display git module in powerline" \
 bool powerline_module_git true
@@ -84,8 +85,7 @@ bool powerline_position_text_format false
 
 # Commands
 declare-option -hidden str powerline_pos_percent
-define-command -hidden \
-powerline-update-position %{ evaluate-commands %sh{
+define-command -hidden powerline-update-position %{ evaluate-commands %sh{
     position="$(($kak_cursor_line * 100 / $kak_buf_line_count))%"
     if [ "$kak_opt_powerline_position_text_format" = "true" ]; then
         if [ "$position" = "100%" ]; then
@@ -98,8 +98,7 @@ powerline-update-position %{ evaluate-commands %sh{
 }}
 
 declare-option -hidden str powerline_readonly
-define-command -hidden \
-powerline-update-readonly %{ set-option window powerline_readonly %sh{
+define-command -hidden powerline-update-readonly %{ set-option window powerline_readonly %sh{
     if [ -w ${kak_buffile} ]; then
         echo ''
     else
@@ -108,8 +107,7 @@ powerline-update-readonly %{ set-option window powerline_readonly %sh{
 }}
 
 declare-option -hidden str powerline_git_branch
-define-command -hidden \
-powerline-update-branch %{ set-option window powerline_git_branch %sh{
+define-command -hidden powerline-update-branch %{ set-option window powerline_git_branch %sh{
     if [ "$kak_opt_powerline_module_git" = "true" ]; then
         branch=$(cd "${kak_buffile%/*}" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null)
     fi
@@ -121,128 +119,174 @@ powerline-update-branch %{ set-option window powerline_git_branch %sh{
 }}
 
 # auto-pairs section
-declare-option -hidden str powerline_autopairs
-set-option -add global powerline_modules 'autopairs'
+declare-option -hidden str powerline_auto_pairs 'surround'
+declare-option -hidden bool powerline_module_auto_pairs true
+set-option -add global powerline_modules 'auto_pairs'
 
-define-command -hidden powerline-update-autopairs %{ set-option window powerline_autopairs %sh{
+## auto-pairs update command
+define-command -hidden powerline-update-auto-pairs %{ evaluate-commands %sh{
     if [ "$kak_opt_auto_pairs_surround_enabled" = "true" ]; then
-        text=surround
+        echo "powerline-toggle auto_pairs on"
     else
-        text=""
+        echo "powerline-toggle auto_pairs off"
     fi
-    echo $text
 }}
 
+## auto-pairs update hook
 hook global WinCreate .* %{
-  # hook window ModeChange 'normal:insert|insert:normal' block-update-auto-pairs
+    powerline-update-auto-pairs
+    hook window ModeChange 'normal:insert' powerline-update-auto-pairs
+    hook window ModeChange 'insert:normal' %{powerline-toggle auto_pairs off}
 }
+
+## auto-pairs module
+define-command -hidden powerline-auto-pairs %{ evaluate-commands %sh{
+    default=$kak_opt_powerline_base_bg
+    next_bg=$kak_opt_powerline_next_bg
+    normal=$kak_opt_powerline_separator
+    thin=$kak_opt_powerline_separator_thin
+    if [ "$kak_opt_powerline_module_auto_pairs" = "true" ]; then
+        bg=$kak_opt_powerline_mode_info_bg
+        fg=$kak_opt_powerline_mode_info_fg
+        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
+        echo "set-option -add window powerlinefmt %{$separator{$fg,$bg} %opt{powerline_auto_pairs} }"
+        echo "set-option window powerline_next_bg $bg"
+    fi
+}}
+
+define-command -hidden powerline-toggle-auto-pairs -params ..1 %{ evaluate-commands %sh{
+    [ "$kak_opt_powerline_module_auto_pairs" = "true" ] && value=false || value=true
+    if [ -n "$1" ]; then
+        [ "$1" = "on" ] && value=true || value=false
+    fi
+    echo "set-option global powerline_module_auto_pairs $value"
+    echo "powerline-rebuild"
+}}
+
 
 # Hooks
 hook global WinCreate .* %{
     powerline-update-position
+    powerline-update-branch
     hook window NormalKey (j|k) powerline-update-position
     hook window NormalIdle .* powerline-update-position
     hook global WinDisplay .* %{powerline-rebuild}
 }
 
 # Modules
-define-command -hidden powerline-git -params 2 %{ evaluate-commands %sh{
+define-command -hidden powerline-git %{ evaluate-commands %sh{
+    default=$kak_opt_powerline_base_bg
     next_bg=$kak_opt_powerline_next_bg
-    normal=$2; thin=$3
+    normal=$kak_opt_powerline_separator
+    thin=$kak_opt_powerline_separator_thin
     if [ "$kak_opt_powerline_module_git" = "true" ]; then
         fg=$kak_opt_powerline_git_fg
         bg=$kak_opt_powerline_git_bg
         if [ -n "$kak_opt_powerline_git_branch" ]; then
-            [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
+            [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
             echo "set-option -add window powerlinefmt %{$separator{$fg,$bg} %opt{powerline_git_branch} }"
-            echo "set-option global powerline_next_bg $bg"
+            echo "set-option window powerline_next_bg $bg"
         fi
     fi
 }}
 
-define-command -hidden powerline-bufname -params 2 %{ evaluate-commands %sh{
+define-command -hidden powerline-bufname %{ evaluate-commands %sh{
+    default=$kak_opt_powerline_base_bg
     next_bg=$kak_opt_powerline_next_bg
-    normal=$2; thin=$3
+    normal=$kak_opt_powerline_separator
+    thin=$kak_opt_powerline_separator_thin
     if [ "$kak_opt_powerline_module_bufname" = "true" ]; then
         fg=$kak_opt_powerline_bufname_fg
         bg=$kak_opt_powerline_bufname_bg
-        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
+        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
         echo "set-option -add window powerlinefmt %{$separator{$fg,$bg} %val{bufname}{{context_info}}%opt{powerline_readonly} }"
-        echo "set-option global powerline_next_bg $bg"
+        echo "set-option window powerline_next_bg $bg"
     fi
 }}
 
-define-command -hidden powerline-line-column -params 2 %{ evaluate-commands %sh{
+define-command -hidden powerline-line-column %{ evaluate-commands %sh{
+    default=$kak_opt_powerline_base_bg
     next_bg=$kak_opt_powerline_next_bg
-    normal=$2; thin=$3
+    normal=$kak_opt_powerline_separator
+    thin=$kak_opt_powerline_separator_thin
     if [ "$kak_opt_powerline_module_line_column" = "true" ]; then
         fg=$kak_opt_powerline_line_column_fg
         bg=$kak_opt_powerline_line_column_bg
-        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
+        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
         echo "set-option -add window powerlinefmt %{$separator{$fg,$bg} %val{cursor_line}{$fg,$bg}:{$fg,$bg}%val{cursor_char_column} }"
-        echo "set-option global powerline_next_bg $bg"
+        echo "set-option window powerline_next_bg $bg"
     fi
 }}
 
-define-command -hidden powerline-mode-info -params 2 %{ evaluate-commands %sh{
+define-command -hidden powerline-mode-info %{ evaluate-commands %sh{
+    default=$kak_opt_powerline_base_bg
     next_bg=$kak_opt_powerline_next_bg
-    normal=$2; thin=$3
+    normal=$kak_opt_powerline_separator
+    thin=$kak_opt_powerline_separator_thin
     if [ "$kak_opt_powerline_module_mode_info" = "true" ]; then
         bg=$kak_opt_powerline_mode_info_bg
         fg=$kak_opt_powerline_mode_info_fg
-        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-        echo "set-option -add window powerlinefmt %{$separator{default,default} {{mode_info}} }"
-        echo "set-option global powerline_next_bg $bg"
+        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
+        echo "set-option -add window powerlinefmt %{$separator{$fg,$bg} {{mode_info}} }"
+        echo "set-option window powerline_next_bg $bg"
     fi
 }}
 
-define-command -hidden powerline-filetype -params 2 %{ evaluate-commands %sh{
+define-command -hidden powerline-filetype %{ evaluate-commands %sh{
+    default=$kak_opt_powerline_base_bg
     next_bg=$kak_opt_powerline_next_bg
-    normal=$2; thin=$3
+    normal=$kak_opt_powerline_separator
+    thin=$kak_opt_powerline_separator_thin
     if [ "$kak_opt_powerline_module_filetype" = "true" ]; then
         bg=$kak_opt_powerline_filetype_bg
         fg=$kak_opt_powerline_filetype_fg
         if [ ! -z "$kak_opt_filetype" ]; then
-        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
+        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
             echo "set-option -add window powerlinefmt %{$separator{$fg,$bg} %opt{filetype} }"
-            echo "set-option global powerline_next_bg $bg"
+            echo "set-option window powerline_next_bg $bg"
         fi
     fi
 }}
 
-define-command -hidden powerline-client -params 2 %{ evaluate-commands %sh{
+define-command -hidden powerline-client %{ evaluate-commands %sh{
+    default=$kak_opt_powerline_base_bg
     next_bg=$kak_opt_powerline_next_bg
-    normal=$2; thin=$3
+    normal=$kak_opt_powerline_separator
+    thin=$kak_opt_powerline_separator_thin
     if [ "$kak_opt_powerline_module_client" = "true" ]; then
         bg=$kak_opt_powerline_client_bg
         fg=$kak_opt_powerline_client_fg
-        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
+        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
         echo "set-option -add window powerlinefmt %{$separator{$fg,$bg} %val{client} }"
-        echo "set-option global powerline_next_bg $bg"
+        echo "set-option window powerline_next_bg $bg"
     fi
 }}
 
-define-command -hidden powerline-session -params 2 %{ evaluate-commands %sh{
+define-command -hidden powerline-session %{ evaluate-commands %sh{
+    default=$kak_opt_powerline_base_bg
     next_bg=$kak_opt_powerline_next_bg
-    normal=$2; thin=$3
+    normal=$kak_opt_powerline_separator
+    thin=$kak_opt_powerline_separator_thin
     if [ "$kak_opt_powerline_module_session" = "true" ]; then
         bg=$kak_opt_powerline_session_bg
         fg=$kak_opt_powerline_session_fg
-        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
+        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
         echo "set-option -add window powerlinefmt %{$separator{$fg,$bg} %val{session} }"
-        echo "set-option global powerline_next_bg $bg"
+        echo "set-option window powerline_next_bg $bg"
     fi
 }}
 
-define-command -hidden powerline-position -params 2 %{ evaluate-commands %sh{
+define-command -hidden powerline-position %{ evaluate-commands %sh{
+    default=$kak_opt_powerline_base_bg
     next_bg=$kak_opt_powerline_next_bg
-    normal=$2; thin=$3
+    normal=$kak_opt_powerline_separator
+    thin=$kak_opt_powerline_separator_thin
     if [ "$kak_opt_powerline_module_position" = "true" ]; then
         bg=$kak_opt_powerline_position_bg
         fg=$kak_opt_powerline_position_fg
-        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
+        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
         echo "set-option -add window powerlinefmt %{$separator{$fg,$bg} ≣ %opt{powerline_pos_percent} }"
-        echo "set-option global powerline_next_bg $bg"
+        echo "set-option window powerline_next_bg $bg"
     fi
 }}
 
@@ -250,18 +294,15 @@ define-command -hidden powerline-position -params 2 %{ evaluate-commands %sh{
 define-command -docstring "construct powerline acorrdingly to configuration options" \
 powerline-rebuild %{
     set-option window powerlinefmt ''
+    set-option window powerline_next_bg ''
 
     evaluate-commands %sh{
-        normal=$kak_opt_powerline_separator
-        thin=$kak_opt_powerline_separator_thin
         for module in $kak_opt_powerline_format; do
             module=$(echo $module | sed "s:[^a-zA-Z-]:-:")
-            echo "try %{ powerline-$module $normal $thin }"
+            echo "try %{ powerline-$module }"
         done
     }
     set-option global modelinefmt %sh{echo "$kak_opt_powerlinefmt"}
-    powerline-update-branch
-    powerline-update-readonly
 }
 
 define-command -docstring "powerline-separator <separator>: change separators for powerline
@@ -314,7 +355,10 @@ powerline-toggle -params 1..2 %{ evaluate-commands %sh{
         client)      [ "$kak_opt_powerline_module_client"      = "true" ] && value=false || value=true ;;
         session)     [ "$kak_opt_powerline_module_session"     = "true" ] && value=false || value=true ;;
         position)    [ "$kak_opt_powerline_module_position"    = "true" ] && value=false || value=true ;;
-        *) echo "try %{ powerline-toggle-$1} catch %{ echo -debug %{no such module $1} }"; exit ;;
+        *)
+            module=$(echo $1 | sed "s:[^a-zA-Z-]:-:")
+            echo "try %{ powerline-toggle-$module $2} catch %{ echo -debug %{no such module $module} }"
+            exit ;;
     esac
     if [ -n "$2" ]; then
         [ "$2" = "on" ] && value=true || value=false
@@ -330,25 +374,20 @@ powerline-theme -params 1 %{ evaluate-commands %sh{
     echo "powerline-rebuild"
 }}
 
-define-command -docstring "powerline-format <formatstring>: change powerline format
-default <formatstring> value:
-    'git bufname line_column mode_info filetype client session position'
+define-command -docstring "powerline-format <formatstring>: change powerline format. Use <Tab> completion to get available modules.
 
-available modules for <formatstring>:
-    git:         git branch
-    bufname:     filename and information about buffer
-    line_column: line and column
-    mode_info:   mode information
-    filetype:    filetype of current buffer
-    client:      client name
-    session:     session pid
-    position:    percent position in file " \
--shell-script-completion %{ for i in "git bufname line_column mode_info filetype client session position"; do printf %s\\n $i; done} \
+powerline-format default: resets powerline format to default value, which is:
+    'git bufname line_column mode_info filetype client session position'" \
+-shell-script-completion %{eval "set -- $kak_opt_powerline_modules"; while [ "$1" ]; do echo $1; shift; done} \
 powerline-format -params 1.. %{ evaluate-commands %sh{
-    formatstring=
-    while [ "$1" ]; do
-        formatstring="$formatstring $1"; shift
-    done
+    if [ "$1" = "default" ]; then
+        formatstring="git bufname line_column mode_info filetype client session position"
+    else
+        formatstring=
+        while [ "$1" ]; do
+            formatstring="$formatstring $1"; shift
+        done
+    fi
     echo "set-option window powerline_format %{$formatstring}"
     echo "powerline-rebuild"
 }}
