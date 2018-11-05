@@ -11,21 +11,7 @@ set-option -add global powerline_modules 'position'
 
 declare-option -hidden bool powerline_module_position true
 
-define-command -hidden powerline-position %{ evaluate-commands %sh{
-    default=$kak_opt_powerline_base_bg
-    next_bg=$kak_opt_powerline_next_bg
-    normal=$kak_opt_powerline_separator
-    thin=$kak_opt_powerline_separator_thin
-    if [ "$kak_opt_powerline_module_position" = "true" ]; then
-        bg=$kak_opt_powerline_position_bg
-        fg=$kak_opt_powerline_position_fg
-        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
-        echo "set-option -add window powerlinefmt %{$separator{$fg,$bg} ≣ %opt{powerline_pos_percent} }"
-        echo "set-option window powerline_next_bg $bg"
-    fi
-}}
-
-declare-option -hidden str powerline_pos_percent
+declare-option -hidden str powerline_position ''
 define-command -hidden powerline-update-position %{ evaluate-commands %sh{
     position="$(($kak_cursor_line * 100 / $kak_buf_line_count))%"
     if [ "$kak_opt_powerline_position_text_format" = "true" ]; then
@@ -35,13 +21,27 @@ define-command -hidden powerline-update-position %{ evaluate-commands %sh{
             position="top"
         fi
     fi
-    echo "set-option window powerline_pos_percent $position"
+    echo "set-option window powerline_position $position"
 }}
 
 hook -group powerline global WinCreate .* %{
     powerline-update-position
     hook -group powerline window NormalKey (j|k) powerline-update-position
 }
+
+define-command -hidden powerline-position %{ evaluate-commands %sh{
+    default=$kak_opt_powerline_base_bg
+    next_bg=$kak_opt_powerline_next_bg
+    normal=$kak_opt_powerline_separator
+    thin=$kak_opt_powerline_separator_thin
+    if [ "$kak_opt_powerline_module_position" = "true" ]; then
+        bg=$kak_opt_powerline_position_bg
+        fg=$kak_opt_powerline_position_fg
+        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
+        echo "set-option -add window powerlinefmt %{$separator{$fg,$bg} ≣ %opt{powerline_position} }"
+        echo "set-option window powerline_next_bg $bg"
+    fi
+}}
 
 define-command -hidden powerline-toggle-position -params ..1 %{ evaluate-commands %sh{
     [ "$kak_opt_powerline_module_position" = "true" ] && value=false || value=true
