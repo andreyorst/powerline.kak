@@ -111,30 +111,30 @@ define-command   -hidden powerline-theme-base16-gruvbox %{...}
 ```
 If they are the same **powerline.kak** will show you completion items with correct theme name and execute this command for you. No need to execute this command manually. All you need to do is `powerline-theme base16-gruvbox`.
 
-## Adding your own modules
+## Writing a module
 
 This is bit tricky part, but you can add your own modules to powerline. To create a module you need this things:
 
 - declare boolean option for toggling module on and off.
 - declare string option for contents of the module within the powerline.
-- define an update command if youur module needs to be updated frequently.
-- create update hooks to update module when something related to it happens.
+- define an update command (if your module needs to be updated frequently).
+  - create update hooks to update module when something related to it happens.
 - define a module command itself.
+- add module name to global list of modules.
 
-Here's an example of adding a module that shows current position in percents. This module already exists in **powerline.kak** but still can be a good example:
+Here's an example of adding a module that shows current position in percents. This module already exists in **powerline.kak** but still can be a good example, because it is not existing functionality in Kakoune itself:
 
 First, lets declare `hidden` option of `str` type, that will store our position:
 
 ```kak
-declare-option -hidden str powerline_pos_percent
+declare-option -hidden str powerline_position ''
 ```
 
 We're not giving it a value here, since our next update command will handle it:
 
 ```kak
-define-command -hidden powerline-update-position %{ evaluate-commands %sh{
-    position="$(($kak_cursor_line * 100 / $kak_buf_line_count))%"
-    echo "set-option window powerline_pos_percent $position"
+define-command -hidden powerline-update-position %{ set-option window powerline_position %sh{
+    echo "$(($kak_cursor_line * 100 / $kak_buf_line_count))%"
 }}
 ```
 
@@ -148,7 +148,7 @@ hook global WinCreate .* %{
 }
 ```
 
-So after `global` `WinCreate` event happens we update our `powerline_pos_percent` variable by executing `poerline-update-position`, and then we're defining two more hooks, first to update it frequently while we move with <kbd>j</kbd> and <kbd>k</kbd> and second to update it via timeout, so it could show actual position after jumps and searches.
+So after `global` `WinCreate` event happens we update our `powerline_pos_percent` variable by executing `poerline-update-position`, and then we're defining two more hooks - first to update it frequently while we move with <kbd>j</kbd> and <kbd>k</kbd> and second to update it via timeout, so it could show actual position after jumps and searches.
 
 Now we need a **module** command. In **powerline.kak** every module that you see in your modeline is actually a command, that is being called once when **powerline.kak** builds modeline for you. In this case, percent position is already an existing module, so here's how it is defined:
 
@@ -182,5 +182,26 @@ Declare two more variables for `$bg` is background and `$fg` is foreground color
 Then we have another tricky `if` statement that defines what kind of separator will be used depending on our surroundings: if current background color and `next_bg` are the same - use `$thin` separator with these `$fg` and `$bg` colors. If not - then use `$normal` which will be colored in reversed format with `$bg` as foreground and `$next_bg` is background, and if `next_bg` is empty, use `$default` color. This statement can be copied to your module, because it is the same for every module.
 After that we finally do two more things: add `%{$separator{$fg,$bg} ≣ %opt{powerline_pos_percent} }` string to the end of `powerlinefmt` variable, which will later be passed to `modelinefmt`, and set the next background color to current background color.
 
-That is. This is how you add a module to **powerline.kak**. So if you're writing a plugin, you can have this code inside your plugin, or you can send a PR with it and it will be included to **powerline.kak**.
+Now, when we have our module command written we still need one more thing: a toggle command.i
+A toggle command will be used to toggle our module on and off when we don't need it, but still want it to be in modeline. For example we may not need to know ow percent position in `*grep*` buffer. The command is defined like so:
 
+```kak
+define-command -hidden powerline-toggle-position -params ..1 %{ evaluate-commands %sh{
+    [ "$kak_opt_powerline_module_position" = "true" ] && value=false || value=true
+    if [ -n "$1" ]; then
+        [ "$1" = "on" ] && value=true || value=false
+    fi
+    echo "set-option global powerline_module_position $value"
+    echo "powerline-rebuild"
+}}
+```
+
+This command has one optional parameter for `on` and `off` swithces which are checked inside of it.
+
+That is. This is how you add a module to **powerline.kak**. So if you're writing a plugin, you can have this code inside your plugin, or you can send a PR with it and it will be included to **powerline.kak**. But how would **powerline.kak** know how to execute these commands?
+
+That's a good question. Remember when we added our module name to global module list with:
+```kak
+set-option -add global powerline_modules 'position'
+```
+This allows **powerline.kak** to reconstruct proper command for you, because it knows base name which is `powerline-toggle-` and a module name which is `position`. So when you call `powerline-toggle position` it combines those two and calls `powerline-toggle-position` for you.
