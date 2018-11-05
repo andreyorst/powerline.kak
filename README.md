@@ -4,7 +4,7 @@ Powerline plugin for Kakoune Editor
 
 ![image](https://user-images.githubusercontent.com/19470159/47966105-ae902f80-e05f-11e8-8ca4-76213449d3b8.png)
 
-This plugin aims to make Kakoune's modeline more context dependent, and beautiful. **powerline.kak** adds coloring, separators, toggle behavior and support for git. Some parts, like git branch and filetype, are shown only if they are available, so there will be no filetype section while you're editing file which filetype wasnt deduced by Kakoune. Also if you're editing file that has no write access, **powerline.kak** will show you a lock symbol near the filename.
+This plugin aims to make Kakoune's modeline more context dependent, and beautiful. **powerline.kak** adds coloring, separators, toggle behavior and support for git. Some parts, like git branch and filetype, are shown only if they are available, so there will be no filetype section while you're editing file which filetype wasn't deduced by Kakoune. Also if you're editing file that has no write access, **powerline.kak** will show you a lock symbol near the filename.
 
 ## Installation
 
@@ -102,7 +102,7 @@ define-command -hidden powerline-theme-base16-gruvbox %{
 }
 ```
 
-That is, themes for **powerline.kak** are commands, that define colors in these variables. Each module has foreground and background assests. Nothe that modifyers like **bold** are not supported yet. I'm thinking about it. When defining a theme, please make sure that text at the end of your command and string that you add to the `powerline_themes` are exactly the same:
+That is, themes for **powerline.kak** are commands, that define colors in these variables. Each module has foreground and background assests. Note that modifiers like **bold** are not supported yet. I'm thinking about it. When defining a theme, please make sure that text at the end of your command and string that you add to the `powerline_themes` are exactly the same:
 ```kak
 set-option -add global powerline_themes "base16-gruvbox"
 define-command   -hidden powerline-theme-base16-gruvbox %{...}
@@ -150,7 +150,7 @@ hook global WinCreate .* %{
 
 So after `global` `WinCreate` event happens we update our `powerline_pos_percent` variable by executing `poerline-update-position`, and then we're defining two more hooks, first to update it frequently while we move with <kbd>j</kbd> and <kbd>k</kbd> and second to update it via timeout, so it could show actual position after jumps and searches.
 
-Now we need a **module** command. In **powerline.kak** ecvery module that you see in your modeline is actually a command, that is being called once when **powerline.kak** builds modeline for you. In this case, percent position is already an existing module, so here's how it is defined:
+Now we need a **module** command. In **powerline.kak** every module that you see in your modeline is actually a command, that is being called once when **powerline.kak** builds modeline for you. In this case, percent position is already an existing module, so here's how it is defined:
 
 ```kak
 define-command -hidden powerline-position %{ evaluate-commands %sh{
@@ -170,17 +170,17 @@ define-command -hidden powerline-position %{ evaluate-commands %sh{
 set-option -add global powerline_modules 'position'
 ```
 
-There's a lot going on, so lets breakdown it. First, we define a `hidden` command, called `powerline-position`, that will be called by powerline, when `powerline-build` is exected.
+There's a lot going on, so lets breakdown it. First, we define a `hidden` command, called `powerline-position`, that will be called by powerline, when `powerline-build` is executed.
 In this command we use `evaluate-commands %sh{...}` pattern, because modules involve some logic inside them to properly display colors and different separators.
 In this shell expansion we're declaring three variables:
-- `default` - a default color for modeline if no color is specified, which must be set to `$kak_opt_powerline_base_bg`, since it mathces default modeline background color for current colorscheme
+- `default` - a default color for modeline if no color is specified, which must be set to `$kak_opt_powerline_base_bg`, since it matches default modeline background color for current colorscheme
 - `next_bg` - a tricky variable that will tell next module what background color it should use for it's separator. This is very important part, since without it smooth transition between modules isn't possible. It must be set to `$kak_opt_powerline_next_bg` which will be explained later.
 - `normal` - a separator with solid body.
 - `thin` - a separator with thin body.
 After that we have `if` statement, that ensures that module isn't toggled `off`, and we actually need to draw our module in powerline. And if it is `on`, we do the following:
 Declare two more variables for `$bg` is background and `$fg` is foreground colors, that are set to current module color. this is used to keep lines little more short, since variables have pretty long names.
 Then we have another tricky `if` statement that defines what kind of separator will be used depending on our surroundings: if current background color and `next_bg` are the same - use `$thin` separator with these `$fg` and `$bg` colors. If not - then use `$normal` which will be colored in reversed format with `$bg` as foreground and `$next_bg` is background, and if `next_bg` is empty, use `$default` color. This statement can be copied to your module, because it is the same for every module.
-After that we finaly do two more things: add `%{$separator{$fg,$bg} ≣ %opt{powerline_pos_percent} }` string to the end of `powerlinefmt` variable, which will later be passed to `modelinefmt`, and set the next background color to current background color.
+After that we finally do two more things: add `%{$separator{$fg,$bg} ≣ %opt{powerline_pos_percent} }` string to the end of `powerlinefmt` variable, which will later be passed to `modelinefmt`, and set the next background color to current background color.
 
 That is. This is how you add a module to **powerline.kak**. So if you're writing a plugin, you can have this code inside your plugin, or you can send a PR with it and it will be included to **powerline.kak**.
 
