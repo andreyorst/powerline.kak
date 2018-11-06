@@ -175,11 +175,12 @@ First, we define a `hidden` command, called `powerline-position`, that will be c
 
 In this command we use `evaluate-commands %sh{...}` pattern, because modules involve some logic inside them to properly display colors and different separators.
 
-In this shell expansion we're declaring three variables:
+In this shell expansion we're declaring four variables:
 - `default` - a default color for modeline if no color is specified, which must be set to `$kak_opt_powerline_base_bg`, since it matches default modeline background color for current colorscheme
 - `next_bg` - a tricky variable that will tell next module what background color it should use for it's separator. This is very important part, since without it smooth transition between modules isn't possible. It must be set to `$kak_opt_powerline_next_bg` which will be explained later.
 - `normal` - a separator with solid body.
 - `thin` - a separator with thin body.
+
 After that we have `if` statement, that ensures that module isn't toggled `off`, and we actually need to draw our module in powerline. And if it is `on`, we do the following:
 - Declare two more variables for `$bg` is background and `$fg` is foreground colors, that are set to current module color. this is used to keep lines little more short, since variables have pretty long names.
 - Define tricky `if` statement that will choose what kind of separator will be used depending on our surroundings: if current background color and `next_bg` are the same - use `$thin` separator with these `$fg` and `$bg` colors. If not - then use `$normal` which will be colored in reversed format with `$bg` as foreground and `$next_bg` is background, and if `next_bg` is empty, use `$default` color. This statement can be copied to your module, because it is the same for every module.
