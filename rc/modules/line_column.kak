@@ -1,6 +1,6 @@
 # ╭─────────────╥────────────────────────╮
 # │ Author:     ║ File:                  │
-# │ Andrey Orst ║ auto_pairs.kak         │
+# │ Andrey Orst ║ line_column.kak        │
 # ╞═════════════╩════════════════════════╡
 # │ Line Column module for powerline.kak │
 # ╞══════════════════════════════════════╡

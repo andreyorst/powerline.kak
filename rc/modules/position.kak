@@ -1,6 +1,6 @@
 # ╭─────────────╥────────────────────────╮
 # │ Author:     ║ File:                  │
-# │ Andrey Orst ║ auto_pairs.kak         │
+# │ Andrey Orst ║ position.kak           │
 # ╞═════════════╩════════════════════════╡
 # │ Position module for powerline.kak    │
 # ╞══════════════════════════════════════╡
@@ -24,9 +24,9 @@ define-command -hidden powerline-update-position %{ evaluate-commands %sh{
     echo "set-option window powerline_position $position"
 }}
 
-hook -group powerline global WinCreate .* %{
-    powerline-update-position
+hook -once -group powerline global WinCreate .* %{
     hook -group powerline window NormalKey (j|k) powerline-update-position
+    hook -group powerline window NormalIdle .* powerline-update-position
 }
 
 define-command -hidden powerline-position %{ evaluate-commands %sh{

@@ -1,6 +1,6 @@
 # ╭─────────────╥───────────────────────╮
 # │ Author:     ║ File:                 │
-# │ Andrey Orst ║ powerline.kak         │
+# │ Andrey Orst ║ git.kak               │
 # ╞═════════════╩═══════════════════════╡
 # │ Git module for powerline.kak        │
 # ╞═════════════════════════════════════╡
@@ -22,7 +22,9 @@ define-command -hidden powerline-update-branch %{ set-option window powerline_br
     fi
 }}
 
-hook -group powerline global WinCreate .* %{ powerline-update-branch }
+hook -once -group powerline global WinCreate .* %{
+    hook global WinDisplay .* powerline-update-branch
+}
 
 set-option -add global powerline_modules 'git'
 

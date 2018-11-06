@@ -35,6 +35,11 @@ define-command -hidden powerline-update-readonly %{ set-option window powerline_
     fi
 }}
 
+hook -once -group powerline global WinCreate .* %{
+    hook -group powerline window BufOpenFile .* powerline-update-readonly
+}
+
+
 define-command -hidden powerline-toggle-bufname -params ..1 %{ evaluate-commands %sh{
     [ "$kak_opt_powerline_module_bufname" = "true" ] && value=false || value=true
     if [ -n "$1" ]; then

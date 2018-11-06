@@ -1,6 +1,6 @@
 # ╭─────────────╥────────────────────────╮
 # │ Author:     ║ File:                  │
-# │ Andrey Orst ║ auto_pairs.kak         │
+# │ Andrey Orst ║ client.kak             │
 # ╞═════════════╩════════════════════════╡
 # │ Client module for powerline.kak      │
 # ╞══════════════════════════════════════╡

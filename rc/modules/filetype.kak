@@ -1,6 +1,6 @@
 # ╭─────────────╥────────────────────────╮
 # │ Author:     ║ File:                  │
-# │ Andrey Orst ║ auto_pairs.kak         │
+# │ Andrey Orst ║ filetype.kak           │
 # ╞═════════════╩════════════════════════╡
 # │ Filetype module for powerline.kak    │
 # ╞══════════════════════════════════════╡

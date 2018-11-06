@@ -1,6 +1,6 @@
 # ╭─────────────╥───────────────────────╮
 # │ Author:     ║ File:                 │
-# │ Andrey Orst ║ auto_pairs.kak        │
+# │ Andrey Orst ║ mode_info.kak         │
 # ╞═════════════╩═══════════════════════╡
 # │ Mode info module for powerline.kak  │
 # ╞═════════════════════════════════════╡
