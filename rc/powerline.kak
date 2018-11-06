@@ -9,11 +9,12 @@
 
 # Options
 declare-option -hidden str-list powerline_themes
+declare-option -hidden str-list powerline_modules
 
 declare-option -docstring "powerline separator chatacter with solid body" str powerline_separator ''
 declare-option -docstring "powerline separator chatacter thin" str powerline_separator_thin ''
 
-declare-option -docstring "poweline format: order of powerline modules to render in modeline
+declare-option -docstring "powerline format: order of powerline modules to render in modeline
 default value:
     'git bufname line_column mode_info filetype client session position'
 
@@ -28,27 +29,12 @@ available modules:
     position:    percent position in file " \
 str powerline_format "git bufname line_column mode_info filetype client session position"
 
-declare-option -hidden str powerline_pos_percent
-declare-option -hidden str powerline_git_branch
-declare-option -hidden str powerline_readonly
+declare-option -hidden -docstring "powerlinefmt is something similar to modelinefmt
+used to store powerline configuration before passing it to modeline.
+should never be accessed or modified directly" \
+str powerlinefmt
 
-declare-option -docstring "if set to 'true' display git module in powerline" \
-bool powerline_module_git true
-declare-option -docstring "if set to 'true' display bufname module in powerline" \
-bool powerline_module_bufname true
-declare-option -docstring "if set to 'true' display line_column module in powerline" \
-bool powerline_module_line_column true
-declare-option -docstring "if set to 'true' display mode_info module in powerline" \
-bool powerline_module_mode_info true
-declare-option -docstring "if set to 'true' display filetype module in powerline" \
-bool powerline_module_filetype true
-declare-option -docstring "if set to 'true' display client module in powerline" \
-bool powerline_module_client true
-declare-option -docstring "if set to 'true' display session module in powerline" \
-bool powerline_module_session true
-declare-option -docstring "if set to 'true' display position module in powerline" \
-bool powerline_module_position true
-
+declare-option -hidden str powerline_next_bg        default
 declare-option -hidden str powerline_base_bg        default
 declare-option -hidden str powerline_git_fg         blue
 declare-option -hidden str powerline_git_bg         default
@@ -70,144 +56,24 @@ declare-option -hidden str powerline_position_bg    yellow
 declare-option -docstring "if 'true' additionally display text formatted position in file, like 'top' and  'bottom'" \
 bool powerline_position_text_format false
 
-# Commands
-define-command -hidden \
-powerline-update-position %{ evaluate-commands %sh{
-    position="$(($kak_cursor_line * 100 / $kak_buf_line_count))%"
-    if [ "$kak_opt_powerline_position_text_format" = "true" ]; then
-        if [ "$position" = "100%" ]; then
-            position="bottom"
-        elif [ $kak_cursor_line -eq 1 ]; then
-            position="top"
-        fi
-    fi
-    echo "set-option window powerline_pos_percent $position"
-}}
+hook -group powerline global WinDisplay .* %{powerline-rebuild}
 
-define-command -hidden \
-powerline-update-readonly %{ set-option window powerline_readonly %sh{
-    if [ -w ${kak_buffile} ]; then
-        echo ''
-    else
-        echo ' '
-    fi
-}}
-
-define-command -hidden \
-powerline-update-branch %{ set-option window powerline_git_branch %sh{
-    if [ "$kak_opt_powerline_module_git" = "true" ]; then
-        branch=$(cd "${kak_buffile%/*}" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null)
-    fi
-    if [ -n "$branch" ]; then
-        echo "$branch "
-    else
-        echo ""
-    fi
-}}
-
-# Hooks
-hook global WinCreate .* %{
-    powerline-update-position
-    hook window NormalKey (j|k) powerline-update-position
-    hook window NormalIdle .* powerline-update-position
-    hook global WinDisplay .* %{powerline-rebuild}
-}
-
-# Modeline
 define-command -docstring "construct powerline acorrdingly to configuration options" \
 powerline-rebuild %{
-    set-option global modelinefmt %sh{
-        modelinefmt=
-        normal=$kak_opt_powerline_separator
-        thin=$kak_opt_powerline_separator_thin
-        next_bg=$kak_opt_powerline_base_bg
-        git () {
-            if [ "$kak_opt_powerline_module_git" = "true" ]; then
-                fg=$kak_opt_powerline_git_fg
-                bg=$kak_opt_powerline_git_bg
-                if [ -n "$kak_opt_powerline_git_branch" ]; then
-                    [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-                    modelinefmt=$modelinefmt"$separator{$fg,$bg} %opt{powerline_git_branch} "
-                fi
-                next_bg=$bg
-            fi
-        }
-        bufname () {
-            if [ "$kak_opt_powerline_module_bufname" = "true" ]; then
-                fg=$kak_opt_powerline_bufname_fg
-                bg=$kak_opt_powerline_bufname_bg
-                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-                modelinefmt=$modelinefmt"$separator{$fg,$bg} %val{bufname}{{context_info}}%opt{powerline_readonly} "
-                next_bg=$bg
-            fi
-        }
-        line_column () {
-            if [ "$kak_opt_powerline_module_line_column" = "true" ]; then
-                fg=$kak_opt_powerline_line_column_fg
-                bg=$kak_opt_powerline_line_column_bg
-                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-                modelinefmt=$modelinefmt"$separator{$fg,$bg} %val{cursor_line}{$fg,$bg}:{$fg,$bg}%val{cursor_char_column} "
-                next_bg=$bg
-            fi
-        }
-        mode_info () {
-            if [ "$kak_opt_powerline_module_mode_info" = "true" ]; then
-                bg=$kak_opt_powerline_mode_info_bg
-                fg=$kak_opt_powerline_mode_info_fg
-                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-                modelinefmt=$modelinefmt"$separator{default,default} {{mode_info}} "
-                next_bg=$bg
-            fi
-        }
-        filetype () {
-            if [ "$kak_opt_powerline_module_filetype" = "true" ]; then
-                bg=$kak_opt_powerline_filetype_bg
-                fg=$kak_opt_powerline_filetype_fg
-                if [ ! -z "$kak_opt_filetype" ]; then
-                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-                    modelinefmt=$modelinefmt"$separator{$fg,$bg} %opt{filetype} "
-                    next_bg=$bg
-                fi
-            fi
-        }
-        client () {
-            if [ "$kak_opt_powerline_module_client" = "true" ]; then
-                bg=$kak_opt_powerline_client_bg
-                fg=$kak_opt_powerline_client_fg
-                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-                modelinefmt=$modelinefmt"$separator{$fg,$bg} %val{client} "
-                next_bg=$bg
-            fi
-        }
-        session () {
-            if [ "$kak_opt_powerline_module_session" = "true" ]; then
-                bg=$kak_opt_powerline_session_bg
-                fg=$kak_opt_powerline_session_fg
-                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-                modelinefmt=$modelinefmt"$separator{$fg,$bg} %val{session} "
-                next_bg=$bg
-            fi
-        }
-        position() {
-            if [ "$kak_opt_powerline_module_position" = "true" ]; then
-                bg=$kak_opt_powerline_position_bg
-                fg=$kak_opt_powerline_position_fg
-                [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-default}}$normal"
-                modelinefmt=$modelinefmt"$separator{$fg,$bg} ≣ %opt{powerline_pos_percent} "
-                next_bg=$bg
-            fi
-        }
+    evaluate-commands %sh{
+        echo "set-option global powerlinefmt ''"
+        echo "set-option global powerline_next_bg ''"
 
         for module in $kak_opt_powerline_format; do
-            eval $module
+            module=$(echo $module | sed "s:[^a-zA-Z-]:-:")
+            echo "powerline-$module"
         done
-        echo "$modelinefmt"
     }
-    powerline-update-branch
-    powerline-update-readonly
+
+    set-option global modelinefmt %sh{echo "$kak_opt_powerlinefmt"}
 }
 
-define-command -docstring "powerline-separator <separator>:change separators for powerline
+define-command -docstring "powerline-separator <separator>: change separators for powerline
 if <separator> is 'custom' accepts two additional separators fot normal and thin variants" \
 -shell-script-candidates %{ for i in "arrow curve flame triangle triangle-inverted none random custom"; do printf %s\\n $i; done } \
 powerline-separator -params 1..3 %{ evaluate-commands %sh{
@@ -240,29 +106,16 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
             ;;
         *) exit ;;
     esac
-    echo "set-option window powerline_separator '$normal'"
-    echo "set-option window powerline_separator_thin '$thin'"
+    echo "set-option global powerline_separator '$normal'"
+    echo "set-option global powerline_separator_thin '$thin'"
     echo "powerline-rebuild"
 }}
 
 define-command -docstring "powerline-toggle <part> [<state>] toggle on and off displaying of powerline parts" \
--shell-script-candidates %{ for i in "git bufname line_column mode_info filetype client session position"; do printf %s\\n $i; done} \
+-shell-script-candidates %{eval "set -- $kak_opt_powerline_modules"; while [ "$1" ]; do echo $1; shift; done} \
 powerline-toggle -params 1..2 %{ evaluate-commands %sh{
-    case $1 in
-        git)         [ "$kak_opt_powerline_module_git"         = "true" ] && value=false || value=true ;;
-        bufname)     [ "$kak_opt_powerline_module_bufname"     = "true" ] && value=false || value=true ;;
-        line_column) [ "$kak_opt_powerline_module_line_column" = "true" ] && value=false || value=true ;;
-        mode_info)   [ "$kak_opt_powerline_module_mode_info"   = "true" ] && value=false || value=true ;;
-        filetype)    [ "$kak_opt_powerline_module_filetype"    = "true" ] && value=false || value=true ;;
-        client)      [ "$kak_opt_powerline_module_client"      = "true" ] && value=false || value=true ;;
-        session)     [ "$kak_opt_powerline_module_session"     = "true" ] && value=false || value=true ;;
-        position)    [ "$kak_opt_powerline_module_position"    = "true" ] && value=false || value=true ;;
-        *) exit ;;
-    esac
-    if [ -n "$2" ]; then
-        [ "$2" = "on" ] && value=true || value=false
-    fi
-    echo "set-option global powerline_module_$1 $value"
+    module=$(echo $1 | sed "s:[^a-zA-Z-]:-:")
+    echo "try %{ powerline-toggle-$module $2 } catch %{ echo -debug %{can't toggle $1, command 'powerline-toggle-$module' not found} }"
     echo "powerline-rebuild"
 }}
 
@@ -273,25 +126,20 @@ powerline-theme -params 1 %{ evaluate-commands %sh{
     echo "powerline-rebuild"
 }}
 
-define-command -docstring "powerline-format <formatstring>: change powerline format
-default <formatstring> value:
-    'git bufname line_column mode_info filetype client session position'
+define-command -docstring "powerline-format <formatstring>: change powerline format. Use <Tab> completion to get available modules.
 
-available modules for <formatstring>:
-    git:         git branch
-    bufname:     filename and information about buffer
-    line_column: line and column
-    mode_info:   mode information
-    filetype:    filetype of current buffer
-    client:      client name
-    session:     session pid
-    position:    percent position in file " \
--shell-script-completion %{ for i in "git bufname line_column mode_info filetype client session position"; do printf %s\\n $i; done} \
+powerline-format default: resets powerline format to default value, which is:
+    'git bufname line_column mode_info filetype client session position'" \
+-shell-script-completion %{eval "set -- $kak_opt_powerline_modules"; while [ "$1" ]; do echo $1; shift; done} \
 powerline-format -params 1.. %{ evaluate-commands %sh{
-    formatstring=
-    while [ "$1" ]; do
-        formatstring="$formatstring $1"; shift
-    done
-    echo "set-option window powerline_format %{$formatstring}"
+    if [ "$1" = "default" ]; then
+        formatstring="git bufname line_column mode_info filetype client session position"
+    else
+        formatstring=
+        while [ "$1" ]; do
+            formatstring="$formatstring $1"; shift
+        done
+    fi
+    echo "set-option global powerline_format %{$formatstring}"
     echo "powerline-rebuild"
 }}
