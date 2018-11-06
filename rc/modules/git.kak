@@ -23,6 +23,7 @@ define-command -hidden powerline-update-branch %{ set-option window powerline_br
 }}
 
 hook -once -group powerline global WinCreate .* %{
+    powerline-update-branch
     hook global WinDisplay .* powerline-update-branch
 }
 
