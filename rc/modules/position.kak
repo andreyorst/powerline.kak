@@ -21,10 +21,10 @@ define-command -hidden powerline-update-position %{ evaluate-commands %sh{
             position="top"
         fi
     fi
-    echo "set-option global powerline_position $position"
+    echo "set-option window powerline_position $position"
 }}
 
-hook -once -group powerline global WinCreate .* %{
+hook -once -group powerline global KakBegin .* %{
     hook -group powerline global NormalKey (j|k) powerline-update-position
     hook -group powerline global NormalIdle .* powerline-update-position
 }
