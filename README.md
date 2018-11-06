@@ -22,7 +22,7 @@ Clone this repo somewhere
 git clone https://github.com/andreyorst/powerline.kak.git
 ```
 
-And source the `powerline.kak` script from it, and every needed module from `rc/modules`. If you want to use builtin themes, you'll need to source theme scripts from `rc/themes` folder. **plug.kak** does this for you.
+And source the `powerline.kak` script from it, and every needed module from `rc/modules`. If you want to use builtin themes, you'll need to source theme scripts from `rc/themes` folder. This is kind of tedious thing to do, and that's why I recommend using **plug.kak**, since it does all this for you automatically.
 
 After that you can use **powerline.kak**.
 
