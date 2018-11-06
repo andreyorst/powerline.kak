@@ -20,8 +20,8 @@ define-command -hidden powerline-client %{ evaluate-commands %sh{
         bg=$kak_opt_powerline_client_bg
         fg=$kak_opt_powerline_client_fg
         [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
-        echo "set-option -add window powerlinefmt %{$separator{$fg,$bg} %val{client} }"
-        echo "set-option window powerline_next_bg $bg"
+        echo "set-option -add global powerlinefmt %{$separator{$fg,$bg} %val{client} }"
+        echo "set-option global powerline_next_bg $bg"
     fi
 }}
 

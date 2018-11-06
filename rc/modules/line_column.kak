@@ -20,8 +20,8 @@ define-command -hidden powerline-line-column %{ evaluate-commands %sh{
         fg=$kak_opt_powerline_line_column_fg
         bg=$kak_opt_powerline_line_column_bg
         [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
-        echo "set-option -add window powerlinefmt %{$separator{$fg,$bg} %val{cursor_line}{$fg,$bg}:{$fg,$bg}%val{cursor_char_column} }"
-        echo "set-option window powerline_next_bg $bg"
+        echo "set-option -add global powerlinefmt %{$separator{$fg,$bg} %val{cursor_line}{$fg,$bg}:{$fg,$bg}%val{cursor_char_column} }"
+        echo "set-option global powerline_next_bg $bg"
     fi
 }}
 

@@ -11,7 +11,7 @@ declare-option -hidden bool powerline_module_git true
 
 declare-option -hidden str powerline_branch
 
-define-command -hidden powerline-update-branch %{ set-option window powerline_branch %sh{
+define-command -hidden powerline-update-branch %{ set-option global powerline_branch %sh{
     if [ "$kak_opt_powerline_module_git" = "true" ]; then
         branch=$(cd "${kak_buffile%/*}" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null)
     fi
@@ -22,10 +22,8 @@ define-command -hidden powerline-update-branch %{ set-option window powerline_br
     fi
 }}
 
-hook -once -group powerline global WinCreate .* %{
-    powerline-update-branch
-    hook global WinDisplay .* powerline-update-branch
-}
+hook global WinDisplay .* powerline-update-branch
+hook global WinCreate .* powerline-update-branch
 
 set-option -add global powerline_modules 'git'
 
@@ -39,8 +37,8 @@ define-command -hidden powerline-git %{ evaluate-commands %sh{
         bg=$kak_opt_powerline_git_bg
         if [ -n "$kak_opt_powerline_branch" ]; then
             [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
-            echo "set-option -add window powerlinefmt %{$separator{$fg,$bg} %opt{powerline_branch} }"
-            echo "set-option window powerline_next_bg $bg"
+            echo "set-option -add global powerlinefmt %{$separator{$fg,$bg} %opt{powerline_branch} }"
+            echo "set-option global powerline_next_bg $bg"
         fi
     fi
 }}

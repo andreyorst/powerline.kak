@@ -21,12 +21,12 @@ define-command -hidden powerline-update-position %{ evaluate-commands %sh{
             position="top"
         fi
     fi
-    echo "set-option window powerline_position $position"
+    echo "set-option global powerline_position $position"
 }}
 
 hook -once -group powerline global WinCreate .* %{
-    hook -group powerline window NormalKey (j|k) powerline-update-position
-    hook -group powerline window NormalIdle .* powerline-update-position
+    hook -group powerline global NormalKey (j|k) powerline-update-position
+    hook -group powerline global NormalIdle .* powerline-update-position
 }
 
 define-command -hidden powerline-position %{ evaluate-commands %sh{
@@ -38,8 +38,8 @@ define-command -hidden powerline-position %{ evaluate-commands %sh{
         bg=$kak_opt_powerline_position_bg
         fg=$kak_opt_powerline_position_fg
         [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
-        echo "set-option -add window powerlinefmt %{$separator{$fg,$bg} ≣ %opt{powerline_position} }"
-        echo "set-option window powerline_next_bg $bg"
+        echo "set-option -add global powerlinefmt %{$separator{$fg,$bg} ≣ %opt{powerline_position} }"
+        echo "set-option global powerline_next_bg $bg"
     fi
 }}
 

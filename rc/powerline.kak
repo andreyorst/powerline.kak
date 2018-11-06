@@ -56,21 +56,20 @@ declare-option -hidden str powerline_position_bg    yellow
 declare-option -docstring "if 'true' additionally display text formatted position in file, like 'top' and  'bottom'" \
 bool powerline_position_text_format false
 
-hook -group powerline global WinCreate .* %{
-    hook -group powerline global WinDisplay .* %{powerline-rebuild}
-}
+hook -group powerline global WinDisplay .* %{powerline-rebuild}
 
 define-command -docstring "construct powerline acorrdingly to configuration options" \
 powerline-rebuild %{
-    set-option window powerlinefmt ''
-    set-option window powerline_next_bg ''
-
     evaluate-commands %sh{
+        echo "set-option global powerlinefmt ''"
+        echo "set-option global powerline_next_bg ''"
+
         for module in $kak_opt_powerline_format; do
             module=$(echo $module | sed "s:[^a-zA-Z-]:-:")
-            echo "try %{ powerline-$module }"
+            echo "powerline-$module"
         done
     }
+
     set-option global modelinefmt %sh{echo "$kak_opt_powerlinefmt"}
 }
 
@@ -107,8 +106,8 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
             ;;
         *) exit ;;
     esac
-    echo "set-option window powerline_separator '$normal'"
-    echo "set-option window powerline_separator_thin '$thin'"
+    echo "set-option global powerline_separator '$normal'"
+    echo "set-option global powerline_separator_thin '$thin'"
     echo "powerline-rebuild"
 }}
 
@@ -141,6 +140,6 @@ powerline-format -params 1.. %{ evaluate-commands %sh{
             formatstring="$formatstring $1"; shift
         done
     fi
-    echo "set-option window powerline_format %{$formatstring}"
+    echo "set-option global powerline_format %{$formatstring}"
     echo "powerline-rebuild"
 }}
