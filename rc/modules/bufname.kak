@@ -36,7 +36,8 @@ define-command -hidden powerline-update-readonly %{ set-option window powerline_
 }}
 
 hook -once -group powerline global WinCreate .* %{
-    hook -group powerline window BufOpenFile .* powerline-update-readonly
+    powerline-update-readonly
+    hook -group powerline global WinDisplay .* powerline-update-readonly
 }
 
 
