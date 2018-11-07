@@ -25,6 +25,7 @@ define-command -hidden powerline-update-position %{ evaluate-commands %sh{
 }}
 
 hook -once -group powerline global KakBegin .* %{
+    hook -group powerline global WinDisplay .* powerline-update-position
     hook -group powerline global NormalKey (j|k) powerline-update-position
     hook -group powerline global NormalIdle .* powerline-update-position
 }
