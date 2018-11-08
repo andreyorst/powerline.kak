@@ -62,7 +62,7 @@ define-command -docstring "construct powerline acorrdingly to configuration opti
 powerline-rebuild %{
     evaluate-commands %sh{
         echo "set-option global powerlinefmt ''"
-        echo "set-option global powerline_next_bg ''"
+        echo "set-option global powerline_next_bg %opt{powerline_base_bg}"
 
         for module in $kak_opt_powerline_format; do
             module=$(echo $module | sed "s:[^a-zA-Z-]:-:")
