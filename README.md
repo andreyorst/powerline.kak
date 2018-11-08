@@ -1,4 +1,9 @@
-# powerline.kak ![license](https://img.shields.io/github/license/andreyorst/powerline.kak.svg) [![GitHub release](https://img.shields.io/github/release/andreyorst/powerline.kak.svg)](https://github.com/andreyorst/powerline.kak/releases) [![GitHub Release Date](https://img.shields.io/github/release-date/andreyorst/powerline.kak.svg)](https://github.com/andreyorst/powerline.kak/releases) ![Github commits (since latest release)](https://img.shields.io/github/commits-since/andreyorst/powerline.kak/latest.svg)
+# powerline.kak
+![license](https://img.shields.io/github/license/andreyorst/powerline.kak.svg)
+[![GitHub release](https://img.shields.io/github/release/andreyorst/powerline.kak.svg)](https://github.com/andreyorst/powerline.kak/releases)
+[![GitHub Release Date](https://img.shields.io/github/release-date/andreyorst/powerline.kak.svg)](https://github.com/andreyorst/powerline.kak/releases)
+![Github commits (since latest release)](https://img.shields.io/github/commits-since/andreyorst/powerline.kak/latest.svg)
+
 
 Powerline plugin for Kakoune Editor
 
