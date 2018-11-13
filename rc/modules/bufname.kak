@@ -28,7 +28,7 @@ define-command -hidden powerline-bufname %{ evaluate-commands %sh{
 
 declare-option -hidden str powerline_readonly
 define-command -hidden powerline-update-readonly %{ set-option window powerline_readonly %sh{
-    if [ -w ${kak_buffile} ]; then
+    if [ -w "${kak_buffile}" ]; then
         echo ''
     else
         echo ' '
