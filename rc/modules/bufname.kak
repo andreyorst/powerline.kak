@@ -37,6 +37,7 @@ define-command -hidden powerline-update-readonly %{ set-option window powerline_
 
 hook -once -group powerline global KakBegin .* %{
     hook -group powerline global WinDisplay .* powerline-update-readonly
+    hook -group powerline global BufWritePost .* powerline-update-readonly
 }
 
 define-command -hidden powerline-toggle-bufname -params ..1 %{ evaluate-commands %sh{
