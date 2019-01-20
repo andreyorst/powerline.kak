@@ -42,8 +42,8 @@ declare-option -hidden str powerline_bufname_bg     yellow
 declare-option -hidden str powerline_bufname_fg     black
 declare-option -hidden str powerline_line_column_fg black
 declare-option -hidden str powerline_line_column_bg cyan
-declare-option -hidden str powerline_mode_info_fg   black
-declare-option -hidden str powerline_mode_info_bg   default
+declare-option -hidden str powerline_mode_info_fg   default
+declare-option -hidden str powerline_mode_info_bg   black
 declare-option -hidden str powerline_filetype_fg    black
 declare-option -hidden str powerline_filetype_bg    blue
 declare-option -hidden str powerline_client_fg      black
