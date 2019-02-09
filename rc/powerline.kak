@@ -11,8 +11,8 @@
 declare-option -hidden str-list powerline_themes
 declare-option -hidden str-list powerline_modules
 
-declare-option -docstring "powerline separator chatacter with solid body" str powerline_separator ''
-declare-option -docstring "powerline separator chatacter thin" str powerline_separator_thin ''
+declare-option -docstring "powerline separator character with solid body" str powerline_separator ''
+declare-option -docstring "powerline separator character thin" str powerline_separator_thin ''
 
 declare-option -docstring "powerline format: order of powerline modules to render in modeline
 default value:
