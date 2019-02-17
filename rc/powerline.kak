@@ -34,24 +34,18 @@ used to store powerline configuration before passing it to modeline.
 should never be accessed or modified directly" \
 str powerlinefmt
 
-declare-option -hidden str powerline_next_bg        default
-declare-option -hidden str powerline_base_bg        default
-declare-option -hidden str powerline_git_fg         blue
-declare-option -hidden str powerline_git_bg         default
-declare-option -hidden str powerline_bufname_bg     yellow
-declare-option -hidden str powerline_bufname_fg     black
-declare-option -hidden str powerline_line_column_fg black
-declare-option -hidden str powerline_line_column_bg cyan
-declare-option -hidden str powerline_mode_info_fg   default
-declare-option -hidden str powerline_mode_info_bg   black
-declare-option -hidden str powerline_filetype_fg    black
-declare-option -hidden str powerline_filetype_bg    blue
-declare-option -hidden str powerline_client_fg      black
-declare-option -hidden str powerline_client_bg      cyan
-declare-option -hidden str powerline_session_fg     black
-declare-option -hidden str powerline_session_bg     magenta
-declare-option -hidden str powerline_position_fg    black
-declare-option -hidden str powerline_position_bg    yellow
+declare-option -hidden str powerline_color00 black
+declare-option -hidden str powerline_color01 red
+declare-option -hidden str powerline_color02 green
+declare-option -hidden str powerline_color03 yellow
+declare-option -hidden str powerline_color04 blue
+declare-option -hidden str powerline_color05 magenta
+declare-option -hidden str powerline_color06 cyan
+declare-option -hidden str powerline_color07 white
+declare-option -hidden str powerline_color08 default
+
+declare-option -hidden str powerline_next_bg %opt{powerline_color08}
+declare-option -hidden str powerline_base_bg %opt{powerline_color08}
 
 declare-option -docstring "if 'true' additionally display text formatted position in file, like 'top' and  'bottom'" \
 bool powerline_position_text_format false
