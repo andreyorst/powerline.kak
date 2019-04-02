@@ -31,6 +31,12 @@ don't want to source configuration file or restart Kakoune, simply run
 on buffer change. Use `powerline-rebuild` to activate it manually.
 
 ### Without plugin manager
+#### Autoload
+Clone or place a symbolic link to the repository into your `autoload`
+directory. Plugin should be loaded fine. If any errors will show up, please open
+an issue.
+
+#### By hand
 Clone this repository somewhere
 
 ```bash
