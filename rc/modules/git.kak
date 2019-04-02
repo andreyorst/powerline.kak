@@ -35,8 +35,8 @@ define-command -override -hidden powerline-git %{ evaluate-commands %sh{
     normal=$kak_opt_powerline_separator
     thin=$kak_opt_powerline_separator_thin
     if [ "$kak_opt_powerline_module_git" = "true" ]; then
-        fg=$kak_opt_powerline_color03
-        bg=$kak_opt_powerline_color08
+        fg=$kak_opt_powerline_color02
+        bg=$kak_opt_powerline_color04
         if [ -n "$kak_opt_powerline_branch" ]; then
             [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
             echo "set-option -add global powerlinefmt %{$separator{$fg,$bg} %opt{powerline_branch} }"

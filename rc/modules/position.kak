@@ -36,8 +36,8 @@ define-command -hidden powerline-position %{ evaluate-commands %sh{
     normal=$kak_opt_powerline_separator
     thin=$kak_opt_powerline_separator_thin
     if [ "$kak_opt_powerline_module_position" = "true" ]; then
-        bg=$kak_opt_powerline_color03
-        fg=$kak_opt_powerline_color00
+        bg=$kak_opt_powerline_color01
+        fg=$kak_opt_powerline_color05
         [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
         echo "set-option -add global powerlinefmt %{$separator{$fg,$bg} ≣ %opt{powerline_position} }"
         echo "set-option global powerline_next_bg $bg"

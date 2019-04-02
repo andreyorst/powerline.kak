@@ -17,8 +17,8 @@ define-command -override -hidden powerline-client %{ evaluate-commands %sh{
     normal=$kak_opt_powerline_separator
     thin=$kak_opt_powerline_separator_thin
     if [ "$kak_opt_powerline_module_client" = "true" ]; then
-        bg=$kak_opt_powerline_color02
-        fg=$kak_opt_powerline_color12
+        bg=$kak_opt_powerline_color12
+        fg=$kak_opt_powerline_color13
         [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
         echo "set-option -add global powerlinefmt %{$separator{$fg,$bg} %val{client} }"
         echo "set-option global powerline_next_bg $bg"

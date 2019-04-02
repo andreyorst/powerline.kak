@@ -3,23 +3,21 @@
 set-option -add global powerline_themes "default"
 
 define-command -hidden powerline-theme-default %{
-    declare-option -hidden str powerline_color00 black
-    declare-option -hidden str powerline_color01 red
-    declare-option -hidden str powerline_color02 green
-    declare-option -hidden str powerline_color03 yellow
-    declare-option -hidden str powerline_color04 blue
-    declare-option -hidden str powerline_color05 magenta
-    declare-option -hidden str powerline_color06 cyan
-    declare-option -hidden str powerline_color07 white
-    declare-option -hidden str powerline_color08 bright-black
-    declare-option -hidden str powerline_color09 bright-red
-    declare-option -hidden str powerline_color10 bright-green
-    declare-option -hidden str powerline_color11 bright-yellow
-    declare-option -hidden str powerline_color12 bright-blue
-    declare-option -hidden str powerline_color13 bright-magenta
-    declare-option -hidden str powerline_color14 bright-cyan
-    declare-option -hidden str powerline_color15 bright-white
-
-    declare-option -hidden str powerline_base_bg %opt{powerline_color00}
+    declare-option -hidden str powerline_color00 black  # bufname fg
+    declare-option -hidden str powerline_color01 yellow # position fg
+    declare-option -hidden str powerline_color02 green  # git fg
+    declare-option -hidden str powerline_color03 yellow # bufname bg
+    declare-option -hidden str powerline_color04 black  # git bg
+    declare-option -hidden str powerline_color05 black  # position bg
+    declare-option -hidden str powerline_color06 cyan   # line-column fg
+    declare-option -hidden str powerline_color07 blue   # mode-info fg
+    declare-option -hidden str powerline_color08 black  # mode-info bg
+    declare-option -hidden str powerline_color09 black  # line-column bg
+    declare-option -hidden str powerline_color10 yellow # filetype fg
+    declare-option -hidden str powerline_color11 black  # filetype bg
+    declare-option -hidden str powerline_color12 blue   # client bg
+    declare-option -hidden str powerline_color13 black  # client fg
+    declare-option -hidden str powerline_color14 cyan   # session fg
+    declare-option -hidden str powerline_color15 black  # session bg
 }
 

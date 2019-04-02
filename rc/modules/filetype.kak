@@ -17,8 +17,8 @@ define-command -override -hidden powerline-filetype %{ evaluate-commands %sh{
     normal=$kak_opt_powerline_separator
     thin=$kak_opt_powerline_separator_thin
     if [ "$kak_opt_powerline_module_filetype" = "true" ]; then
-        fg=$kak_opt_powerline_color15
-        bg=$kak_opt_powerline_color14
+        fg=$kak_opt_powerline_color10
+        bg=$kak_opt_powerline_color11
         if [ ! -z "$kak_opt_filetype" ]; then
         [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
             echo "set-option -add global powerlinefmt %{$separator{$fg,$bg} %opt{filetype} }"
