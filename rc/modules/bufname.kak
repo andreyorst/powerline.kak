@@ -10,6 +10,7 @@
 
 declare-option -hidden bool powerline_module_bufname true
 
+declare-option -hidden str-list powerline_modules
 set-option -add global powerline_modules 'bufname'
 
 define-command -hidden powerline-bufname %{ evaluate-commands %sh{

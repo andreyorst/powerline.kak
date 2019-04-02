@@ -7,6 +7,7 @@
 # │ GitHub.com/andreyorst/powerline.kak │
 # ╰─────────────────────────────────────╯
 
+declare-option -hidden str-list powerline_modules
 set-option -add global powerline_modules 'mode_info'
 
 declare-option -hidden bool powerline_module_mode_info true

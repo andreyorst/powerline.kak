@@ -7,6 +7,7 @@
 # │ GitHub.com/andreyorst/powerline.kak  │
 # ╰──────────────────────────────────────╯
 
+declare-option -hidden str-list powerline_modules
 set-option -add global powerline_modules 'position'
 
 declare-option -hidden bool powerline_module_position true

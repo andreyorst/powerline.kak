@@ -1,5 +1,6 @@
 # Powerline colorscheme for solarized-dark-termcolors Kakoune theme
 
+declare-option -hidden str-list powerline_themes
 set-option -add global powerline_themes "solarized-dark-termcolors"
 
 define-command -hidden powerline-theme-solarized-dark-termcolors %{

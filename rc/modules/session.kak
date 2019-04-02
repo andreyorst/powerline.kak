@@ -8,6 +8,8 @@
 # ╰──────────────────────────────────────╯
 
 declare-option -hidden bool powerline_module_session true
+
+declare-option -hidden str-list powerline_modules
 set-option -add global powerline_modules 'session'
 
 define-command -override -hidden powerline-session %{ evaluate-commands %sh{

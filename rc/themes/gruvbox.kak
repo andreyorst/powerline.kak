@@ -1,5 +1,6 @@
 # Powerline colorscheme for base16 Kakoune theme
 
+declare-option -hidden str-list powerline_themes
 set-option -add global powerline_themes "gruvbox"
 
 define-command -hidden powerline-theme-gruvbox %{ evaluate-commands %sh{

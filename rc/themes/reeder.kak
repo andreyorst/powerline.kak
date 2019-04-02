@@ -1,5 +1,6 @@
 ## Powerline colorscheme for reeder Kakoune theme
 
+declare-option -hidden str-list powerline_themes
 set-option -add global powerline_themes "reeder"
 
 define-command -hidden powerline-theme-reeder %{ evaluate-commands %sh{

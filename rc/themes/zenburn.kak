@@ -1,5 +1,6 @@
 # Powerline colorscheme for zenburn Kakoune theme
 
+declare-option -hidden str-list powerline_themes
 set-option -add global powerline_themes "zenburn"
 
 define-command -hidden powerline-theme-zenburn %{

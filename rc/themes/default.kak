@@ -1,5 +1,6 @@
 # Powerline colorscheme for Default Kakoune theme
 
+declare-option -hidden str-list powerline_themes
 set-option -add global powerline_themes "default"
 
 define-command -hidden powerline-theme-default %{

@@ -1,5 +1,6 @@
 # Powerline colorscheme for desertex Kakoune theme
 
+declare-option -hidden str-list powerline_themes
 set-option -add global powerline_themes "desertex"
 
 define-command -hidden powerline-theme-desertex %{

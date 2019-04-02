@@ -27,6 +27,7 @@ hook -once -group powerline global KakBegin .* %{
     hook global WinCreate .* powerline-update-branch
 }
 
+declare-option -hidden str-list powerline_modules
 set-option -add global powerline_modules 'git'
 
 define-command -override -hidden powerline-git %{ evaluate-commands %sh{

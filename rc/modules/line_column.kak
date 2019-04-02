@@ -9,6 +9,7 @@
 
 declare-option -hidden bool powerline_module_line_column true
 
+declare-option -hidden str-list powerline_modules
 set-option -add global powerline_modules 'line_column'
 
 define-command -override -hidden powerline-line-column %{ evaluate-commands %sh{

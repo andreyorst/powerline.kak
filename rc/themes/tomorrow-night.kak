@@ -1,5 +1,6 @@
 # Powerline colorscheme for Tomorrow-night Kakoune theme
 
+declare-option -hidden str-list powerline_themes
 set-option -add global powerline_themes "tomorrow-night"
 
 define-command -hidden powerline-theme-tomorrow-night %{ evaluate-commands %sh{

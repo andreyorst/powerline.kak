@@ -9,6 +9,7 @@
 
 declare-option -hidden bool powerline_module_filetype true
 
+declare-option -hidden str-list powerline_modules
 set-option -add global powerline_modules 'filetype'
 
 define-command -override -hidden powerline-filetype %{ evaluate-commands %sh{

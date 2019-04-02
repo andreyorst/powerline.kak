@@ -1,5 +1,6 @@
 # Powerline colorscheme for github Kakoune theme
 
+declare-option -hidden str-list powerline_themes
 set-option -add global powerline_themes "github"
 
 define-command -hidden powerline-theme-github %{
