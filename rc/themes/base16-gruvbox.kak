@@ -5,11 +5,11 @@ set-option -add global powerline_themes "base16-gruvbox"
 
 define-command -override -hidden powerline-theme-base16-gruvbox %{
     declare-option -hidden str powerline_color00 "rgb:282828" # fg: bufname
-    declare-option -hidden str powerline_color01 "rgb:ebdbb2" # bg: position
+    declare-option -hidden str powerline_color01 "rgb:a89984" # bg: position
     declare-option -hidden str powerline_color02 "rgb:bdae93" # fg: git
     declare-option -hidden str powerline_color03 "rgb:a89984" # bg: bufname
     declare-option -hidden str powerline_color04 "rgb:3c3836" # bg: git
-    declare-option -hidden str powerline_color05 "rgb:504945" # fg: position
+    declare-option -hidden str powerline_color05 "rgb:282828" # fg: position
     declare-option -hidden str powerline_color06 "rgb:bdae93" # fg: line-column
     declare-option -hidden str powerline_color07 "rgb:d5c4a1" # fg: mode-info
     declare-option -hidden str powerline_color08 "rgb:3c3836" # base background
