@@ -4,21 +4,21 @@
 set-option -add global powerline_themes "base16-gruvbox"
 
 define-command -override -hidden powerline-theme-base16-gruvbox %{
-    declare-option -hidden str powerline_color00 "rgb:282828" # bufname fg
-    declare-option -hidden str powerline_color01 "rgb:ebdbb2" # position fg
-    declare-option -hidden str powerline_color02 "rgb:bdae93" # git fg
-    declare-option -hidden str powerline_color03 "rgb:a89984" # bufname bg
-    declare-option -hidden str powerline_color04 "rgb:3c3836" # git bg
-    declare-option -hidden str powerline_color05 "rgb:504945" # position bg
-    declare-option -hidden str powerline_color06 "rgb:bdae93" # line-column fg
-    declare-option -hidden str powerline_color07 "rgb:d5c4a1" # mode-info fg
+    declare-option -hidden str powerline_color00 "rgb:282828" # fg: bufname
+    declare-option -hidden str powerline_color01 "rgb:ebdbb2" # bg: position
+    declare-option -hidden str powerline_color02 "rgb:bdae93" # fg: git
+    declare-option -hidden str powerline_color03 "rgb:a89984" # bg: bufname
+    declare-option -hidden str powerline_color04 "rgb:3c3836" # bg: git
+    declare-option -hidden str powerline_color05 "rgb:504945" # fg: position
+    declare-option -hidden str powerline_color06 "rgb:bdae93" # fg: line-column
+    declare-option -hidden str powerline_color07 "rgb:d5c4a1" # fg: mode-info
     declare-option -hidden str powerline_color08 "rgb:3c3836" # base background
-    declare-option -hidden str powerline_color09 "rgb:504945" # line-column bg
-    declare-option -hidden str powerline_color10 "rgb:ebdbb2" # filetype fg
-    declare-option -hidden str powerline_color11 "rgb:504945" # filetype bg
-    declare-option -hidden str powerline_color12 "rgb:665c54" # client bg
-    declare-option -hidden str powerline_color13 "rgb:ebdbb2" # client fg
-    declare-option -hidden str powerline_color14 "rgb:7c6f64" # session fg
-    declare-option -hidden str powerline_color15 "rgb:fbf1c7" # session bg
+    declare-option -hidden str powerline_color09 "rgb:504945" # bg: line-column
+    declare-option -hidden str powerline_color10 "rgb:ebdbb2" # fg: filetype
+    declare-option -hidden str powerline_color11 "rgb:504945" # bg: filetype
+    declare-option -hidden str powerline_color12 "rgb:665c54" # bg: client
+    declare-option -hidden str powerline_color13 "rgb:ebdbb2" # fg: client
+    declare-option -hidden str powerline_color14 "rgb:7c6f64" # fg: session
+    declare-option -hidden str powerline_color15 "rgb:fbf1c7" # bg: session
 }
 
