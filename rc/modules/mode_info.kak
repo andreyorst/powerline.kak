@@ -17,7 +17,7 @@ define-command -hidden powerline-mode-info %{ evaluate-commands %sh{
     normal=$kak_opt_powerline_separator
     thin=$kak_opt_powerline_separator_thin
     if [ "$kak_opt_powerline_module_mode_info" = "true" ]; then
-        bg=$kak_opt_powerline_color08
+        bg=$kak_opt_powerline_base_bg
         fg=$kak_opt_powerline_color04
         [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
         echo "set-option -add global powerlinefmt %{$separator{$fg,$bg} {{mode_info}} }"

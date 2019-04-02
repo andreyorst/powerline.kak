@@ -4,7 +4,6 @@
 set-option -add global powerline_themes "base16-gruvbox"
 
 define-command -hidden powerline-theme-base16-gruvbox %{
-    set-option global powerline_base_bg "rgb:3c3836"
     set-option global powerline_color00 "rgb:282828"
     set-option global powerline_color01 "rgb:ebdbb2"
     set-option global powerline_color02 "rgb:665c54"
@@ -21,5 +20,7 @@ define-command -hidden powerline-theme-base16-gruvbox %{
     set-option global powerline_color13 "rgb:7c6f64"
     set-option global powerline_color14 "rgb:504945"
     set-option global powerline_color15 "rgb:bdae93"
+
+    set-option global powerline_base_bg %opt{powerline_color08}
 }
 

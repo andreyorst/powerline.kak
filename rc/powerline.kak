@@ -42,14 +42,14 @@ declare-option -hidden str powerline_color04 blue
 declare-option -hidden str powerline_color05 magenta
 declare-option -hidden str powerline_color06 cyan
 declare-option -hidden str powerline_color07 white
-declare-option -hidden str powerline_color08 default
-declare-option -hidden str powerline_color09 black
-declare-option -hidden str powerline_color10 red
-declare-option -hidden str powerline_color11 green
-declare-option -hidden str powerline_color12 yellow
-declare-option -hidden str powerline_color13 blue
-declare-option -hidden str powerline_color14 magenta
-declare-option -hidden str powerline_color15 cyan
+declare-option -hidden str powerline_color08 bright-black
+declare-option -hidden str powerline_color09 bright-red
+declare-option -hidden str powerline_color10 bright-green
+declare-option -hidden str powerline_color11 bright-yellow
+declare-option -hidden str powerline_color12 bright-blue
+declare-option -hidden str powerline_color13 bright-magenta
+declare-option -hidden str powerline_color14 bright-cyan
+declare-option -hidden str powerline_color15 bright-white
 
 declare-option -hidden str powerline_next_bg %opt{powerline_color08}
 declare-option -hidden str powerline_base_bg %opt{powerline_color08}
