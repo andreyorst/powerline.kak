@@ -12,7 +12,7 @@ define-command -override -hidden powerline-theme-base16-gruvbox %{
     declare-option -hidden str powerline_color05 "rgb:504945" # position bg
     declare-option -hidden str powerline_color06 "rgb:bdae93" # line-column fg
     declare-option -hidden str powerline_color07 "rgb:d5c4a1" # mode-info fg
-    declare-option -hidden str powerline_color08 "rgb:3c3836" # mode-info bg
+    declare-option -hidden str powerline_color08 "rgb:3c3836" # base background
     declare-option -hidden str powerline_color09 "rgb:504945" # line-column bg
     declare-option -hidden str powerline_color10 "rgb:ebdbb2" # filetype fg
     declare-option -hidden str powerline_color11 "rgb:504945" # filetype bg

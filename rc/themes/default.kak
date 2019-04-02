@@ -11,7 +11,7 @@ define-command -hidden powerline-theme-default %{
     declare-option -hidden str powerline_color05 black  # position bg
     declare-option -hidden str powerline_color06 cyan   # line-column fg
     declare-option -hidden str powerline_color07 blue   # mode-info fg
-    declare-option -hidden str powerline_color08 black  # mode-info bg
+    declare-option -hidden str powerline_color08 black  # base background
     declare-option -hidden str powerline_color09 black  # line-column bg
     declare-option -hidden str powerline_color10 yellow # filetype fg
     declare-option -hidden str powerline_color11 black  # filetype bg

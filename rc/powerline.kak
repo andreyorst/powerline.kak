@@ -47,22 +47,36 @@ str powerlinefmt
 # | position    | color01    | color05      |
 # | session     | color14    | color15      |
 
-declare-option -hidden str powerline_color00 black  # bufname fg
-declare-option -hidden str powerline_color01 yellow # position fg
-declare-option -hidden str powerline_color02 green  # git fg
-declare-option -hidden str powerline_color03 yellow # bufname bg
-declare-option -hidden str powerline_color04 black  # git bg
-declare-option -hidden str powerline_color05 black  # position bg
-declare-option -hidden str powerline_color06 cyan   # line-column fg
-declare-option -hidden str powerline_color07 blue   # mode-info fg
-declare-option -hidden str powerline_color08 black  # mode-info bg
-declare-option -hidden str powerline_color09 black  # line-column bg
-declare-option -hidden str powerline_color10 yellow # filetype fg
-declare-option -hidden str powerline_color11 black  # filetype bg
-declare-option -hidden str powerline_color12 blue   # client bg
-declare-option -hidden str powerline_color13 black  # client fg
-declare-option -hidden str powerline_color14 cyan   # session fg
-declare-option -hidden str powerline_color15 black  # session bg
+declare-option -hidden str powerline_color00 black    # bufname fg
+declare-option -hidden str powerline_color01 yellow   # position fg
+declare-option -hidden str powerline_color02 green    # git fg
+declare-option -hidden str powerline_color03 yellow   # bufname bg
+declare-option -hidden str powerline_color04 black    # git bg
+declare-option -hidden str powerline_color05 black    # position bg
+declare-option -hidden str powerline_color06 cyan     # line-column fg
+declare-option -hidden str powerline_color07 blue     # mode-info fg
+declare-option -hidden str powerline_color08 black    # base background
+declare-option -hidden str powerline_color09 black    # line-column bg
+declare-option -hidden str powerline_color10 yellow   # filetype fg
+declare-option -hidden str powerline_color11 black    # filetype bg
+declare-option -hidden str powerline_color12 blue     # client bg
+declare-option -hidden str powerline_color13 black    # client fg
+declare-option -hidden str powerline_color14 cyan     # session fg
+declare-option -hidden str powerline_color15 black    # session bg
+declare-option -hidden str powerline_color16 default  # unused
+declare-option -hidden str powerline_color17 default  # unused
+declare-option -hidden str powerline_color18 default  # unused
+declare-option -hidden str powerline_color19 default  # unused
+declare-option -hidden str powerline_color20 default  # unused
+declare-option -hidden str powerline_color21 default  # unused
+declare-option -hidden str powerline_color22 default  # unused
+declare-option -hidden str powerline_color23 default  # unused
+declare-option -hidden str powerline_color24 default  # unused
+declare-option -hidden str powerline_color25 default  # unused
+declare-option -hidden str powerline_color26 default  # unused
+declare-option -hidden str powerline_color27 default  # unused
+declare-option -hidden str powerline_color28 default  # unused
+declare-option -hidden str powerline_color29 default  # unused
 
 hook global GlobalSetOption powerline_color08=.* %{
     declare-option -hidden str powerline_next_bg %opt{powerline_color08}
