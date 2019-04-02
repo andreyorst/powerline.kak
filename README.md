@@ -43,11 +43,36 @@ Clone this repository somewhere
 git clone https://github.com/andreyorst/powerline.kak.git
 ```
 
-And source the `powerline.kak` script from it, and every needed module from
-`rc/modules`. If you want to use builtin themes, you'll need to source theme
-scripts from `rc/themes` folder. This is kind of tedious thing to do, and that's
-why I recommend using **plug.kak**, since it does all this for you
-automatically.
+Source the main script in your `kakrc`:
+
+```kak
+source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/powerline.kak
+```
+
+Source modules. You can skip those you don't want to use but it highly
+recommended to source at least `bufname.kak`, and `mode_info.kak`:
+
+```kak
+source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/bufname.kak
+source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/client.kak
+source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/filetype.kak
+source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/git.kak
+source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/line_column.kak
+source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/mode_info.kak
+source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/position.kak
+source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/session.kak
+```
+
+And source theme that you want to use:
+
+```kak
+source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/themes/base16-gruvbox.kak
+```
+
+If you want to use builtin themes, you'll need to source theme scripts from
+`rc/themes` folder. This is kind of tedious thing to do, and that's why I
+recommend using **plug.kak**, since it does all this for you automatically, and
+handles your configuration too.
 
 After that you can use **powerline.kak**.
 
