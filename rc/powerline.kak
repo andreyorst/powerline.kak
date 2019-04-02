@@ -98,7 +98,7 @@ powerline-rebuild %{
 
         for module in $kak_opt_powerline_format; do
             module=$(echo $module | sed "s:[^a-zA-Z-]:-:")
-            echo "powerline-$module"
+            echo "try %{ powerline-$module } catch %{ echo -debug %{powerline.kak: Warning, trying to load non-existing module 'powerline-$module' while building modeline} }"
         done
     }
 
