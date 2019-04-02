@@ -1,5 +1,6 @@
 # Powerline colorscheme for base16 Kakoune theme
 
+declare-option -hidden str-list powerline_themes
 set-option -add global powerline_themes "base16"
 
 define-command -hidden powerline-theme-base16 %{ evaluate-commands %sh{
@@ -16,23 +17,22 @@ define-command -hidden powerline-theme-base16 %{ evaluate-commands %sh{
     orange_light='rgb:F7CA88'
     purple_dark='rgb:BA8BAF'
     echo "
-        set-option global powerline_base_bg        ${black_lighterer}
-        set-option global powerline_git_fg         ${cyan_light}
-        set-option global powerline_git_bg         ${black_lighterer}
-        set-option global powerline_bufname_fg     ${black_light}
-        set-option global powerline_bufname_bg     ${cyan_light}
-        set-option global powerline_line_column_fg ${grey_light}
-        set-option global powerline_line_column_bg ${grey_dark}
-        set-option global powerline_mode_info_fg   ${black_lighterer}
-        set-option global powerline_mode_info_bg   ${black_lighterer}
-        set-option global powerline_filetype_fg    ${grey_light}
-        set-option global powerline_filetype_bg    ${grey_dark}
-        set-option global powerline_client_fg      ${black_lighter}
-        set-option global powerline_client_bg      ${purple_dark}
-        set-option global powerline_session_fg     ${black_lighter}
-        set-option global powerline_session_bg     ${magenta_dark}
-        set-option global powerline_position_fg    ${black_light}
-        set-option global powerline_position_bg    ${cyan_light}
+        declare-option -hidden str powerline_color00 ${black_light}     # fg: bufname
+        declare-option -hidden str powerline_color01 ${cyan_light}      # bg: position
+        declare-option -hidden str powerline_color02 ${cyan_light}      # fg: git
+        declare-option -hidden str powerline_color03 ${cyan_light}      # bg: bufname
+        declare-option -hidden str powerline_color04 ${black_lighterer} # bg: git
+        declare-option -hidden str powerline_color05 ${black_light}     # fg: position
+        declare-option -hidden str powerline_color06 ${grey_light}      # fg: line-column
+        declare-option -hidden str powerline_color07 ${black_lighterer} # fg: mode-info
+        declare-option -hidden str powerline_color08 ${black_lighterer} # base background
+        declare-option -hidden str powerline_color09 ${grey_dark}       # bg: line-column
+        declare-option -hidden str powerline_color10 ${grey_light}      # fg: filetype
+        declare-option -hidden str powerline_color11 ${grey_dark}       # bg: filetype
+        declare-option -hidden str powerline_color12 ${purple_dark}     # bg: client
+        declare-option -hidden str powerline_color13 ${black_lighter}   # fg: client
+        declare-option -hidden str powerline_color14 ${black_lighter}   # fg: session
+        declare-option -hidden str powerline_color15 ${magenta_dark}    # bg: session
     "
 }}
 

@@ -10,6 +10,7 @@
 
 declare-option -hidden bool powerline_module_bufname true
 
+declare-option -hidden str-list powerline_modules
 set-option -add global powerline_modules 'bufname'
 
 define-command -hidden powerline-bufname %{ evaluate-commands %sh{
@@ -18,8 +19,8 @@ define-command -hidden powerline-bufname %{ evaluate-commands %sh{
     normal=$kak_opt_powerline_separator
     thin=$kak_opt_powerline_separator_thin
     if [ "$kak_opt_powerline_module_bufname" = "true" ]; then
-        fg=$kak_opt_powerline_bufname_fg
-        bg=$kak_opt_powerline_bufname_bg
+        fg=$kak_opt_powerline_color00
+        bg=$kak_opt_powerline_color03
         [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
         echo "set-option -add global powerlinefmt %{$separator{$fg,$bg} %val{bufname}{{context_info}}%opt{powerline_readonly} }"
         echo "set-option global powerline_next_bg $bg"

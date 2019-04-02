@@ -34,24 +34,56 @@ used to store powerline configuration before passing it to modeline.
 should never be accessed or modified directly" \
 str powerlinefmt
 
-declare-option -hidden str powerline_next_bg        default
-declare-option -hidden str powerline_base_bg        default
-declare-option -hidden str powerline_git_fg         blue
-declare-option -hidden str powerline_git_bg         default
-declare-option -hidden str powerline_bufname_bg     yellow
-declare-option -hidden str powerline_bufname_fg     black
-declare-option -hidden str powerline_line_column_fg black
-declare-option -hidden str powerline_line_column_bg cyan
-declare-option -hidden str powerline_mode_info_fg   default
-declare-option -hidden str powerline_mode_info_bg   black
-declare-option -hidden str powerline_filetype_fg    black
-declare-option -hidden str powerline_filetype_bg    blue
-declare-option -hidden str powerline_client_fg      black
-declare-option -hidden str powerline_client_bg      cyan
-declare-option -hidden str powerline_session_fg     black
-declare-option -hidden str powerline_session_bg     magenta
-declare-option -hidden str powerline_position_fg    black
-declare-option -hidden str powerline_position_bg    yellow
+# Default Module Colors Table
+# ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+# | Name        | foreground | background   |
+# |-------------+------------+--------------|
+# | bufname     | color00    | color03      |
+# | client      | color12    | color13      |
+# | filetype    | color10    | color11      |
+# | git         | color02    | color04      |
+# | line-column | color06    | color09      |
+# | mode-info   | color07    | base_bg (08) |
+# | position    | color05    | color01      |
+# | session     | color14    | color15      |
+
+declare-option -hidden str powerline_color00 black    # fg: bufname
+declare-option -hidden str powerline_color01 yellow   # bg: position
+declare-option -hidden str powerline_color02 green    # fg: git
+declare-option -hidden str powerline_color03 yellow   # bg: bufname
+declare-option -hidden str powerline_color04 black    # bg: git
+declare-option -hidden str powerline_color05 black    # fg: position
+declare-option -hidden str powerline_color06 cyan     # fg: line-column
+declare-option -hidden str powerline_color07 blue     # fg: mode-info
+declare-option -hidden str powerline_color08 black    # base background
+declare-option -hidden str powerline_color09 black    # bg: line-column
+declare-option -hidden str powerline_color10 yellow   # fg: filetype
+declare-option -hidden str powerline_color11 black    # bg: filetype
+declare-option -hidden str powerline_color12 blue     # bg: client
+declare-option -hidden str powerline_color13 black    # fg: client
+declare-option -hidden str powerline_color14 cyan     # fg: session
+declare-option -hidden str powerline_color15 black    # bg: session
+declare-option -hidden str powerline_color16 default  # unused
+declare-option -hidden str powerline_color17 default  # unused
+declare-option -hidden str powerline_color18 default  # unused
+declare-option -hidden str powerline_color19 default  # unused
+declare-option -hidden str powerline_color20 default  # unused
+declare-option -hidden str powerline_color21 default  # unused
+declare-option -hidden str powerline_color22 default  # unused
+declare-option -hidden str powerline_color23 default  # unused
+declare-option -hidden str powerline_color24 default  # unused
+declare-option -hidden str powerline_color25 default  # unused
+declare-option -hidden str powerline_color26 default  # unused
+declare-option -hidden str powerline_color27 default  # unused
+declare-option -hidden str powerline_color28 default  # unused
+declare-option -hidden str powerline_color29 default  # unused
+declare-option -hidden str powerline_color30 default  # unused
+declare-option -hidden str powerline_color31 default  # unused
+
+hook global GlobalSetOption powerline_color08=.* %{
+    declare-option -hidden str powerline_next_bg %opt{powerline_color08}
+    declare-option -hidden str powerline_base_bg %opt{powerline_color08}
+}
 
 declare-option -docstring "if 'true' additionally display text formatted position in file, like 'top' and  'bottom'" \
 bool powerline_position_text_format false
@@ -66,7 +98,7 @@ powerline-rebuild %{
 
         for module in $kak_opt_powerline_format; do
             module=$(echo $module | sed "s:[^a-zA-Z-]:-:")
-            echo "powerline-$module"
+            echo "try %{ powerline-$module } catch %{ echo -debug %{powerline.kak: Warning, trying to load non-existing module 'powerline-$module' while building modeline} }"
         done
     }
 
