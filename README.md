@@ -164,12 +164,9 @@ define-command -hidden powerline-theme-base16-gruvbox %{
     declare-option -hidden str powerline_color07 "rgb:d5c4a1" # fg: mode-info
     declare-option -hidden str powerline_color08 "rgb:3c3836" # base background
     declare-option -hidden str powerline_color09 "rgb:504945" # bg: line-column
-    declare-option -hidden str powerline_color10 "rgb:ebdbb2" # fg: filetype
-    declare-option -hidden str powerline_color11 "rgb:504945" # bg: filetype
-    declare-option -hidden str powerline_color12 "rgb:665c54" # bg: client
-    declare-option -hidden str powerline_color13 "rgb:ebdbb2" # fg: client
-    declare-option -hidden str powerline_color14 "rgb:7c6f64" # fg: session
-    declare-option -hidden str powerline_color15 "rgb:fbf1c7" # bg: session
+    ...
+    declare-option -hidden str powerline_color30 "rgb:7c6f64" # unused
+    declare-option -hidden str powerline_color31 "rgb:fbf1c7" # unused
 }
 ```
 
@@ -213,9 +210,10 @@ other modules, if possible. These colors are used by default modules:
 | position    |    color05 |           color01 |
 | session     |    color14 |           color15 |
 
-Colors from `color16` to `color31` are declared by the main script, but not set
-by themes and have `default` face. Make sure to set those inside your module,
-and add those to themes, if you want to submit your module to **powerline.kak**.
+Colors from `color16` to `color31` are declared by the main script, but not used
+by any of default modules so you could use them in your own modules. Make sure
+to add comment which module uses those colors if you want to submit your module
+to **powerline.kak**.
 
 ## Writing a module
 This is bit tricky part, but you can add your own modules to powerline. To
