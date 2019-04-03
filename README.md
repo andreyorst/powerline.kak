@@ -92,8 +92,15 @@ After that you can use **powerline.kak**.
 - `powerline-rebuild` - reconstruct powerline accordingly to options. Sometimes
   needed when you modify options directly.
 
-All **powerline.kak** settings are applied in context of a window, therefore you
-can have different powerlines for different windows.
+These options are also available for configuration:
+- `powerline_separator` - set separator via option.
+- `powerline_separator_thin` - set thin separator via option.
+- `powerline_format` - set powerline format via option.
+- `powerline_ignore_warnings` - this option makes powerline ignore warnings when
+building powerline.
+
+All **powerline.kak** settings executed with commands are applied in context of
+a window, therefore you can have different powerlines for different windows.
 
 ### Example configuration using **plug.kak**
 ```kak
