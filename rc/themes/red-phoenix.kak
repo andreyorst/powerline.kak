@@ -56,6 +56,9 @@ define-command -hidden powerline-theme-red-phoenix %{ evaluate-commands %sh{
         declare-option -hidden str powerline_color29 ${default}       # unused
         declare-option -hidden str powerline_color30 ${default}       # unused
         declare-option -hidden str powerline_color31 ${orange3}       # unused
+
+        declare-option -hidden str powerline_next_bg %opt{powerline_color08}
+        declare-option -hidden str powerline_base_bg %opt{powerline_color08}
     "
 }}
 

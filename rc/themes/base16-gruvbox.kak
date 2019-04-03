@@ -37,5 +37,8 @@ define-command -hidden powerline-theme-base16-gruvbox %{
     declare-option -hidden str powerline_color29 "rgb:ebdbb2" # unused
     declare-option -hidden str powerline_color30 "rgb:7c6f64" # unused
     declare-option -hidden str powerline_color31 "rgb:fbf1c7" # unused
+
+    declare-option -hidden str powerline_next_bg %opt{powerline_color08}
+    declare-option -hidden str powerline_base_bg %opt{powerline_color08}
 }
 

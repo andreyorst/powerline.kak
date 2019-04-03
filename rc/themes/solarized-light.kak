@@ -54,6 +54,9 @@ define-command -hidden powerline-theme-solarized-light %{ evaluate-commands %sh{
         declare-option -hidden str powerline_color29 ${base02} # unused
         declare-option -hidden str powerline_color30 ${base02} # unused
         declare-option -hidden str powerline_color31 ${base00} # unused
+
+        declare-option -hidden str powerline_next_bg %opt{powerline_color08}
+        declare-option -hidden str powerline_base_bg %opt{powerline_color08}
     "
 }}
 

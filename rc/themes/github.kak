@@ -36,5 +36,8 @@ define-command -hidden powerline-theme-github %{
     declare-option -hidden str powerline_color29 rgb:F8F8FF # unused
     declare-option -hidden str powerline_color30 rgb:F8F8FF # unused
     declare-option -hidden str powerline_color31 rgb:795DA3 # unused
+
+    declare-option -hidden str powerline_next_bg %opt{powerline_color08}
+    declare-option -hidden str powerline_base_bg %opt{powerline_color08}
 }
 

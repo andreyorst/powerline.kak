@@ -36,4 +36,7 @@ define-command -hidden powerline-theme-zenburn %{
     declare-option -hidden str powerline_color29 rgb:cc9393 # unused
     declare-option -hidden str powerline_color30 rgb:7f9f7f # unused
     declare-option -hidden str powerline_color31 rgb:4a4a4a # unused
+
+    declare-option -hidden str powerline_next_bg %opt{powerline_color08}
+    declare-option -hidden str powerline_base_bg %opt{powerline_color08}
 }

@@ -55,6 +55,9 @@ define-command -hidden powerline-theme-tomorrow-night %{ evaluate-commands %sh{
         declare-option -hidden str powerline_color29 ${aqua}   # unused
         declare-option -hidden str powerline_color30 ${aqua}   # unused
         declare-option -hidden str powerline_color31 ${line}   # unused
+
+        declare-option -hidden str powerline_next_bg %opt{powerline_color08}
+        declare-option -hidden str powerline_base_bg %opt{powerline_color08}
     "
 }}
 

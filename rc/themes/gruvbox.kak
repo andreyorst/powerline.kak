@@ -58,6 +58,9 @@ define-command -hidden powerline-theme-gruvbox %{ evaluate-commands %sh{
         declare-option -hidden str powerline_color29 ${fg2}    # unused
         declare-option -hidden str powerline_color30 ${fg}     # unused
         declare-option -hidden str powerline_color31 ${bg3}    # unused
+
+        declare-option -hidden str powerline_next_bg %opt{powerline_color08}
+        declare-option -hidden str powerline_base_bg %opt{powerline_color08}
     "
 }}
 

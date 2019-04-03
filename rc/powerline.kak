@@ -82,15 +82,14 @@ declare-option -hidden str powerline_color29 black  # unused
 declare-option -hidden str powerline_color30 cyan   # unused
 declare-option -hidden str powerline_color31 black  # unused
 
-hook global GlobalSetOption powerline_color08=.* %{
-    declare-option -hidden str powerline_next_bg %opt{powerline_color08}
-    declare-option -hidden str powerline_base_bg %opt{powerline_color08}
-}
+declare-option -hidden str powerline_next_bg %opt{powerline_color08}
+declare-option -hidden str powerline_base_bg %opt{powerline_color08}
 
 declare-option -docstring "if 'true' additionally display text formatted position in file, like 'top' and  'bottom'" \
 bool powerline_position_text_format false
 
 hook -group powerline global WinDisplay .* %{powerline-rebuild}
+hook -group powerline global WinSetOption powerline_format=.* %{powerline-rebuild}
 
 define-command -docstring "construct powerline acorrdingly to configuration options" \
 powerline-rebuild %{
@@ -98,15 +97,16 @@ powerline-rebuild %{
         echo "set-option global powerlinefmt ''"
         echo "set-option global powerline_next_bg %opt{powerline_base_bg}"
 
-        [ "${kak_opt_powerline_ignore_warnings}" = "true" ] || warning="catch %{ echo -debug %{powerline.kak: Warning, trying to load non-existing module 'powerline-${module}' while building modeline} }"
-
         for module in ${kak_opt_powerline_format}; do
+            if [ ! "${kak_opt_powerline_ignore_warnings}" = "true" ]; then
+                warning="catch %{ echo -debug %{powerline.kak: Warning, trying to load non-existing module 'powerline-${module}' while building modeline} }"
+            fi
             module=$(echo ${module} | sed "s:[^a-zA-Z-]:-:")
             echo "try %{ powerline-${module} } ${warning}"
         done
     }
 
-    set-option global modelinefmt %sh{echo "${kak_opt_powerlinefmt}"}
+    set-option window modelinefmt %opt{powerlinefmt}
 }
 
 define-command -docstring "powerline-separator <separator>: change separators for powerline
