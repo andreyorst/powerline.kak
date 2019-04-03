@@ -20,5 +20,21 @@ define-command -hidden powerline-theme-desertex %{
     declare-option -hidden str powerline_color13 black      # fg: client
     declare-option -hidden str powerline_color14 black      # fg: session
     declare-option -hidden str powerline_color15 magenta    # bg: session
+    declare-option -hidden str powerline_color16 black      # unused
+    declare-option -hidden str powerline_color17 yellow     # unused
+    declare-option -hidden str powerline_color18 blue       # unused
+    declare-option -hidden str powerline_color19 yellow     # unused
+    declare-option -hidden str powerline_color20 black      # unused
+    declare-option -hidden str powerline_color21 black      # unused
+    declare-option -hidden str powerline_color22 black      # unused
+    declare-option -hidden str powerline_color23 blue       # unused
+    declare-option -hidden str powerline_color24 black      # unused
+    declare-option -hidden str powerline_color25 blue       # unused
+    declare-option -hidden str powerline_color26 black      # unused
+    declare-option -hidden str powerline_color27 blue       # unused
+    declare-option -hidden str powerline_color28 rgb:fa8072 # unused
+    declare-option -hidden str powerline_color29 black      # unused
+    declare-option -hidden str powerline_color30 black      # unused
+    declare-option -hidden str powerline_color31 magenta    # unused
 }
 

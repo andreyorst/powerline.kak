@@ -12,7 +12,7 @@ declare-option -hidden bool powerline_module_line_column true
 declare-option -hidden str-list powerline_modules
 set-option -add global powerline_modules 'line_column'
 
-define-command -override -hidden powerline-line-column %{ evaluate-commands %sh{
+define-command -hidden powerline-line-column %{ evaluate-commands %sh{
     default=$kak_opt_powerline_base_bg
     next_bg=$kak_opt_powerline_next_bg
     normal=$kak_opt_powerline_separator
@@ -26,7 +26,7 @@ define-command -override -hidden powerline-line-column %{ evaluate-commands %sh{
     fi
 }}
 
-define-command -override -hidden powerline-toggle-line-column -params ..1 %{ evaluate-commands %sh{
+define-command -hidden powerline-toggle-line-column -params ..1 %{ evaluate-commands %sh{
     [ "$kak_opt_powerline_module_line_column" = "true" ] && value=false || value=true
     if [ -n "$1" ]; then
         [ "$1" = "on" ] && value=true || value=false

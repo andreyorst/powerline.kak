@@ -11,7 +11,7 @@ declare-option -hidden bool powerline_module_git true
 
 declare-option -hidden str powerline_branch
 
-define-command -override -hidden powerline-update-branch %{ set-option window powerline_branch %sh{
+define-command -hidden powerline-update-branch %{ set-option window powerline_branch %sh{
     if [ "$kak_opt_powerline_module_git" = "true" ]; then
         branch=$(cd "${kak_buffile%/*}" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null)
     fi
@@ -30,7 +30,7 @@ hook -once -group powerline global KakBegin .* %{
 declare-option -hidden str-list powerline_modules
 set-option -add global powerline_modules 'git'
 
-define-command -override -hidden powerline-git %{ evaluate-commands %sh{
+define-command -hidden powerline-git %{ evaluate-commands %sh{
     default=$kak_opt_powerline_base_bg
     next_bg=$kak_opt_powerline_next_bg
     normal=$kak_opt_powerline_separator
@@ -46,7 +46,7 @@ define-command -override -hidden powerline-git %{ evaluate-commands %sh{
     fi
 }}
 
-define-command -override -hidden powerline-toggle-git -params ..1 %{ evaluate-commands %sh{
+define-command -hidden powerline-toggle-git -params ..1 %{ evaluate-commands %sh{
     [ "$kak_opt_powerline_module_git" = "true" ] && value=false || value=true
     if [ -n "$1" ]; then
         [ "$1" = "on" ] && value=true || value=false

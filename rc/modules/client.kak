@@ -12,7 +12,7 @@ set-option -add global powerline_modules 'client'
 
 declare-option -hidden bool powerline_module_client true
 
-define-command -override -hidden powerline-client %{ evaluate-commands %sh{
+define-command -hidden powerline-client %{ evaluate-commands %sh{
     default=$kak_opt_powerline_base_bg
     next_bg=$kak_opt_powerline_next_bg
     normal=$kak_opt_powerline_separator
@@ -26,7 +26,7 @@ define-command -override -hidden powerline-client %{ evaluate-commands %sh{
     fi
 }}
 
-define-command -override -hidden powerline-toggle-client -params ..1 %{ evaluate-commands %sh{
+define-command -hidden powerline-toggle-client -params ..1 %{ evaluate-commands %sh{
     [ "$kak_opt_powerline_module_client" = "true" ] && value=false || value=true
     if [ -n "$1" ]; then
         [ "$1" = "on" ] && value=true || value=false

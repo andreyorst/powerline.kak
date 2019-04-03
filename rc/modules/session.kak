@@ -12,7 +12,7 @@ declare-option -hidden bool powerline_module_session true
 declare-option -hidden str-list powerline_modules
 set-option -add global powerline_modules 'session'
 
-define-command -override -hidden powerline-session %{ evaluate-commands %sh{
+define-command -hidden powerline-session %{ evaluate-commands %sh{
     default=$kak_opt_powerline_base_bg
     next_bg=$kak_opt_powerline_next_bg
     normal=$kak_opt_powerline_separator
@@ -26,7 +26,7 @@ define-command -override -hidden powerline-session %{ evaluate-commands %sh{
     fi
 }}
 
-define-command -override -hidden powerline-toggle-session -params ..1 %{ evaluate-commands %sh{
+define-command -hidden powerline-toggle-session -params ..1 %{ evaluate-commands %sh{
     [ "$kak_opt_powerline_module_session" = "true" ] && value=false || value=true
     if [ -n "$1" ]; then
         [ "$1" = "on" ] && value=true || value=false

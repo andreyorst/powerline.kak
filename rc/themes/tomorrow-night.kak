@@ -39,6 +39,22 @@ define-command -hidden powerline-theme-tomorrow-night %{ evaluate-commands %sh{
         declare-option -hidden str powerline_color13 ${aqua}   # fg: client
         declare-option -hidden str powerline_color14 ${aqua}   # fg: session
         declare-option -hidden str powerline_color15 ${line}   # bg: session
+        declare-option -hidden str powerline_color16 white     # unused
+        declare-option -hidden str powerline_color17 ${window} # unused
+        declare-option -hidden str powerline_color18 ${aqua}   # unused
+        declare-option -hidden str powerline_color19 ${window} # unused
+        declare-option -hidden str powerline_color20 ${line}   # unused
+        declare-option -hidden str powerline_color21 ${aqua}   # unused
+        declare-option -hidden str powerline_color22 ${aqua}   # unused
+        declare-option -hidden str powerline_color23 ${aqua}   # unused
+        declare-option -hidden str powerline_color24 ${window} # unused
+        declare-option -hidden str powerline_color25 ${line}   # unused
+        declare-option -hidden str powerline_color26 ${aqua}   # unused
+        declare-option -hidden str powerline_color27 ${line}   # unused
+        declare-option -hidden str powerline_color28 ${window} # unused
+        declare-option -hidden str powerline_color29 ${aqua}   # unused
+        declare-option -hidden str powerline_color30 ${aqua}   # unused
+        declare-option -hidden str powerline_color31 ${line}   # unused
     "
 }}
 

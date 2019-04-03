@@ -12,7 +12,7 @@ declare-option -hidden bool powerline_module_filetype true
 declare-option -hidden str-list powerline_modules
 set-option -add global powerline_modules 'filetype'
 
-define-command -override -hidden powerline-filetype %{ evaluate-commands %sh{
+define-command -hidden powerline-filetype %{ evaluate-commands %sh{
     default=$kak_opt_powerline_base_bg
     next_bg=$kak_opt_powerline_next_bg
     normal=$kak_opt_powerline_separator
@@ -28,7 +28,7 @@ define-command -override -hidden powerline-filetype %{ evaluate-commands %sh{
     fi
 }}
 
-define-command -override -hidden powerline-toggle-filetype -params ..1 %{ evaluate-commands %sh{
+define-command -hidden powerline-toggle-filetype -params ..1 %{ evaluate-commands %sh{
     [ "$kak_opt_powerline_module_filetype" = "true" ] && value=false || value=true
     if [ -n "$1" ]; then
         [ "$1" = "on" ] && value=true || value=false

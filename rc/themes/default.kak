@@ -20,5 +20,21 @@ define-command -hidden powerline-theme-default %{
     declare-option -hidden str powerline_color13 black  # fg: client
     declare-option -hidden str powerline_color14 cyan   # fg: session
     declare-option -hidden str powerline_color15 black  # bg: session
+    declare-option -hidden str powerline_color16 black  # unused
+    declare-option -hidden str powerline_color17 yellow # unused
+    declare-option -hidden str powerline_color18 green  # unused
+    declare-option -hidden str powerline_color19 yellow # unused
+    declare-option -hidden str powerline_color20 black  # unused
+    declare-option -hidden str powerline_color21 black  # unused
+    declare-option -hidden str powerline_color22 cyan   # unused
+    declare-option -hidden str powerline_color23 blue   # unused
+    declare-option -hidden str powerline_color24 black  # unused
+    declare-option -hidden str powerline_color25 black  # unused
+    declare-option -hidden str powerline_color26 yellow # unused
+    declare-option -hidden str powerline_color27 black  # unused
+    declare-option -hidden str powerline_color28 blue   # unused
+    declare-option -hidden str powerline_color29 black  # unused
+    declare-option -hidden str powerline_color30 cyan   # unused
+    declare-option -hidden str powerline_color31 black  # unused
 }
 

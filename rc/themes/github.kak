@@ -20,5 +20,21 @@ define-command -hidden powerline-theme-github %{
     declare-option -hidden str powerline_color13 rgb:F8F8FF # fg: client
     declare-option -hidden str powerline_color14 rgb:F8F8FF # fg: session
     declare-option -hidden str powerline_color15 rgb:795DA3 # bg: session
+    declare-option -hidden str powerline_color16 rgb:F8F8FF # unused
+    declare-option -hidden str powerline_color17 rgb:4078C0 # unused
+    declare-option -hidden str powerline_color18 rgb:4078C0 # unused
+    declare-option -hidden str powerline_color19 rgb:4078C0 # unused
+    declare-option -hidden str powerline_color20 rgb:DDDDDD # unused
+    declare-option -hidden str powerline_color21 rgb:F8F8FF # unused
+    declare-option -hidden str powerline_color22 rgb:F8F8FF # unused
+    declare-option -hidden str powerline_color23 rgb:DDDDDD # unused
+    declare-option -hidden str powerline_color24 rgb:DDDDDD # unused
+    declare-option -hidden str powerline_color25 rgb:795DA3 # unused
+    declare-option -hidden str powerline_color26 rgb:F8F8FF # unused
+    declare-option -hidden str powerline_color27 rgb:A71D5D # unused
+    declare-option -hidden str powerline_color28 rgb:4078C0 # unused
+    declare-option -hidden str powerline_color29 rgb:F8F8FF # unused
+    declare-option -hidden str powerline_color30 rgb:F8F8FF # unused
+    declare-option -hidden str powerline_color31 rgb:795DA3 # unused
 }
 
