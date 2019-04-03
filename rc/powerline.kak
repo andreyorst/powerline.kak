@@ -142,8 +142,8 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
             ;;
         *) exit ;;
     esac
-    echo "set-option global powerline_separator '${normal}'"
-    echo "set-option global powerline_separator_thin '${thin}'"
+    echo "set-option window powerline_separator '${normal}'"
+    echo "set-option window powerline_separator_thin '${thin}'"
     echo "powerline-rebuild"
 }}
 
@@ -176,6 +176,6 @@ powerline-format -params 1.. %{ evaluate-commands %sh{
             formatstring="${formatstring} $1"; shift
         done
     fi
-    echo "set-option global powerline_format %{${formatstring}}"
+    echo "set-option window powerline_format %{${formatstring}}"
     echo "powerline-rebuild"
 }}
