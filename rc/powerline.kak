@@ -14,6 +14,8 @@ declare-option -hidden str-list powerline_modules
 declare-option -docstring "powerline separator character with solid body" str powerline_separator ''
 declare-option -docstring "powerline separator character thin" str powerline_separator_thin ''
 
+declare-option -docstring "ignore warnings when building powerline" bool powerline_ignore_warnings false
+
 declare-option -docstring "powerline format: order of powerline modules to render in modeline
 default value:
     'git bufname line_column mode_info filetype client session position'
@@ -96,13 +98,15 @@ powerline-rebuild %{
         echo "set-option global powerlinefmt ''"
         echo "set-option global powerline_next_bg %opt{powerline_base_bg}"
 
-        for module in $kak_opt_powerline_format; do
-            module=$(echo $module | sed "s:[^a-zA-Z-]:-:")
-            echo "try %{ powerline-$module } catch %{ echo -debug %{powerline.kak: Warning, trying to load non-existing module 'powerline-$module' while building modeline} }"
+        [ "${kak_opt_powerline_ignore_warnings}" = "true" ] || warning="catch %{ echo -debug %{powerline.kak: Warning, trying to load non-existing module 'powerline-${module}' while building modeline} }"
+
+        for module in ${kak_opt_powerline_format}; do
+            module=$(echo ${module} | sed "s:[^a-zA-Z-]:-:")
+            echo "try %{ powerline-${module} } ${warning}"
         done
     }
 
-    set-option global modelinefmt %sh{echo "$kak_opt_powerlinefmt"}
+    set-option global modelinefmt %sh{echo "${kak_opt_powerlinefmt}"}
 }
 
 define-command -docstring "powerline-separator <separator>: change separators for powerline
@@ -111,11 +115,11 @@ if <separator> is 'custom' accepts two additional separators fot normal and thin
 powerline-separator -params 1..3 %{ evaluate-commands %sh{
     if [ "$1" = "random" ]; then
         seed=$(($(date +%N | sed s:^\[0\]:1:) % 4 + 1)) # a posix compliant very-pseudo-random number generation
-        separator=$(eval echo "arrow curve flame triangle | awk '{print \$$seed}'")
+        separator=$(eval echo "arrow curve flame triangle | awk '{print \$${seed}}'")
     else
         separator=$1
     fi
-    case $separator in
+    case ${separator} in
         none)              normal='';  thin='';;
         arrow)             normal=''; thin='';;
         curve)             normal=''; thin='';;
@@ -138,21 +142,21 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
             ;;
         *) exit ;;
     esac
-    echo "set-option global powerline_separator '$normal'"
-    echo "set-option global powerline_separator_thin '$thin'"
+    echo "set-option global powerline_separator '${normal}'"
+    echo "set-option global powerline_separator_thin '${thin}'"
     echo "powerline-rebuild"
 }}
 
 define-command -docstring "powerline-toggle <part> [<state>] toggle on and off displaying of powerline parts" \
--shell-script-candidates %{eval "set -- $kak_opt_powerline_modules"; while [ "$1" ]; do echo $1; shift; done} \
+-shell-script-candidates %{eval "set -- ${kak_opt_powerline_modules}"; while [ "$1" ]; do echo $1; shift; done} \
 powerline-toggle -params 1..2 %{ evaluate-commands %sh{
     module=$(echo $1 | sed "s:[^a-zA-Z-]:-:")
-    echo "try %{ powerline-toggle-$module $2 } catch %{ echo -debug %{can't toggle $1, command 'powerline-toggle-$module' not found} }"
+    echo "try %{ powerline-toggle-${module} $2 } catch %{ echo -debug %{can't toggle $1, command 'powerline-toggle-${module}' not found} }"
     echo "powerline-rebuild"
 }}
 
 define-command -docstring "powerline-theme <theme>: apply theme to powerline" \
--shell-script-candidates %{ eval "set -- $kak_opt_powerline_themes"; while [ "$1" ]; do echo $1; shift; done} \
+-shell-script-candidates %{ eval "set -- ${kak_opt_powerline_themes}"; while [ "$1" ]; do echo $1; shift; done} \
 powerline-theme -params 1 %{ evaluate-commands %sh{
     echo "powerline-theme-$1"
     echo "powerline-rebuild"
@@ -162,16 +166,16 @@ define-command -docstring "powerline-format <formatstring>: change powerline for
 
 powerline-format default: resets powerline format to default value, which is:
     'git bufname line_column mode_info filetype client session position'" \
--shell-script-completion %{eval "set -- $kak_opt_powerline_modules"; while [ "$1" ]; do echo $1; shift; done} \
+-shell-script-completion %{eval "set -- ${kak_opt_powerline_modules}"; while [ "$1" ]; do echo $1; shift; done} \
 powerline-format -params 1.. %{ evaluate-commands %sh{
     if [ "$1" = "default" ]; then
         formatstring="git bufname line_column mode_info filetype client session position"
     else
         formatstring=
         while [ "$1" ]; do
-            formatstring="$formatstring $1"; shift
+            formatstring="${formatstring} $1"; shift
         done
     fi
-    echo "set-option global powerline_format %{$formatstring}"
+    echo "set-option global powerline_format %{${formatstring}}"
     echo "powerline-rebuild"
 }}
