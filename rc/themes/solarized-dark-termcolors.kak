@@ -39,5 +39,6 @@ define-command -hidden powerline-theme-solarized-dark-termcolors %{
 
     declare-option -hidden str powerline_next_bg %opt{powerline_color08}
     declare-option -hidden str powerline_base_bg %opt{powerline_color08}
+    set-face global StatusLine bright-cyan,black
 }
 
