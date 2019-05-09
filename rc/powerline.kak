@@ -8,6 +8,7 @@
 # ╰─────────────────────────────────────╯
 
 # Options
+declare-option -hidden bool powerline_installed true
 declare-option -hidden str-list powerline_themes
 declare-option -hidden str-list powerline_modules
 
