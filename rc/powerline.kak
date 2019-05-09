@@ -8,7 +8,6 @@
 # ╰─────────────────────────────────────╯
 
 # Options
-declare-option -hidden bool powerline_installed true
 declare-option -hidden str-list powerline_themes
 declare-option -hidden str-list powerline_modules
 
@@ -180,3 +179,5 @@ powerline-format -params 1.. %{ evaluate-commands %sh{
     echo "set-option window powerline_format %{${formatstring}}"
     echo "powerline-rebuild"
 }}
+
+declare-option -hidden bool powerline_loaded true
