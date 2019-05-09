@@ -1,6 +1,8 @@
 # Powerline colorscheme for base16 Kakoune theme
 
-declare-option -hidden str-list powerline_themes
+hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_base16 }
+
+provide-module powerline_base16 %§
 set-option -add global powerline_themes "base16"
 
 define-command -hidden powerline-theme-base16 %{ evaluate-commands %sh{
@@ -55,3 +57,4 @@ define-command -hidden powerline-theme-base16 %{ evaluate-commands %sh{
     "
 }}
 
+§

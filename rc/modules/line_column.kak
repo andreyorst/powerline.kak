@@ -7,9 +7,11 @@
 # │ GitHub.com/andreyorst/powerline.kak  │
 # ╰──────────────────────────────────────╯
 
-declare-option -hidden bool powerline_module_line_column true
+hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_line_column }
 
-declare-option -hidden str-list powerline_modules
+provide-module powerline_line_column %§
+
+declare-option -hidden bool powerline_module_line_column true
 set-option -add global powerline_modules 'line_column'
 
 define-command -hidden powerline-line-column %{ evaluate-commands %sh{
@@ -35,3 +37,4 @@ define-command -hidden powerline-toggle-line-column -params ..1 %{ evaluate-comm
     echo "powerline-rebuild"
 }}
 
+§

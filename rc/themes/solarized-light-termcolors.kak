@@ -1,6 +1,8 @@
 # Powerline colorscheme for solarized-light-termcolors Kakoune theme
 
-declare-option -hidden str-list powerline_themes
+hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_solarized_light_termcolors }
+
+provide-module powerline_solarized_light_termcolors %§
 set-option -add global powerline_themes "solarized-light-termcolors"
 
 define-command -hidden powerline-theme-solarized-light-termcolors %{
@@ -42,3 +44,4 @@ define-command -hidden powerline-theme-solarized-light-termcolors %{
     set-face global StatusLine bright-green,white
 }
 
+§

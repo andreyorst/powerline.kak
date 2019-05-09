@@ -1,6 +1,8 @@
 # Powerline colorscheme for zenburn Kakoune theme
 
-declare-option -hidden str-list powerline_themes
+hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_zenburn }
+
+provide-module powerline_zenburn %§
 set-option -add global powerline_themes "zenburn"
 
 define-command -hidden powerline-theme-zenburn %{
@@ -40,3 +42,5 @@ define-command -hidden powerline-theme-zenburn %{
     declare-option -hidden str powerline_next_bg %opt{powerline_color08}
     declare-option -hidden str powerline_base_bg %opt{powerline_color08}
 }
+
+§

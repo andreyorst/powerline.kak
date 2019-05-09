@@ -1,6 +1,8 @@
 # Powerline colorscheme for github Kakoune theme
 
-declare-option -hidden str-list powerline_themes
+hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_github }
+
+provide-module powerline_github %§
 set-option -add global powerline_themes "github"
 
 define-command -hidden powerline-theme-github %{
@@ -41,3 +43,4 @@ define-command -hidden powerline-theme-github %{
     declare-option -hidden str powerline_base_bg %opt{powerline_color08}
 }
 
+§

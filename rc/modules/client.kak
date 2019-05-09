@@ -7,9 +7,11 @@
 # │ GitHub.com/andreyorst/powerline.kak  │
 # ╰──────────────────────────────────────╯
 
-declare-option -hidden str-list powerline_modules
-set-option -add global powerline_modules 'client'
+hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_client }
 
+provide-module powerline_client %§
+
+set-option -add global powerline_modules 'client'
 declare-option -hidden bool powerline_module_client true
 
 define-command -hidden powerline-client %{ evaluate-commands %sh{
@@ -35,3 +37,4 @@ define-command -hidden powerline-toggle-client -params ..1 %{ evaluate-commands 
     echo "powerline-rebuild"
 }}
 
+§

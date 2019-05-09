@@ -7,9 +7,11 @@
 # │ GitHub.com/andreyorst/powerline.kak  │
 # ╰──────────────────────────────────────╯
 
-declare-option -hidden bool powerline_module_session true
+hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_session }
 
-declare-option -hidden str-list powerline_modules
+provide-module powerline_session %§
+
+declare-option -hidden bool powerline_module_session true
 set-option -add global powerline_modules 'session'
 
 define-command -hidden powerline-session %{ evaluate-commands %sh{
@@ -35,3 +37,4 @@ define-command -hidden powerline-toggle-session -params ..1 %{ evaluate-commands
     echo "powerline-rebuild"
 }}
 
+§

@@ -1,6 +1,8 @@
 # Powerline colorscheme for Tomorrow-night Kakoune theme
 
-declare-option -hidden str-list powerline_themes
+hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_tomorrow_night }
+
+provide-module powerline_tomorrow_night %§
 set-option -add global powerline_themes "tomorrow-night"
 
 define-command -hidden powerline-theme-tomorrow-night %{ evaluate-commands %sh{
@@ -61,3 +63,4 @@ define-command -hidden powerline-theme-tomorrow-night %{ evaluate-commands %sh{
     "
 }}
 
+§

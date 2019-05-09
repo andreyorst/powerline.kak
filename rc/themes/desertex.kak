@@ -1,6 +1,8 @@
 # Powerline colorscheme for desertex Kakoune theme
 
-declare-option -hidden str-list powerline_themes
+hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_desertex }
+
+provide-module powerline_desertex %§
 set-option -add global powerline_themes "desertex"
 
 define-command -hidden powerline-theme-desertex %{
@@ -41,3 +43,4 @@ define-command -hidden powerline-theme-desertex %{
     declare-option -hidden str powerline_base_bg %opt{powerline_color08}
 }
 
+§

@@ -8,9 +8,11 @@
 # │ GitHub.com/andreyorst/powerline.kak  │
 # ╰──────────────────────────────────────╯
 
-declare-option -hidden bool powerline_module_bufname true
+hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_bufname }
 
-declare-option -hidden str-list powerline_modules
+provide-module powerline_bufname %§
+
+declare-option -hidden bool powerline_module_bufname true
 set-option -add global powerline_modules 'bufname'
 
 define-command -hidden powerline-bufname %{ evaluate-commands %sh{
@@ -50,3 +52,4 @@ define-command -hidden powerline-toggle-bufname -params ..1 %{ evaluate-commands
     echo "powerline-rebuild"
 }}
 
+§

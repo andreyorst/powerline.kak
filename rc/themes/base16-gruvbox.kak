@@ -1,7 +1,9 @@
 # base16-gruvbox colorscheme for powerline.kak
 # based on https://github.com/andreyorst/base16-gruvbox.kak
 
-declare-option -hidden str-list powerline_themes
+hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_base16_gruvbox }
+
+provide-module powerline_base16_gruvbox %§
 set-option -add global powerline_themes "base16-gruvbox"
 
 define-command -hidden powerline-theme-base16-gruvbox %{
@@ -42,3 +44,4 @@ define-command -hidden powerline-theme-base16-gruvbox %{
     declare-option -hidden str powerline_base_bg %opt{powerline_color08}
 }
 
+§

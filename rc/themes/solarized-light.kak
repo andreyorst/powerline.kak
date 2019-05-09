@@ -1,6 +1,8 @@
 # Powerline colorscheme for solarized-light Kakoune theme
 
-declare-option -hidden str-list powerline_themes
+hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_solarized_light }
+
+provide-module powerline_solarized_light %§
 set-option -add global powerline_themes "solarized-light"
 
 define-command -hidden powerline-theme-solarized-light %{ evaluate-commands %sh{
@@ -60,3 +62,4 @@ define-command -hidden powerline-theme-solarized-light %{ evaluate-commands %sh{
     "
 }}
 
+§

@@ -7,9 +7,11 @@
 # │ GitHub.com/andreyorst/powerline.kak │
 # ╰─────────────────────────────────────╯
 
-declare-option -hidden str-list powerline_modules
-set-option -add global powerline_modules 'mode_info'
+hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_mode_info }
 
+provide-module powerline_mode_info %§
+
+set-option -add global powerline_modules 'mode_info'
 declare-option -hidden bool powerline_module_mode_info true
 
 define-command -hidden powerline-mode-info %{ evaluate-commands %sh{
@@ -35,3 +37,4 @@ define-command -hidden powerline-toggle-mode-info -params ..1 %{ evaluate-comman
     echo "powerline-rebuild"
 }}
 
+§

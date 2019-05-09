@@ -7,9 +7,11 @@
 # │ GitHub.com/andreyorst/powerline.kak  │
 # ╰──────────────────────────────────────╯
 
-declare-option -hidden bool powerline_module_filetype true
+hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_filetype }
 
-declare-option -hidden str-list powerline_modules
+provide-module powerline_filetype %§
+
+declare-option -hidden bool powerline_module_filetype true
 set-option -add global powerline_modules 'filetype'
 
 define-command -hidden powerline-filetype %{ evaluate-commands %sh{
@@ -37,3 +39,4 @@ define-command -hidden powerline-toggle-filetype -params ..1 %{ evaluate-command
     echo "powerline-rebuild"
 }}
 
+§

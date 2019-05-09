@@ -7,12 +7,14 @@
 # │ GitHub.com/andreyorst/powerline.kak  │
 # ╰──────────────────────────────────────╯
 
-declare-option -hidden str-list powerline_modules
+hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_position }
+
+provide-module powerline_position %§
+
 set-option -add global powerline_modules 'position'
-
 declare-option -hidden bool powerline_module_position true
-
 declare-option -hidden str powerline_position ''
+
 define-command -hidden powerline-update-position %{ evaluate-commands %sh{
     position="$(($kak_cursor_line * 100 / $kak_buf_line_count))%"
     if [ "$kak_opt_powerline_position_text_format" = "true" ]; then
@@ -25,11 +27,9 @@ define-command -hidden powerline-update-position %{ evaluate-commands %sh{
     echo "set-option window powerline_position $position"
 }}
 
-hook -once -group powerline global KakBegin .* %{
-    hook -group powerline global WinDisplay .* powerline-update-position
-    hook -group powerline global NormalKey (j|k) powerline-update-position
-    hook -group powerline global NormalIdle .* powerline-update-position
-}
+hook -group powerline global WinDisplay .* powerline-update-position
+hook -group powerline global NormalKey (j|k) powerline-update-position
+hook -group powerline global NormalIdle .* powerline-update-position
 
 define-command -hidden powerline-position %{ evaluate-commands %sh{
     default=$kak_opt_powerline_base_bg
@@ -54,3 +54,4 @@ define-command -hidden powerline-toggle-position -params ..1 %{ evaluate-command
     echo "powerline-rebuild"
 }}
 
+§

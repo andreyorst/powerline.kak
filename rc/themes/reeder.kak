@@ -1,6 +1,8 @@
 ## Powerline colorscheme for reeder Kakoune theme
 
-declare-option -hidden str-list powerline_themes
+hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_reeder }
+
+provide-module powerline_reeder %§
 set-option -add global powerline_themes "reeder"
 
 define-command -hidden powerline-theme-reeder %{ evaluate-commands %sh{
@@ -57,3 +59,4 @@ define-command -hidden powerline-theme-reeder %{ evaluate-commands %sh{
     "
 }}
 
+§
