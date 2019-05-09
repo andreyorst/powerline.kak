@@ -1,6 +1,6 @@
 # Powerline colorscheme for zenburn Kakoune theme
 
-hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_zenburn }
+hook global ModuleLoad powerline %{ require-module powerline_zenburn }
 
 provide-module powerline_zenburn %§
 set-option -add global powerline_themes "zenburn"

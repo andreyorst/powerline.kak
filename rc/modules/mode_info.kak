@@ -7,7 +7,7 @@
 # │ GitHub.com/andreyorst/powerline.kak │
 # ╰─────────────────────────────────────╯
 
-hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_mode_info }
+hook global ModuleLoad powerline %{ require-module powerline_mode_info }
 
 provide-module powerline_mode_info %§
 

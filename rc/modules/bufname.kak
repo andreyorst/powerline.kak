@@ -8,7 +8,7 @@
 # │ GitHub.com/andreyorst/powerline.kak  │
 # ╰──────────────────────────────────────╯
 
-hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_bufname }
+hook global ModuleLoad powerline %{ require-module powerline_bufname }
 
 provide-module powerline_bufname %§
 

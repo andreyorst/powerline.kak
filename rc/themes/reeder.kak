@@ -1,6 +1,6 @@
 ## Powerline colorscheme for reeder Kakoune theme
 
-hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_reeder }
+hook global ModuleLoad powerline %{ require-module powerline_reeder }
 
 provide-module powerline_reeder %§
 set-option -add global powerline_themes "reeder"

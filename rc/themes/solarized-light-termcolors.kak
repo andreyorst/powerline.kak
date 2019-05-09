@@ -1,6 +1,6 @@
 # Powerline colorscheme for solarized-light-termcolors Kakoune theme
 
-hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_solarized_light_termcolors }
+hook global ModuleLoad powerline %{ require-module powerline_solarized_light_termcolors }
 
 provide-module powerline_solarized_light_termcolors %§
 set-option -add global powerline_themes "solarized-light-termcolors"

@@ -1,6 +1,6 @@
 # Powerline colorscheme for base16 Kakoune theme
 
-hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_gruvbox }
+hook global ModuleLoad powerline %{ require-module powerline_gruvbox }
 
 provide-module powerline_gruvbox %§
 set-option -add global powerline_themes "gruvbox"

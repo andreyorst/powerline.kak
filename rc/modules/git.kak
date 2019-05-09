@@ -7,7 +7,7 @@
 # │ GitHub.com/andreyorst/powerline.kak │
 # ╰─────────────────────────────────────╯
 
-hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_git }
+hook global ModuleLoad powerline %{ require-module powerline_git }
 
 provide-module powerline_git %§
 

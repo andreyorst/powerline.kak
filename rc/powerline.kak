@@ -7,6 +7,7 @@
 # │ GitHub.com/andreyorst/powerline.kak │
 # ╰─────────────────────────────────────╯
 
+
 # Options
 declare-option -hidden str-list powerline_themes
 declare-option -hidden str-list powerline_modules
@@ -85,8 +86,7 @@ declare-option -hidden str powerline_color31 black  # unused
 declare-option -hidden str powerline_next_bg %opt{powerline_color08}
 declare-option -hidden str powerline_base_bg %opt{powerline_color08}
 
-declare-option -docstring "if 'true' additionally display text formatted position in file, like 'top' and  'bottom'" \
-bool powerline_position_text_format false
+provide-module powerline %§
 
 hook -group powerline global WinDisplay .* %{powerline-rebuild}
 hook -group powerline global WinSetOption powerline_format=.* %{powerline-rebuild}
@@ -180,4 +180,6 @@ powerline-format -params 1.. %{ evaluate-commands %sh{
     echo "powerline-rebuild"
 }}
 
-declare-option -hidden bool powerline_loaded true
+§
+
+hook global WinCreate .* %{ require-module powerline }

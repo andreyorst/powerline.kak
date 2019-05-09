@@ -1,6 +1,6 @@
 # Powerline colorscheme for solarized-dark Kakoune theme
 
-hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_solarized_dark }
+hook global ModuleLoad powerline %{ require-module powerline_solarized_dark }
 
 provide-module powerline_solarized_dark %§
 set-option -add global powerline_themes "solarized-dark"

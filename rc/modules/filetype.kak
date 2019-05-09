@@ -7,7 +7,7 @@
 # │ GitHub.com/andreyorst/powerline.kak  │
 # ╰──────────────────────────────────────╯
 
-hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_filetype }
+hook global ModuleLoad powerline %{ require-module powerline_filetype }
 
 provide-module powerline_filetype %§
 

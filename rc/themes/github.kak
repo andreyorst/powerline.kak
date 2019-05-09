@@ -1,6 +1,6 @@
 # Powerline colorscheme for github Kakoune theme
 
-hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_github }
+hook global ModuleLoad powerline %{ require-module powerline_github }
 
 provide-module powerline_github %§
 set-option -add global powerline_themes "github"

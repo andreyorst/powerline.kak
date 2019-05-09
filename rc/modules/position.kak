@@ -7,7 +7,10 @@
 # │ GitHub.com/andreyorst/powerline.kak  │
 # ╰──────────────────────────────────────╯
 
-hook -once global WinSetOption powerline_loaded=true %{ require-module powerline_position }
+declare-option -docstring "if 'true' additionally display text formatted position in file, like 'top' and  'bottom'" \
+bool powerline_position_text_format false
+
+hook global ModuleLoad powerline %{ require-module powerline_position }
 
 provide-module powerline_position %§
 
