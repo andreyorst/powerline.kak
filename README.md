@@ -232,6 +232,8 @@ create a module you need this things:
   - create update hooks to update module when something related to it happens.
 - define a module command itself.
 - add module name to global list of modules.
+- wrap a module into a `provide-module` and require it when `powerline_loaded`
+  option is set to `true` with hook.
 
 Here's an example of adding a module that shows current position within edited
 file in percents. This module already exists in **powerline.kak** but still can
