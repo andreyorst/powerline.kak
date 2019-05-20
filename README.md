@@ -104,26 +104,20 @@ a window, therefore you can have different powerlines for different windows.
 
 ### Example configuration using **plug.kak**
 ```kak
-plug "andreyorst/powerline.kak" %{
-    hook -once global WinCreate .* %{
-        powerline-theme gruvbox
-        powerline-separator triangle
-        powerline-format git bufname filetype mode_info line_column position
-        powerline-toggle line_column off
-    }
+plug "andreyorst/powerline.kak" defer "powerline" %{
+    powerline-separator triangle
+    set-option global powerline_format 'powerline-format git bufname filetype mode_info line_column position'
+    powerline-toggle line_column off
+    powerline-theme gruvbox
 }
 ```
 
 Lets breakdown this:
 - `plug` is a [plug.kak][8] command that loads **powerline.kak** plugin and
-  configures it with last `%{...}` parameter.
-- `hook -once global WinCreate .* %{` is needed because all **powerline.kak**
-  settings are done in context of a window. So to properly load a plugin we need
-  an existing window.
-- `powerline-theme gruvbox` - sets the theme to `gruvbox`.
+  configures it with `defer "powerline" %{...}` expansion.
 - `powerline-separator triangle` - sets the separator to powerline's
   triangle. Note that as settings are window dependent new window will use
-  default separator, which is `triangle`. To prevent this either use separate
+  default separator, which is `arrow`. To prevent this either use separate
   `hook global WinCreate .* %{ powerline-separator triangle }` that will be
   applied to all new windows, or modify `powerline_separator` and
   `powerline_separator_thin` global options to your liking.
@@ -133,6 +127,7 @@ Lets breakdown this:
 - `powerline-toggle line_column off` - disables part of powerline which shows
   current line and column. Again, you can have this disabled or enabled for
   certain filetypes or buffers via `hook`s , etc.
+- `powerline-theme gruvbox` - sets the theme to `gruvbox`.
 
 You can add your own configurations here. Since all settings are
 window-dependent you can have different settings for different windows,

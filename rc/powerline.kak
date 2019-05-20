@@ -7,6 +7,7 @@
 # │ GitHub.com/andreyorst/powerline.kak │
 # ╰─────────────────────────────────────╯
 
+provide-module powerline %§
 
 # Options
 declare-option -hidden str-list powerline_themes
@@ -85,8 +86,6 @@ declare-option -hidden str powerline_color31 black  # unused
 
 declare-option -hidden str powerline_next_bg %opt{powerline_color08}
 declare-option -hidden str powerline_base_bg %opt{powerline_color08}
-
-provide-module powerline %§
 
 hook -group powerline global WinDisplay .* %{powerline-rebuild}
 hook -group powerline global WinSetOption powerline_format=.* %{powerline-rebuild}
