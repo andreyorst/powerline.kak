@@ -1,7 +1,7 @@
 # base16-gruvbox colorscheme for powerline.kak
 # based on https://github.com/andreyorst/base16-gruvbox.kak
 
-hook global ModuleLoad powerline %{ require-module powerline_base16_gruvbox }
+hook global ModuleLoaded powerline %{ require-module powerline_base16_gruvbox }
 
 provide-module powerline_base16_gruvbox %§
 set-option -add global powerline_themes "base16-gruvbox"

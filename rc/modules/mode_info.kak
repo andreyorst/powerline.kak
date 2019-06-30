@@ -7,7 +7,7 @@
 # │ GitHub.com/andreyorst/powerline.kak │
 # ╰─────────────────────────────────────╯
 
-hook global ModuleLoad powerline %{ require-module powerline_mode_info }
+hook global ModuleLoaded powerline %{ require-module powerline_mode_info }
 
 provide-module powerline_mode_info %§
 

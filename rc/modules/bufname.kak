@@ -8,7 +8,7 @@
 # │ GitHub.com/andreyorst/powerline.kak  │
 # ╰──────────────────────────────────────╯
 
-hook global ModuleLoad powerline %{ require-module powerline_bufname }
+hook global ModuleLoaded powerline %{ require-module powerline_bufname }
 
 provide-module powerline_bufname %§
 

@@ -1,6 +1,6 @@
 # Powerline colorscheme for base16 Kakoune theme
 
-hook global ModuleLoad powerline %{ require-module powerline_base16 }
+hook global ModuleLoaded powerline %{ require-module powerline_base16 }
 
 provide-module powerline_base16 %§
 set-option -add global powerline_themes "base16"

@@ -1,6 +1,6 @@
 # Powerline colorscheme for Tomorrow-night Kakoune theme
 
-hook global ModuleLoad powerline %{ require-module powerline_tomorrow_night }
+hook global ModuleLoaded powerline %{ require-module powerline_tomorrow_night }
 
 provide-module powerline_tomorrow_night %§
 set-option -add global powerline_themes "tomorrow-night"

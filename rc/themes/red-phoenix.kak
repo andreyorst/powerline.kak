@@ -1,6 +1,6 @@
 # Powerline colorscheme for red-phoenix Kakoune theme
 
-hook global ModuleLoad powerline %{ require-module powerline_red_phoenix }
+hook global ModuleLoaded powerline %{ require-module powerline_red_phoenix }
 
 provide-module powerline_red_phoenix %§
 set-option -add global powerline_themes "red-phoenix"

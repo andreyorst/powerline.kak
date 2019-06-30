@@ -1,6 +1,6 @@
 # Powerline colorscheme for desertex Kakoune theme
 
-hook global ModuleLoad powerline %{ require-module powerline_desertex }
+hook global ModuleLoaded powerline %{ require-module powerline_desertex }
 
 provide-module powerline_desertex %§
 set-option -add global powerline_themes "desertex"

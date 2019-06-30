@@ -10,7 +10,7 @@
 declare-option -docstring "if 'true' additionally display text formatted position in file, like 'top' and  'bottom'" \
 bool powerline_position_text_format false
 
-hook global ModuleLoad powerline %{ require-module powerline_position }
+hook global ModuleLoaded powerline %{ require-module powerline_position }
 
 provide-module powerline_position %§
 

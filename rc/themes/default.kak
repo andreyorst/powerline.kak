@@ -1,6 +1,6 @@
 # Powerline colorscheme for Default Kakoune theme
 
-hook global ModuleLoad powerline %{ require-module powerline_default }
+hook global ModuleLoaded powerline %{ require-module powerline_default }
 
 provide-module powerline_default %§
 set-option -add global powerline_themes "default"

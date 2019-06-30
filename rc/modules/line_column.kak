@@ -7,7 +7,7 @@
 # │ GitHub.com/andreyorst/powerline.kak  │
 # ╰──────────────────────────────────────╯
 
-hook global ModuleLoad powerline %{ require-module powerline_line_column }
+hook global ModuleLoaded powerline %{ require-module powerline_line_column }
 
 provide-module powerline_line_column %§
 

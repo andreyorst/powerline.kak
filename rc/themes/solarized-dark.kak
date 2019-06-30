@@ -1,6 +1,6 @@
 # Powerline colorscheme for solarized-dark Kakoune theme
 
-hook global ModuleLoad powerline %{ require-module powerline_solarized_dark }
+hook global ModuleLoaded powerline %{ require-module powerline_solarized_dark }
 
 provide-module powerline_solarized_dark %§
 set-option -add global powerline_themes "solarized-dark"

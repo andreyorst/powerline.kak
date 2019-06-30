@@ -7,7 +7,7 @@
 # │ GitHub.com/andreyorst/powerline.kak  │
 # ╰──────────────────────────────────────╯
 
-hook global ModuleLoad powerline %{ require-module powerline_filetype }
+hook global ModuleLoaded powerline %{ require-module powerline_filetype }
 
 provide-module powerline_filetype %§
 

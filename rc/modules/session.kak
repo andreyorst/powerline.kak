@@ -7,7 +7,7 @@
 # │ GitHub.com/andreyorst/powerline.kak  │
 # ╰──────────────────────────────────────╯
 
-hook global ModuleLoad powerline %{ require-module powerline_session }
+hook global ModuleLoaded powerline %{ require-module powerline_session }
 
 provide-module powerline_session %§
 
