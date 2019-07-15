@@ -18,7 +18,7 @@ set-option -add global powerline_modules 'position'
 declare-option -hidden bool powerline_module_position true
 declare-option -hidden str powerline_position ''
 
-define-command -hidden powerline-update-position %{ evaluate-commands %sh{
+define-command -hidden powerline-update-position %{ evaluate-commands %sh{ (
     position="$(($kak_cursor_line * 100 / $kak_buf_line_count))%"
     if [ "$kak_opt_powerline_position_text_format" = "true" ]; then
         if [ "$position" = "100%" ]; then
@@ -27,8 +27,8 @@ define-command -hidden powerline-update-position %{ evaluate-commands %sh{
             position="top"
         fi
     fi
-    echo "set-option window powerline_position $position"
-}}
+    echo "evaluate-commands -client $kak_client %{ set-option window powerline_position $position }" | kak -p $kak_session
+) >/dev/null 2>&1 </dev/null & }}
 
 hook -group powerline global WinDisplay .* powerline-update-position
 hook -group powerline global NormalKey (j|k) powerline-update-position
