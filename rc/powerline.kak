@@ -147,7 +147,7 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
 }}
 
 define-command -docstring "powerline-toggle <part> [<state>] toggle on and off displaying of powerline parts" \
--shell-script-candidates %{eval "set -- ${kak_opt_powerline_modules}"; while [ "$1" ]; do echo $1; shift; done} \
+-shell-script-candidates %{eval "set -- ${kak_quoted_quoted_opt_powerline_modules}"; while [ "$1" ]; do echo $1; shift; done} \
 powerline-toggle -params 1..2 %{ evaluate-commands %sh{
     module=$(echo $1 | sed "s:[^a-zA-Z-]:-:")
     echo "try %{ powerline-toggle-${module} $2 } catch %{ echo -debug %{can't toggle $1, command 'powerline-toggle-${module}' not found} }"
@@ -155,7 +155,7 @@ powerline-toggle -params 1..2 %{ evaluate-commands %sh{
 }}
 
 define-command -docstring "powerline-theme <theme>: apply theme to powerline" \
--shell-script-candidates %{ eval "set -- ${kak_opt_powerline_themes}"; while [ "$1" ]; do echo $1; shift; done} \
+-shell-script-candidates %{ eval "set -- ${kak_quoted_opt_powerline_themes}"; while [ "$1" ]; do echo $1; shift; done} \
 powerline-theme -params 1 %{ evaluate-commands %sh{
     echo "powerline-theme-$1"
     echo "powerline-rebuild"
@@ -165,7 +165,7 @@ define-command -docstring "powerline-format <formatstring>: change powerline for
 
 powerline-format default: resets powerline format to default value, which is:
     'git bufname line_column mode_info filetype client session position'" \
--shell-script-completion %{eval "set -- ${kak_opt_powerline_modules}"; while [ "$1" ]; do echo $1; shift; done} \
+-shell-script-completion %{eval "set -- ${kak_quoted_opt_powerline_modules}"; while [ "$1" ]; do echo $1; shift; done} \
 powerline-format -params 1.. %{ evaluate-commands %sh{
     if [ "$1" = "default" ]; then
         formatstring="git bufname line_column mode_info filetype client session position"
