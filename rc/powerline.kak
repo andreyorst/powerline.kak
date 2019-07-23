@@ -7,6 +7,19 @@
 # │ GitHub.com/andreyorst/powerline.kak │
 # ╰─────────────────────────────────────╯
 
+declare-option -hidden -docstring "old modelinefmt value is stored here" \
+str powerline_modelinefmt
+
+define-command -docstring "powerline-enable: enable powerline for all windows" \
+powerline-enable %{
+    set-option global powerline_modelinefmt %opt{modelinefmt}
+    require-module powerline
+    set-option global powerline_on_screen true
+    powerline-rebuild
+    hook -group powerline global WinDisplay .* %{powerline-rebuild}
+    hook -group powerline global WinSetOption powerline_format=.* %{powerline-rebuild}
+}
+
 provide-module powerline %§
 
 # Options
@@ -37,6 +50,8 @@ declare-option -hidden -docstring "powerlinefmt is something similar to modeline
 used to store powerline configuration before passing it to modeline.
 should never be accessed or modified directly" \
 str powerlinefmt
+
+declare-option -hidden bool powerline_on_screen false
 
 # Default Module Colors Table
 # ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
@@ -87,8 +102,21 @@ declare-option -hidden str powerline_color31 black  # unused
 declare-option -hidden str powerline_next_bg %opt{powerline_color08}
 declare-option -hidden str powerline_base_bg %opt{powerline_color08}
 
-hook -group powerline global WinDisplay .* %{powerline-rebuild}
-hook -group powerline global WinSetOption powerline_format=.* %{powerline-rebuild}
+define-command -docstring "powerline-toggle: toggle powerline in current window" \
+powerline-toggle %{ evaluate-commands %sh{
+    if [ "$kak_opt_powerline_on_screen" = "true" ]; then
+        printf "%s\n" "powerline-disable"
+    else
+        printf "%s\n" "powerline-enable"
+    fi
+}}
+
+define-command -docstring "powerline-disable: disable powerline for all windows." \
+powerline-disable %{
+    set-option global powerline_on_screen false
+    remove-hooks global (.*-)?powerline
+    set-option window modelinefmt %opt{powerline_modelinefmt}
+}
 
 define-command -docstring "construct powerline acorrdingly to configuration options" \
 powerline-rebuild %{
@@ -126,18 +154,8 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
         triangle)          normal=''; thin='';;
         triangle-inverted) normal=''; thin='';;
         custom)
-            if [ -n "$2" ]; then
-                normal="$2"
-            else
-                normal=''
-            fi
-            if [ -n "$3" ]; then
-                thin="$3"
-            elif [ -n "$2" ]; then
-                thin=$2
-            else
-                thin=''
-            fi
+            [ -n "$2" ] && normal="$2" || normal=''
+            [ -n "$3" ] && thin="$3" || [ -n "$2" ] && thin=$2 || thin=''
             ;;
         *) exit ;;
     esac
@@ -146,9 +164,9 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
     echo "powerline-rebuild"
 }}
 
-define-command -docstring "powerline-toggle <part> [<state>] toggle on and off displaying of powerline parts" \
+define-command -docstring "powerline-toggle-module <part> [<state>] toggle on and off displaying of powerline parts" \
 -shell-script-candidates %{eval "set -- ${kak_quoted_opt_powerline_modules}"; while [ "$1" ]; do echo $1; shift; done} \
-powerline-toggle -params 1..2 %{ evaluate-commands %sh{
+powerline-toggle-module -params 1..2 %{ evaluate-commands %sh{
     module=$(echo $1 | sed "s:[^a-zA-Z-]:-:")
     echo "try %{ powerline-toggle-${module} $2 } catch %{ echo -debug %{can't toggle $1, command 'powerline-toggle-${module}' not found} }"
     echo "powerline-rebuild"
@@ -180,5 +198,3 @@ powerline-format -params 1.. %{ evaluate-commands %sh{
 }}
 
 §
-
-hook global WinCreate .* %{ require-module powerline }
