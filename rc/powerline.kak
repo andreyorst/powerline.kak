@@ -147,7 +147,7 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
 }}
 
 define-command -docstring "powerline-toggle <part> [<state>] toggle on and off displaying of powerline parts" \
--shell-script-candidates %{eval "set -- ${kak_quoted_quoted_opt_powerline_modules}"; while [ "$1" ]; do echo $1; shift; done} \
+-shell-script-candidates %{eval "set -- ${kak_quoted_opt_powerline_modules}"; while [ "$1" ]; do echo $1; shift; done} \
 powerline-toggle -params 1..2 %{ evaluate-commands %sh{
     module=$(echo $1 | sed "s:[^a-zA-Z-]:-:")
     echo "try %{ powerline-toggle-${module} $2 } catch %{ echo -debug %{can't toggle $1, command 'powerline-toggle-${module}' not found} }"
