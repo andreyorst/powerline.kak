@@ -30,7 +30,7 @@ define-command -hidden powerline-bufname %{ evaluate-commands %sh{
 }}
 
 declare-option -hidden str powerline_readonly
-define-command -hidden powerline-update-readonly %{ set-option window powerline_readonly %sh{
+define-command -hidden powerline-update-readonly %{ set-option buffer powerline_readonly %sh{
     if [ -w "${kak_buffile}" ]; then
         echo ''
     else
@@ -38,10 +38,8 @@ define-command -hidden powerline-update-readonly %{ set-option window powerline_
     fi
 }}
 
-hook -once -group powerline global KakBegin .* %{
-    hook -group powerline global WinDisplay .* powerline-update-readonly
-    hook -group powerline global BufWritePost .* powerline-update-readonly
-}
+hook -group powerline global WinDisplay .* powerline-update-readonly
+hook -group powerline global BufWritePost .* powerline-update-readonly
 
 define-command -hidden powerline-toggle-bufname -params ..1 %{ evaluate-commands %sh{
     [ "$kak_opt_powerline_module_bufname" = "true" ] && value=false || value=true
