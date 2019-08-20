@@ -15,7 +15,13 @@ powerline-enable %{
     set-option global powerline_modelinefmt_backup %opt{modelinefmt}
     require-module powerline
     set-option global powerline_on_screen true
-    powerline-rebuild
+    evaluate-commands %sh{
+        eval "set -- $kak_quoted_buflist"
+        while [ $# -gt 0 ]; do
+            printf "%s\n" "evaluate-commands -buffer '$1' %{ powerline-rebuild }"
+            shift
+        done
+    }
     hook -group powerline global WinDisplay .* %{powerline-rebuild}
     hook -group powerline global WinSetOption powerline_format=.* %{powerline-rebuild}
 }
@@ -115,7 +121,13 @@ define-command -docstring "powerline-disable: disable powerline for all windows.
 powerline-disable %{
     set-option global powerline_on_screen false
     remove-hooks global (.*-)?powerline
-    evaluate-commands -buffer * %{ set-option buffer modelinefmt %opt{powerline_modelinefmt_backup} }
+    evaluate-commands %sh{
+        eval "set -- $kak_quoted_buflist"
+        while [ $# -gt 0 ]; do
+            printf "%s\n" "evaluate-commands -buffer '$1' %{ set-option buffer modelinefmt %opt{powerline_modelinefmt_backup} }"
+            shift
+        done
+    }
 }
 
 define-command -docstring "construct powerline acorrdingly to configuration options" \
