@@ -8,11 +8,11 @@
 # ╰─────────────────────────────────────╯
 
 declare-option -hidden -docstring "old modelinefmt value is stored here" \
-str powerline_modelinefmt
+str powerline_modelinefmt_backup
 
 define-command -docstring "powerline-enable: enable powerline for all windows" \
 powerline-enable %{
-    set-option global powerline_modelinefmt %opt{modelinefmt}
+    set-option global powerline_modelinefmt_backup %opt{modelinefmt}
     require-module powerline
     set-option global powerline_on_screen true
     powerline-rebuild
@@ -115,7 +115,7 @@ define-command -docstring "powerline-disable: disable powerline for all windows.
 powerline-disable %{
     set-option global powerline_on_screen false
     remove-hooks global (.*-)?powerline
-    set-option window modelinefmt %opt{powerline_modelinefmt}
+    evaluate-commands -buffer * %{ set-option buffer modelinefmt %opt{powerline_modelinefmt_backup} }
 }
 
 define-command -docstring "construct powerline acorrdingly to configuration options" \
@@ -133,7 +133,7 @@ powerline-rebuild %{
         done
     }
 
-    set-option window modelinefmt %opt{powerlinefmt}
+    set-option buffer modelinefmt %opt{powerlinefmt}
 }
 
 define-command -docstring "powerline-separator <separator>: change separators for powerline
@@ -159,8 +159,8 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
             ;;
         *) exit ;;
     esac
-    echo "set-option window powerline_separator '${normal}'"
-    echo "set-option window powerline_separator_thin '${thin}'"
+    echo "set-option buffer powerline_separator '${normal}'"
+    echo "set-option buffer powerline_separator_thin '${thin}'"
     echo "powerline-rebuild"
 }}
 
@@ -193,7 +193,7 @@ powerline-format -params 1.. %{ evaluate-commands %sh{
             formatstring="${formatstring} $1"; shift
         done
     fi
-    echo "set-option window powerline_format %{${formatstring}}"
+    echo "set-option buffer powerline_format %{${formatstring}}"
     echo "powerline-rebuild"
 }}
 
