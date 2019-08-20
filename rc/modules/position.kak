@@ -27,7 +27,7 @@ define-command -hidden powerline-update-position %{ evaluate-commands %sh{ (
             position="top"
         fi
     fi
-    echo "evaluate-commands -client $kak_client %{ set-option window powerline_position $position }" | kak -p $kak_session
+    echo "try %{ evaluate-commands -client $kak_client %{ set-option window powerline_position $position } }" | kak -p $kak_session
 ) >/dev/null 2>&1 </dev/null & }}
 
 hook -group powerline global WinDisplay .* powerline-update-position
