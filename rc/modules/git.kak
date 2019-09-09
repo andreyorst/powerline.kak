@@ -27,10 +27,6 @@ define-command -hidden powerline-update-branch %{ set-option buffer powerline_br
     fi
 }}
 
-hook -once global WinSetOption powerline_branch=.+ %{
-    powerline-rebuild
-}
-
 define-command -hidden powerline-git %{ evaluate-commands %sh{
     default=$kak_opt_powerline_base_bg
     next_bg=$kak_opt_powerline_next_bg
@@ -46,23 +42,24 @@ define-command -hidden powerline-git %{ evaluate-commands %sh{
 
             printf "%s\n" "hook -group powerline-git global WinDisplay .* powerline-update-branch"
             printf "%s\n" "hook -group powerline-git global WinCreate .* powerline-update-branch"
+            printf "%s\n" "powerline-update-branch"
         fi
     fi
 }}
 
-define-command -hidden powerline-toggle-git -params ..1 %{ evaluate-commands %sh{
+define-command -hidden powerline-toggle-git -params ..1 %{ evaluate-commands %sh{ (
     [ "$kak_opt_powerline_module_git" = "true" ] && value=false || value=true
     if [ -n "$1" ]; then
         [ "$1" = "on" ] && value=true || value=false
     fi
     if [ "$value" = "true" ]; then
-        printf "%s\n" "hook -group powerline-git global WinDisplay .* powerline-update-branch"
-        printf "%s\n" "hook -group powerline-git global WinCreate .* powerline-update-branch"
+        printf "%s\n" "hook -group powerline-git global WinDisplay .* powerline-update-branch" | kak -p $kak_session
+        printf "%s\n" "hook -group powerline-git global WinCreate .* powerline-update-branch" | kak -p $kak_session
     else
-        printf "%s\n" "remove-hooks global powerline-git"
+        printf "%s\n" "remove-hooks global powerline-git" | kak -p $kak_session
     fi
-    echo "set-option global powerline_module_git $value"
-    echo "powerline-rebuild"
-}}
+    printf "%s\n" "set-option global powerline_module_git $value" | kak -p $kak_session
+    printf "%s\n" "evaluate-commands -buffer $kak_bufname %{powerline-rebuild}" | kak -p $kak_session
+) >/dev/null 2>&1 </dev/null & }}
 
 §

@@ -175,8 +175,8 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
         triangle)          normal=''; thin='';;
         triangle-inverted) normal=''; thin='';;
         custom)
-            [ -n "$2" ] && normal="$2" || normal=''
-            [ -n "$3" ] && thin="$3" || [ -n "$2" ] && thin=$2 || thin=''
+            if [ -n "$2" ]; then normal="$2"; thin="$2"; fi
+            if [ -n "$3" ]; then thin="$3"; fi
             ;;
         *) exit ;;
     esac
