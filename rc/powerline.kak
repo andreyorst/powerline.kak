@@ -8,22 +8,14 @@
 # ╰─────────────────────────────────────╯
 
 declare-option -hidden -docstring "old modelinefmt value is stored here" \
-str powerline_modelinefmt_backup
+str powerline_modelinefmt_backup %opt{modelinefmt}
 
-define-command -docstring "powerline-enable: enable powerline for all windows" \
-powerline-enable %{
-    set-option global powerline_modelinefmt_backup %opt{modelinefmt}
-    require-module powerline
-    set-option global powerline_on_screen true
-    evaluate-commands %sh{
-        eval "set -- $kak_quoted_buflist"
-        while [ $# -gt 0 ]; do
-            printf "%s\n" "evaluate-commands -buffer '$1' %{ powerline-rebuild }"
-            shift
-        done
+define-command -docstring "powerline-start: require poserline module and enable powerline for all buffers" \
+powerline-start %{
+    hook -once global BufCreate .* %{
+        require-module powerline
+        powerline-enable
     }
-    hook -group powerline global WinDisplay .* %{powerline-rebuild}
-    hook -group powerline global WinSetOption powerline_format=.* %{powerline-rebuild}
 }
 
 provide-module powerline %§
@@ -108,27 +100,44 @@ declare-option -hidden str powerline_color31 black  # unused
 declare-option -hidden str powerline_next_bg %opt{powerline_color08}
 declare-option -hidden str powerline_base_bg %opt{powerline_color08}
 
-define-command -docstring "powerline-toggle: toggle powerline in current window" \
-powerline-toggle %{ evaluate-commands %sh{
+define-command -docstring "powerline-enable: enable powerline for all buffers" \
+powerline-enable -params ..1 %{
+    set-option global powerline_on_screen true
+    remove-hooks global powerline(-.*)?
+    evaluate-commands %sh{
+        eval "set -- $kak_quoted_buflist"
+        while [ $# -gt 0 ]; do
+            printf "%s\n" "evaluate-commands -buffer '$1' %{ powerline-rebuild }"
+            shift
+        done
+    }
+    hook -group powerline global WinDisplay .* powerline-rebuild
+    hook -group powerline global WinSetOption powerline_format=.* powerline-rebuild
+}
+
+define-command -docstring "powerline-disable: disable powerline for all buffers." \
+powerline-disable  -params ..1 %{
+    set-option global powerline_on_screen false
+    remove-hooks global powerline(-.*)?
+    evaluate-commands %sh{
+        eval "set -- $kak_quoted_buflist"
+        while [ $# -gt 0 ]; do
+            printf "%s\n" "evaluate-commands -buffer '$1' %{
+                               set-option buffer modelinefmt %opt{powerline_modelinefmt_backup}
+                           }"
+            shift
+        done
+    }
+}
+
+define-command -docstring "powerline-toggle: toggle powerline in current buffer" \
+powerline-toggle -params ..1 %{ evaluate-commands %sh{
     if [ "$kak_opt_powerline_on_screen" = "true" ]; then
         printf "%s\n" "powerline-disable"
     else
         printf "%s\n" "powerline-enable"
     fi
 }}
-
-define-command -docstring "powerline-disable: disable powerline for all windows." \
-powerline-disable %{
-    set-option global powerline_on_screen false
-    remove-hooks global (.*-)?powerline
-    evaluate-commands %sh{
-        eval "set -- $kak_quoted_buflist"
-        while [ $# -gt 0 ]; do
-            printf "%s\n" "evaluate-commands -buffer '$1' %{ set-option buffer modelinefmt %opt{powerline_modelinefmt_backup} }"
-            shift
-        done
-    }
-}
 
 define-command -docstring "construct powerline acorrdingly to configuration options" \
 powerline-rebuild %{
