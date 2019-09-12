@@ -21,9 +21,9 @@ define-command -hidden powerline-update-branch %{ set-option buffer powerline_br
         branch=$(cd "${kak_buffile%/*}" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null)
     fi
     if [ -n "$branch" ]; then
-        echo "$branch "
+        printf "%s\n" "$branch "
     else
-        echo ""
+        printf "%s\n" ""
     fi
 }}
 
@@ -39,24 +39,21 @@ define-command -hidden powerline-git %{ evaluate-commands %sh{
             [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
             printf "%s\n" "set-option -add global powerlinefmt %{$separator{$fg,$bg} %opt{powerline_branch} }"
             printf "%s\n" "set-option global powerline_next_bg $bg"
-
-            printf "%s\n" "hook -group powerline-git global WinDisplay .* powerline-update-branch"
-            printf "%s\n" "hook -group powerline-git global WinCreate .* powerline-update-branch"
             printf "%s\n" "powerline-update-branch"
         fi
     fi
 }}
 
+define-command powerline-git-setup-hooks %{
+    remove-hooks global powerline-git
+    hook -group powerline-git global WinDisplay .* powerline-update-branch
+    hook -group powerline-git global WinCreate .* powerline-update-branch
+}
+
 define-command -hidden powerline-toggle-git -params ..1 %{ evaluate-commands %sh{ (
     [ "$kak_opt_powerline_module_git" = "true" ] && value=false || value=true
     if [ -n "$1" ]; then
         [ "$1" = "on" ] && value=true || value=false
-    fi
-    if [ "$value" = "true" ]; then
-        printf "%s\n" "hook -group powerline-git global WinDisplay .* powerline-update-branch" | kak -p $kak_session
-        printf "%s\n" "hook -group powerline-git global WinCreate .* powerline-update-branch" | kak -p $kak_session
-    else
-        printf "%s\n" "remove-hooks global powerline-git" | kak -p $kak_session
     fi
     printf "%s\n" "set-option global powerline_module_git $value" | kak -p $kak_session
     printf "%s\n" "evaluate-commands -buffer $kak_bufname %{powerline-rebuild}" | kak -p $kak_session

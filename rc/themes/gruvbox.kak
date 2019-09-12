@@ -27,7 +27,7 @@ define-command -hidden powerline-theme-gruvbox %{ evaluate-commands %sh{
     fg3="rgb:bdae93"
     fg4="rgb:a89984"
 
-    echo "
+    printf "%s\n" "
         declare-option -hidden str powerline_color00 ${bg}     # fg: bufname
         declare-option -hidden str powerline_color01 ${bg4}    # bg: position
         declare-option -hidden str powerline_color02 ${yellow} # fg: git

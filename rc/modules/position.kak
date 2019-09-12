@@ -49,7 +49,7 @@ define-command -hidden powerline-update-position %{ evaluate-commands %sh{ (
             position="⠉"
         fi
     fi
-    echo "evaluate-commands -buffer $kak_bufname %{ set-option buffer powerline_position $position }" | kak -p $kak_session
+    printf "%s\n" "evaluate-commands -buffer $kak_bufname %{ set-option buffer powerline_position $position }" | kak -p $kak_session
 ) >/dev/null 2>&1 </dev/null & }}
 
 define-command -hidden powerline-position %{ evaluate-commands %sh{
@@ -63,27 +63,23 @@ define-command -hidden powerline-position %{ evaluate-commands %sh{
         [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
         printf "%s\n" "set-option -add global powerlinefmt %{$separator{$fg,$bg} ≣ %opt{powerline_position} }"
         printf "%s\n" "set-option global powerline_next_bg $bg"
-
-        printf "%s\n" "hook -group powerline-position global WinDisplay .* powerline-update-position"
-        # printf "%s\n" "hook -group powerline-position global NormalKey (j|k) powerline-update-position"
-        printf "%s\n" "hook -group powerline-position global NormalIdle .* powerline-update-position"
     fi
 }}
+
+define-command -hidden powerline-position-setup-hooks %{
+    remove-hooks global powerline-position
+    hook -group powerline-position global WinDisplay .*  powerline-update-position
+    hook -group powerline-position global NormalKey [jk] powerline-update-position
+    hook -group powerline-position global NormalIdle .*  powerline-update-position
+}
 
 define-command -hidden powerline-toggle-position -params ..1 %{ evaluate-commands %sh{
     [ "$kak_opt_powerline_module_position" = "true" ] && value=false || value=true
     if [ -n "$1" ]; then
         [ "$1" = "on" ] && value=true || value=false
     fi
-    if [ "$value" = "true" ]; then
-        printf "%s\n" "hook -group powerline-position global WinDisplay .* powerline-update-position"
-        # printf "%s\n" "hook -group powerline-position global NormalKey (j|k) powerline-update-position"
-        printf "%s\n" "hook -group powerline-position global NormalIdle .* powerline-update-position"
-    else
-        printf "%s\n" "remove-hooks global powerline-position"
-    fi
-    echo "set-option global powerline_module_position $value"
-    echo "powerline-rebuild"
+    printf "%s\n" "set-option global powerline_module_position $value"
+    printf "%s\n" "powerline-rebuild"
 }}
 
 §

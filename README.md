@@ -104,17 +104,21 @@ a window, therefore you can have different powerlines for different windows.
 
 ### Example configuration using **plug.kak**
 ```kak
-plug "andreyorst/powerline.kak" defer "powerline" %{
+plug "andreyorst/powerline.kak" defer powerline %{
     powerline-separator triangle
     set-option global powerline_format 'powerline-format git bufname filetype mode_info line_column position'
     powerline-toggle line_column off
     powerline-theme gruvbox
+} config %{
+    powerline-start
 }
 ```
 
 Lets breakdown this:
 - `plug` is a [plug.kak][8] command that loads **powerline.kak** plugin and
-  configures it with `defer "powerline" %{...}` expansion.
+  configures it with `defer powerline %{...}` expansion. Deferring means that
+  all these configurations will be loaded only when the `powerline` module
+  loads.
 - `powerline-separator triangle` - sets the separator to powerline's
   triangle. Note that as settings are window dependent new window will use
   default separator, which is `arrow`. To prevent this either use separate
@@ -128,21 +132,12 @@ Lets breakdown this:
   current line and column. Again, you can have this disabled or enabled for
   certain filetypes or buffers via `hook`s , etc.
 - `powerline-theme gruvbox` - sets the theme to `gruvbox`.
+- Lastly in `config` block we use `powerline-start` command that loads the
+  module, and setups everything.
 
 You can add your own configurations here. Since all settings are
 window-dependent you can have different settings for different windows,
 filetypes, window types, etc.
-
-For example this hook will make **powerline.kak** use random separator for every
-new buffer:
-
-```kak
-hook global BufCreate .* %{
-    hook -once global WinDisplay .* %{
-        powerline-separator random
-    }
-}
-```
 
 ## Making themes
 You can create your own themes for **powerline.kak**. Here's the example of good
@@ -251,12 +246,15 @@ define-command -hidden powerline-update-position %{ set-option window powerline_
 As you can see, we're using `set-option` in context of a `window` to update our
 `powerline_pos_percent` variable, because we don't want to update position in
 another window while scrolling the only one of them. Now we need a `hook` that
-will update it only when needed.
+will update it only when needed. To declare hooks you need to create a function
+that has this template name `powerline-MODULENAME-setup-hooks`. It will be
+called automatically by `powerline.kak`.
 
 ```kak
-hook -once -group powerline global KakBegin .* %{
-    hook -group powerline global NormalKey (j|k) powerline-update-position
-    hook -group powerline global NormalIdle .* powerline-update-position
+define-command powerline-position-setup-hooks %{
+    remove-hooks global powerline-position
+    hook -group powerline-position global NormalKey [jk] powerline-update-position
+    hook -group powerline-position global NormalIdle .*  powerline-update-position
 }
 ```
 
