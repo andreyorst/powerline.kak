@@ -31,17 +31,24 @@ define-command -hidden powerline-bufname %{ evaluate-commands %sh{
 
 declare-option -hidden str powerline_readonly
 define-command -hidden powerline-update-readonly %{ set-option buffer powerline_readonly %sh{
-    if [ -w "${kak_buffile}" ]; then
-        printf "%s\n" ''
-    else
-        printf "%s\n" '[]'
+    if [ ! "${kak_opt_readonly}" = "true" ]; then
+        if [ -w "${kak_buffile}" ] || [ -z "${kak_buffile##*\**}" ]; then
+            printf "%s\n" ''
+            exit
+        fi
     fi
+    printf "%s\n" '[]'
 }}
 
 define-command -hidden powerline-bufname-setup-hooks %{
     remove-hooks global powerline-bufname
-    hook -group powerline-bufname global WinDisplay .* powerline-update-readonly
-    hook -group powerline-bufname global BufWritePost .* powerline-update-readonly
+    evaluate-commands %sh{
+        if [ "$kak_opt_powerline_module_bufname" = "true" ]; then
+            printf "%s\n" "hook -group powerline-bufname global WinDisplay .* powerline-update-readonly"
+            printf "%s\n" "hook -group powerline-bufname global BufWritePost .* powerline-update-readonly"
+            printf "%s\n" "hook -group powerline-bufname global BufSetOption readonly=.+ powerline-update-readonly"
+        fi
+    }
 }
 
 define-command -hidden powerline-toggle-bufname -params ..1 %{ evaluate-commands %sh{
@@ -50,7 +57,6 @@ define-command -hidden powerline-toggle-bufname -params ..1 %{ evaluate-commands
         [ "$1" = "on" ] && value=true || value=false
     fi
     printf "%s\n" "set-option global powerline_module_bufname $value"
-    printf "%s\n" "powerline-rebuild"
 }}
 
 §

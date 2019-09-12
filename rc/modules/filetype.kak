@@ -36,7 +36,6 @@ define-command -hidden powerline-toggle-filetype -params ..1 %{ evaluate-command
         [ "$1" = "on" ] && value=true || value=false
     fi
     printf "%s\n" "set-option global powerline_module_filetype $value"
-    printf "%s\n" "powerline-rebuild"
 }}
 
 §

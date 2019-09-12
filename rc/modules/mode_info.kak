@@ -34,7 +34,6 @@ define-command -hidden powerline-toggle-mode-info -params ..1 %{ evaluate-comman
         [ "$1" = "on" ] && value=true || value=false
     fi
     printf "%s\n" "set-option global powerline_module_mode_info $value"
-    printf "%s\n" "powerline-rebuild"
 }}
 
 §

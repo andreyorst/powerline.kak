@@ -34,7 +34,6 @@ define-command -hidden powerline-toggle-session -params ..1 %{ evaluate-commands
         [ "$1" = "on" ] && value=true || value=false
     fi
     printf "%s\n" "set-option global powerline_module_session $value"
-    printf "%s\n" "powerline-rebuild"
 }}
 
 §

@@ -186,12 +186,12 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
     printf "%s\n" "powerline-rebuild"
 }}
 
+
 define-command -docstring "powerline-toggle-module <part> [<state>] toggle on and off displaying of powerline parts" \
 -shell-script-candidates %{eval "set -- ${kak_quoted_opt_powerline_modules}"; while [ "$1" ]; do printf "%s\n" $1; shift; done} \
 powerline-toggle-module -params 1..2 %{ evaluate-commands %sh{
     module=$(printf "%s\n" $1 | sed "s:[^a-zA-Z-]:-:")
-    printf "%s\n" "try %{ powerline-toggle-${module} $2 } catch %{ echo -debug %{can't toggle $1, command 'powerline-toggle-${module}' not found} }"
-    printf "%s\n" "powerline-rebuild"
+    printf "%s\n" "try %{ powerline-toggle-${module} $2 ; powerline-rebuild } catch %{ echo -debug %{powerline.kak: Can't toggle $1, command 'powerline-toggle-${module}' not found} }"
 }}
 
 define-command -docstring "powerline-theme <theme>: apply theme to powerline" \
