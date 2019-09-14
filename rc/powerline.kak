@@ -140,13 +140,14 @@ powerline-toggle -params ..1 %{ evaluate-commands %sh{
 }}
 
 define-command -docstring "rebuild powerline for all buffers." \
-powerline-rebuild %{ evaluate-commands %sh{
+powerline-rebuild %{ evaluate-commands %sh{ (
     eval "set -- $kak_quoted_buflist"
     while [ $# -gt 0 ]; do
-        printf "%s\n" "evaluate-commands -buffer '$1' powerline-rebuild-buffer"
+        printf "%s\n" "evaluate-commands -buffer '$1' %{ hook -once -group powerline-on-demand-rebuild buffer WinDisplay .* powerline-rebuild-buffer }" | kak -p $kak_session
         shift
     done
-}}
+    printf "%s\n" "evaluate-commands -buffer '$kak_quoted_bufname' powerline-rebuild-buffer" | kak -p $kak_session
+) >/dev/null 2>&1 </dev/null & }}
 
 define-command -docstring "construct powerline for current buffer acorrdingly to configuration options." \
 powerline-rebuild-buffer %{
