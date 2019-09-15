@@ -139,16 +139,6 @@ powerline-toggle -params ..1 %{ evaluate-commands %sh{
     fi
 }}
 
-define-command -docstring "rebuild powerline for all buffers." \
-powerline-rebuild %{ evaluate-commands %sh{ (
-    eval "set -- $kak_quoted_buflist"
-    while [ $# -gt 0 ]; do
-        printf "%s\n" "evaluate-commands -buffer '$1' %{ hook -once -group powerline-on-demand-rebuild buffer WinDisplay .* powerline-rebuild-buffer }" | kak -p $kak_session
-        shift
-    done
-    printf "%s\n" "evaluate-commands -buffer '$kak_quoted_bufname' powerline-rebuild-buffer" | kak -p $kak_session
-) >/dev/null 2>&1 </dev/null & }}
-
 define-command -docstring "construct powerline for current buffer acorrdingly to configuration options." \
 powerline-rebuild-buffer %{
     evaluate-commands %sh{
@@ -156,10 +146,8 @@ powerline-rebuild-buffer %{
         printf "%s\n" "set-option global powerline_next_bg %opt{powerline_base_bg}"
 
         for module in ${kak_opt_powerline_format}; do
-            if [ ! "${kak_opt_powerline_ignore_warnings}" = "true" ]; then
-                warning="catch %{ echo -debug %{powerline.kak: Warning, trying to load non-existing module 'powerline-${module}' while building modeline} }"
-            fi
-            module=$(printf "%s\n" ${module} | sed "s:[^a-zA-Z-]:-:")
+            [ ! "${kak_opt_powerline_ignore_warnings}" = "true" ] && warning="catch %{ echo -debug %{powerline.kak: Warning, trying to load non-existing module '${module}'} }"
+            module=$(printf "%s\n" ${module} | sed "s:[^a-zA-Z-]:-:g")
             printf "%s\n" "try %{ powerline-${module} } ${warning}"
             printf "%s\n" "try %{ powerline-${module}-setup-hooks }"
         done
