@@ -19,7 +19,7 @@ bool powerline_position_minimap_format false
 
 set-option -add global powerline_modules 'position'
 declare-option -hidden bool powerline_module_position true
-declare-option -hidden str powerline_position ''
+declare-option -hidden str powerline_position '0%'
 
 
 define-command -hidden powerline-update-position %{ evaluate-commands %sh{ (
