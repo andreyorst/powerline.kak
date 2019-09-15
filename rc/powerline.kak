@@ -105,14 +105,14 @@ powerline-enable -params ..1 %{
     set-option global powerline_on_screen true
     remove-hooks global powerline(-.*)?
     evaluate-commands %sh{
-        eval "set -- $kak_quoted_buflist"
+        eval "set -- $kak_quoted_client_list"
         while [ $# -gt 0 ]; do
-            printf "%s\n" "evaluate-commands -buffer '$1' %{ powerline-rebuild }"
+            printf "%s\n" "evaluate-commands -client '$1' %{ powerline-rebuild-buffer }"
             shift
         done
     }
-    hook -group powerline global WinDisplay .* powerline-rebuild
-    hook -group powerline global WinSetOption powerline_format=.* powerline-rebuild
+    hook -group powerline global WinDisplay .* powerline-rebuild-buffer
+    hook -group powerline global WinSetOption powerline_format=.* powerline-rebuild-buffer
 }
 
 define-command -docstring "powerline-disable: disable powerline for all buffers." \
@@ -193,7 +193,7 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
     esac
     printf "%s\n" "set-option buffer powerline_separator '${normal}'"
     printf "%s\n" "set-option buffer powerline_separator_thin '${thin}'"
-    printf "%s\n" "powerline-rebuild"
+    printf "%s\n" "powerline-rebuild-buffer"
 }}
 
 
@@ -201,14 +201,19 @@ define-command -docstring "powerline-toggle-module <part> [<state>] toggle on an
 -shell-script-candidates %{eval "set -- ${kak_quoted_opt_powerline_modules}"; while [ "$1" ]; do printf "%s\n" $1; shift; done} \
 powerline-toggle-module -params 1..2 %{ evaluate-commands %sh{
     module=$(printf "%s\n" $1 | sed "s:[^a-zA-Z-]:-:")
-    printf "%s\n" "try %{ powerline-toggle-${module} $2 ; powerline-rebuild } catch %{ echo -debug %{powerline.kak: Can't toggle $1, command 'powerline-toggle-${module}' not found} }"
+    printf "%s\n" "try %{ powerline-toggle-${module} $2 } catch %{ echo -debug %{powerline.kak: Can't toggle $1, command 'powerline-toggle-${module}' not found} }"
+    eval "set -- $kak_quoted_client_list"
+    while [ $# -gt 0 ]; do
+        printf "%s\n" "evaluate-commands -client '$1' %{ powerline-rebuild-buffer }"
+        shift
+    done
 }}
 
 define-command -docstring "powerline-theme <theme>: apply theme to powerline." \
 -shell-script-candidates %{ eval "set -- ${kak_quoted_opt_powerline_themes}"; while [ "$1" ]; do printf "%s\n" $1; shift; done} \
 powerline-theme -params 1 %{ evaluate-commands %sh{
     printf "%s\n" "powerline-theme-$1"
-    printf "%s\n" "powerline-rebuild"
+    printf "%s\n" "powerline-rebuild-buffer"
 }}
 
 define-command -docstring "powerline-format <formatstring>: change powerline format. Use <Tab> completion to get available modules.
@@ -226,7 +231,7 @@ powerline-format -params 1.. %{ evaluate-commands %sh{
         done
     fi
     printf "%s\n" "set-option buffer powerline_format %{${formatstring}}"
-    printf "%s\n" "powerline-rebuild"
+    printf "%s\n" "powerline-rebuild-buffer"
 }}
 
 §
