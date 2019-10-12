@@ -23,8 +23,8 @@ define-command -hidden powerline-mode-info %{ evaluate-commands %sh{
         bg=$kak_opt_powerline_base_bg
         fg=$kak_opt_powerline_color07
         [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
-        echo "set-option -add global powerlinefmt %{$separator{$fg,$bg} {{mode_info}} }"
-        echo "set-option global powerline_next_bg $bg"
+        printf "%s\n" "set-option -add global powerlinefmt %{$separator{$fg,$bg} {{mode_info}} }"
+        printf "%s\n" "set-option global powerline_next_bg $bg"
     fi
 }}
 
@@ -33,8 +33,7 @@ define-command -hidden powerline-toggle-mode-info -params ..1 %{ evaluate-comman
     if [ -n "$1" ]; then
         [ "$1" = "on" ] && value=true || value=false
     fi
-    echo "set-option global powerline_module_mode_info $value"
-    echo "powerline-rebuild"
+    printf "%s\n" "set-option global powerline_module_mode_info $value"
 }}
 
 §

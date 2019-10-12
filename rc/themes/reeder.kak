@@ -20,7 +20,7 @@ define-command -hidden powerline-theme-reeder %{ evaluate-commands %sh{
     green="rgb:438047"
     green_light="rgb:7ba84d"
     red="rgb:f03c3c"
-    echo "
+    printf "%s\n" "
         declare-option -hidden str powerline_color00 ${black_light}   # fg: bufname
         declare-option -hidden str powerline_color01 ${brown_lighter} # bg: position
         declare-option -hidden str powerline_color02 ${black_light}   # fg: git

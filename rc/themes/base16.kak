@@ -18,7 +18,7 @@ define-command -hidden powerline-theme-base16 %{ evaluate-commands %sh{
     orange_dark='rgb:DC9656'
     orange_light='rgb:F7CA88'
     purple_dark='rgb:BA8BAF'
-    echo "
+    printf "%s\n" "
         declare-option -hidden str powerline_color00 ${black_light}     # fg: bufname
         declare-option -hidden str powerline_color01 ${cyan_light}      # bg: position
         declare-option -hidden str powerline_color02 ${cyan_light}      # fg: git

@@ -23,7 +23,7 @@ define-command -hidden powerline-theme-solarized-light %{ evaluate-commands %sh{
 	cyan='rgb:2aa198'
 	green='rgb:859900'
 
-    echo "
+    printf "%s\n" "
         declare-option -hidden str powerline_color00 ${base02} # fg: bufname
         declare-option -hidden str powerline_color01 ${orange} # bg: position
         declare-option -hidden str powerline_color02 ${cyan}   # fg: git
