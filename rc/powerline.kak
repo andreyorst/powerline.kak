@@ -10,8 +10,11 @@
 declare-option -hidden -docstring "old modelinefmt value is stored here." \
 str powerline_modelinefmt_backup %opt{modelinefmt}
 
+declare-option -hidden bool powerline_on_screen false
+
 define-command -docstring "powerline-start: require poserline module and enable powerline for all buffers." \
 powerline-start %{
+    set-option global powerline_on_screen true
     hook -once global BufCreate .* %{
         require-module powerline
         powerline-enable
@@ -48,8 +51,6 @@ declare-option -hidden -docstring "powerlinefmt is something similar to modeline
 used to store powerline configuration before passing it to modeline.
 should never be accessed or modified directly." \
 str powerlinefmt
-
-declare-option -hidden bool powerline_on_screen false
 
 # Default Module Colors Table
 # ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
@@ -142,6 +143,10 @@ powerline-toggle -params ..1 %{ evaluate-commands %sh{
 define-command -docstring "construct powerline for current buffer acorrdingly to configuration options." \
 powerline-rebuild-buffer %{
     evaluate-commands %sh{
+        if [ "$kak_opt_powerline_on_screen" != "true" ]; then
+            printf "%s\n" "echo -markup %{{default}powerline is disabled. Enable with \`{meta}powerline-enable{default}' to rebuild}"
+            exit
+        fi
         printf "%s\n" "set-option global powerlinefmt ''"
         printf "%s\n" "set-option global powerline_next_bg %opt{powerline_base_bg}"
 
@@ -160,6 +165,10 @@ define-command -docstring "powerline-separator <separator>: change separators fo
 if <separator> is 'custom' accepts two additional separators fot normal and thin variants." \
 -shell-script-candidates %{ for i in "arrow curve flame triangle triangle-inverted none random custom"; do printf "%s\n" "$i"; done } \
 powerline-separator -params 1..3 %{ evaluate-commands %sh{
+    if [ ! "$kak_opt_powerline_on_screen" = "true" ]; then
+        printf "%s\n" "echo -markup %{{default}powerline is disabled. Enable with \`{meta}powerline-enable{default}' to change separators}"
+        exit
+    fi
     if [ "$1" = "random" ]; then
         seed=$(($(date +%N | sed s:^\[0\]:1:) % 4 + 1)) # a posix compliant very-pseudo-random number generation
         separator=$(eval printf "%s\n" "arrow curve flame triangle | awk '{print \$${seed}}'")
@@ -188,6 +197,10 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
 define-command -docstring "powerline-toggle-module <part> [<state>] toggle on and off displaying of powerline parts." \
 -shell-script-candidates %{eval "set -- ${kak_quoted_opt_powerline_modules}"; while [ "$1" ]; do printf "%s\n" $1; shift; done} \
 powerline-toggle-module -params 1..2 %{ evaluate-commands %sh{
+    if [ ! "$kak_opt_powerline_on_screen" = "true" ]; then
+        printf "%s\n" "echo -markup %{{default}powerline is disabled. Enable with \`{meta}powerline-enable{default}' to toggle modules}"
+        exit
+    fi
     module=$(printf "%s\n" $1 | sed "s:[^a-zA-Z-]:-:")
     printf "%s\n" "try %{ powerline-toggle-${module} $2 } catch %{ echo -debug %{powerline.kak: Can't toggle $1, command 'powerline-toggle-${module}' not found} }"
     eval "set -- $kak_quoted_client_list"
@@ -200,6 +213,10 @@ powerline-toggle-module -params 1..2 %{ evaluate-commands %sh{
 define-command -docstring "powerline-theme <theme>: apply theme to powerline." \
 -shell-script-candidates %{ eval "set -- ${kak_quoted_opt_powerline_themes}"; while [ "$1" ]; do printf "%s\n" $1; shift; done} \
 powerline-theme -params 1 %{ evaluate-commands %sh{
+    if [ ! "$kak_opt_powerline_on_screen" = "true" ]; then
+        printf "%s\n" "echo -markup %{{default}powerline is disabled. Enable with \`{meta}powerline-enable{default}' to change theme}"
+        exit
+    fi
     printf "%s\n" "powerline-theme-$1"
     printf "%s\n" "powerline-rebuild-buffer"
 }}
@@ -210,6 +227,10 @@ powerline-format default: resets powerline format to default value, which is:
     'git bufname line_column mode_info filetype client session position'." \
 -shell-script-completion %{eval "set -- ${kak_quoted_opt_powerline_modules}"; while [ "$1" ]; do printf "%s\n" $1; shift; done} \
 powerline-format -params 1.. %{ evaluate-commands %sh{
+    if [ ! "$kak_opt_powerline_on_screen" = "true" ]; then
+        printf "%s\n" "echo -markup %{{default}powerline is disabled. Enable with \`{meta}powerline-enable{default}' to change format}"
+        exit
+    fi
     if [ "$1" = "default" ]; then
         formatstring="git bufname line_column mode_info filetype client session position"
     else
