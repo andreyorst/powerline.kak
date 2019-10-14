@@ -52,7 +52,7 @@ define-command -hidden powerline-update-bufname %{ set-option buffer powerline_b
         (full)
             printf "%s\n" "${kak_bufname}" ;;
         (short)
-            [ -z "${kak_bufname##*/*}" ] && short=$(printf "%s" "${kak_bufname%/*}/" | perl -pe 's:(?(?<=/)|(?<=^))(\..|[^/]).+?/:\1/:g')
+            [ -z "${kak_bufname##*/*}" ] && short=$(printf "%s" "${kak_bufname%/*}/" | perl -pe 's:(?(?<=/)|(?<=^))([^\p{Letter}\p{Digit}]+.|[^/]).+?/:\1/:g')
             printf "%s\n" "${short}${kak_bufname##*/}" ;;
         (name)
             printf "%s\n" "${kak_bufname##*/}" ;;
