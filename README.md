@@ -107,6 +107,8 @@ These options are also available for configuration:
 - `powerline_format` - set powerline format via option.
 - `powerline_ignore_warnings` - this option makes powerline ignore warnings when
 building powerline.
+- `powerline_shorten_bufname` - display `bufname` in three different ways:
+`full`, `short`, and `name`.
 
 All **powerline.kak** settings executed with commands are applied in context of
 a buffer, therefore you can have different powerlines for different buffers.
