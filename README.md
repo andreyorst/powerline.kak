@@ -23,14 +23,13 @@ Add this to your `kakrc`:
 
 ``` kak
 plug "andreyorst/powerline.kak" config %{
-    powerline-enable
+    powerline-start
 }
 ```
 
 Source your `kakrc` or restart Kakoune, and execute `:plug-install`. Or if you
 don't want to source configuration file or restart Kakoune, simply run
-`plug-install andreyorst/powerline.kak`. Powerline will be enabled automatically
-on buffer change. Use `powerline-rebuild` to activate it manually.
+`plug-install andreyorst/powerline.kak`. Use `powerline-start` to activate it.
 
 ### Without plugin manager
 #### Autoload
@@ -74,7 +73,7 @@ source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/themes/base16-gruvb
 After that you can enable powerline with:
 
 ``` kak
-powerline-enable
+powerline-start
 ```
 
 If you want to use builtin themes, you'll need to source theme scripts from
