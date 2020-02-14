@@ -49,7 +49,7 @@ define-command -hidden powerline-update-position %{ evaluate-commands %sh{ (
             position="⠉"
         fi
     fi
-    printf "%s\n" "evaluate-commands -client $kak_client %{ set-option window powerline_position $position }" | kak -p $kak_session
+    printf "%s\n" "try %{ evaluate-commands -client $kak_client %{ set-option window powerline_position $position } }" | kak -p $kak_session
 ) >/dev/null 2>&1 </dev/null & }}
 
 define-command -hidden powerline-position %{ evaluate-commands %sh{
