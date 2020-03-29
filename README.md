@@ -119,7 +119,7 @@ a buffer, therefore you can have different powerlines for different buffers.
 ### Example configuration using **plug.kak**
 ``` kak
 plug "andreyorst/powerline.kak" defer powerline %{
-    set-option global powerline_format 'powerline-format git bufname filetype mode_info line_column position'
+    set-option global powerline_format 'git bufname filetype mode_info line_column position'
     powerline-toggle line_column off
     powerline-theme gruvbox
 } config %{
@@ -132,13 +132,7 @@ Lets breakdown this:
   configures it with `defer powerline %{...}` expansion. Deferring means that
   all these configurations will be loaded only when the `powerline` module
   loads.
-- `powerline-separator triangle` - sets the separator to powerline's
-  triangle. Note that as settings are window dependent new window will use
-  default separator, which is `arrow`. To prevent this either use separate
-  `hook global WinCreate .* %{ powerline-separator triangle }` that will be
-  applied to all new windows, or modify `powerline_separator` and
-  `powerline_separator_thin` global options to your liking.
-- `powerline-format git bufname filetype mode_info line_column position` - sets
+- `set-option global powerline_format 'git bufname filetype mode_info line_column position'` - sets
   the format of powerline, by adding only git, buffer name, filetype,
   information about mode, line_column and file position in percents.
 - `powerline-toggle line_column off` - disables part of powerline which shows
