@@ -91,8 +91,10 @@ After that you can use **powerline.kak**.
 - `powerline-separator` - change separators of the powerline.kak. In order to
   use powerline icons you need powerline compatible font. This is full list of
   supported separators:
-  - ASCII separators: `ascii`, `full-step`, `half-step`, `quarter-step`
-  - powerline separators: `arrow`, `curve`, `flame`, `triangle`,
+  - ASCII separators: `ascii-arrow`, `ascii-triangle`,
+    `ascii-triangle-inverted`.
+  - Extended ASCII separators: `bars`, `full-step`, `half-step`, `quarter-step`.
+  - Powerline separators: `arrow`, `curve`, `flame`, `triangle`,
     `triangle-inverted`.
   - `random` - randomly selects one from above.
   - `custom` - use your own separators. Supports both normal and thin variants.
