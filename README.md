@@ -88,8 +88,10 @@ After that you can use **powerline.kak**.
 - `powerline-toggle` - toggle powerline on and off, by restoring pre-powerline
   value of `modelinefmt`.
 - `powerline-toggle-module` - toggle one of powerline modules `on` and `off`.
-- `powerline-separator` - change separators of the powerline. Some of powerline
-  font icons are supported by the script:
+- `powerline-separator` - change separators of the powerline.kak. In order to
+  use powerline icons you need powerline compatible font. This is full list of
+  supported separators:
+  - ASCII separators: `ascii`, `full-step`, `half-step`, `quarter-step`
   - powerline separators: `arrow`, `curve`, `flame`, `triangle`,
     `triangle-inverted`.
   - `random` - randomly selects one from above.

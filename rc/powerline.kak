@@ -163,7 +163,7 @@ powerline-rebuild-buffer %{
 
 define-command -docstring "powerline-separator <separator>: change separators for powerline
 if <separator> is 'custom' accepts two additional separators fot normal and thin variants." \
--shell-script-candidates %{ for i in arrow curve flame triangle triangle-inverted none random custom; do printf "%s\n" "$i"; done } \
+-shell-script-candidates %{ for i in ascii arrow curve flame triangle triangle-inverted full-step half-step quarter-step none random custom; do printf "%s\n" "$i"; done } \
 powerline-separator -params 1..3 %{ evaluate-commands %sh{
     if [ ! "$kak_opt_powerline_on_screen" = "true" ]; then
         printf "%s\n" "echo -markup %{{default}powerline is disabled. Enable with \`{meta}powerline-enable{default}' to change separators}"
@@ -176,17 +176,21 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
         separator=$1
     fi
     case ${separator} in
-        none)              normal='';  thin='';;
-        arrow)             normal=''; thin='';;
-        curve)             normal=''; thin='';;
-        flame)             normal=''; thin='';;
-        triangle)          normal=''; thin='';;
-        triangle-inverted) normal=''; thin='';;
-        custom)
+        (none)              normal='';  thin='' ;;
+        (ascii)             normal='<'; thin='<';;
+        (arrow)             normal=''; thin='';;
+        (curve)             normal=''; thin='';;
+        (flame)             normal=''; thin='';;
+        (triangle)          normal=''; thin='';;
+        (triangle-inverted) normal=''; thin='';;
+        (quarter-step)      normal='░'; thin='' ;;
+        (half-step)         normal='▒'; thin='' ;;
+        (full-step)         normal='▓'; thin='' ;;
+        (custom)
             if [ -n "$2" ]; then normal="$2"; thin="$2"; fi
             if [ -n "$3" ]; then thin="$3"; fi
             ;;
-        *) exit ;;
+        (*) exit ;;
     esac
     printf "%s\n" "set-option buffer powerline_separator '${normal}'"
     printf "%s\n" "set-option buffer powerline_separator_thin '${thin}'"
