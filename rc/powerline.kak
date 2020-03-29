@@ -176,19 +176,19 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
         separator=$1
     fi
     case ${separator} in
-        (none)                    normal='';  thin='' ;;
-        (ascii-arrow)             normal='<'; thin='<';;
-        (ascii-triangle)          normal='/'; thin='/';;
-        (ascii-triangle-inverted) normal='\'; thin='\';;
-        (arrow)                   normal=''; thin='';;
-        (curve)                   normal=''; thin='';;
-        (flame)                   normal=''; thin='';;
-        (triangle)                normal=''; thin='';;
-        (triangle-inverted)       normal=''; thin='';;
-        (quarter-step)            normal='░'; thin='' ;;
-        (half-step)               normal='▒'; thin='' ;;
-        (full-step)               normal='▓'; thin='' ;;
-        (bars)                    normal='║'; thin='│';;
+        (none)                    normal=''  ; thin=''  ;;
+        (ascii-arrow)             normal='<' ; thin='<' ;;
+        (ascii-triangle)          normal='/' ; thin='/' ;;
+        (ascii-triangle-inverted) normal='\\'; thin='\\';;
+        (arrow)                   normal='' ; thin='' ;;
+        (curve)                   normal='' ; thin='' ;;
+        (flame)                   normal='' ; thin='' ;;
+        (triangle)                normal='' ; thin='' ;;
+        (triangle-inverted)       normal='' ; thin='' ;;
+        (quarter-step)            normal='░' ; thin=''  ;;
+        (half-step)               normal='▒' ; thin=''  ;;
+        (full-step)               normal='▓' ; thin=''  ;;
+        (bars)                    normal='║' ; thin='│' ;;
         (custom)
             if [ -n "$2" ]; then normal="$2"; thin="$2"; fi
             if [ -n "$3" ]; then thin="$3"; fi
