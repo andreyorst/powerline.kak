@@ -161,17 +161,20 @@ powerline-rebuild-buffer %{
     set-option buffer modelinefmt %opt{powerlinefmt}
 }
 
-define-command -docstring "powerline-separator <separator>: change separators for powerline
-if <separator> is 'custom' accepts two additional separators fot normal and thin variants." \
+define-command -docstring "powerline-separator [<scope>] <separator>: change separators for powerline.
+If <separator> is 'custom' accepts two additional separators fot normal and thin variants." \
 -shell-script-candidates %{ for i in ascii-arrow ascii-triangle ascii-triangle-inverted arrow curve flame triangle triangle-inverted full-step half-step quarter-step bars none random custom; do printf "%s\n" "$i"; done } \
 powerline-separator -params 1..3 %{ evaluate-commands %sh{
     if [ ! "$kak_opt_powerline_on_screen" = "true" ]; then
         printf "%s\n" "echo -markup %{{default}powerline is disabled. Enable with \`{meta}powerline-enable{default}' to change separators}"
         exit
     fi
+    case $1 in
+        (buffer|global|window) scope=$1; shift ;;
+    esac
     if [ "$1" = "random" ]; then
-        seed=$(($(date +%N | sed s:^\[0\]:1:) % 4 + 1)) # a posix compliant very-pseudo-random number generation
-        separator=$(eval printf "%s\n" "arrow curve flame triangle | awk '{print \$${seed}}'")
+        seed=$(($(date +%N | sed s:^\[0\]:1:) % 9 + 1)) # a posix compliant very-pseudo-random number generation
+        separator=$(printf "%s\n" "arrow curve flame triangle triangle-inverted quarter-step half-step full-step bars" | awk "{print \$${seed}}")
     else
         separator=$1
     fi
@@ -195,8 +198,8 @@ powerline-separator -params 1..3 %{ evaluate-commands %sh{
             ;;
         (*) exit ;;
     esac
-    printf "%s\n" "set-option buffer powerline_separator '${normal}'"
-    printf "%s\n" "set-option buffer powerline_separator_thin '${thin}'"
+    printf "%s\n" "set-option ${scope:-buffer} powerline_separator '${normal}'"
+    printf "%s\n" "set-option ${scope:-buffer} powerline_separator_thin '${thin}'"
     printf "%s\n" "powerline-rebuild-buffer"
 }}
 
