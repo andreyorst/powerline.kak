@@ -12,7 +12,7 @@ Note that lines enclosed with arrows are comments and will be deleted automatica
 
 
 ## Steps to reproduce
-<!-- Pease provide short steps to reproduce if necessary. Add steps if needed -->
+<!-- Please provide short steps to reproduce if necessary. Add steps if needed -->
 1.
 2.
 3.
