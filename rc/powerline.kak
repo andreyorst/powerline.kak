@@ -12,7 +12,7 @@ str powerline_modelinefmt_backup %opt{modelinefmt}
 
 declare-option -hidden bool powerline_on_screen false
 
-define-command -docstring "powerline-start: require poserline module and enable powerline for all buffers." \
+define-command -docstring "powerline-start: require powerline module and enable powerline for all buffers." \
 powerline-start %{
     set-option global powerline_on_screen true
     hook -once global BufCreate .* %{
