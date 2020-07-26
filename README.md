@@ -1,3 +1,5 @@
+# THIS PLUGIN IS NOT ACTIVELY MAINTAINED. FOR MORE DETAILS PLEASE SEE [THIS DISCOURSE POST](https://discuss.kakoune.com/t/maintainance-warning-and-request)
+
 # powerline.kak
 ![license][1]
 [![GitHub release][2]][3]
