@@ -1,3 +1,6 @@
+## New Official Home
+[Andrey Orst](https://github.com/andreyorst) has handed this great plugin off to me for the time being. I will do my best to keep `powerline.kak` in good working order.
+
 # powerline.kak
 ![license][1]
 [![GitHub release][2]][3]
@@ -22,14 +25,14 @@ write access, **powerline.kak** will show you a lock symbol near the filename.
 Add this to your `kakrc`:
 
 ``` kak
-plug "andreyorst/powerline.kak" config %{
+plug "jdugan6240/powerline.kak" config %{
     powerline-start
 }
 ```
 
 Source your `kakrc` or restart Kakoune, and execute `:plug-install`. Or if you
 don't want to source configuration file or restart Kakoune, simply run
-`plug-install andreyorst/powerline.kak`. Use `powerline-start` to activate it.
+`plug-install jdugan6240/powerline.kak`. Use `powerline-start` to activate it.
 
 ### Without plugin manager
 #### Autoload
@@ -41,7 +44,7 @@ an issue.
 Clone this repository somewhere
 
 ```bash
-git clone https://github.com/andreyorst/powerline.kak.git
+git clone https://github.com/jdugan6240/powerline.kak.git
 ```
 
 Source the main script in your `kakrc`:
@@ -118,7 +121,7 @@ a buffer, therefore you can have different powerlines for different buffers.
 
 ### Example configuration using **plug.kak**
 ``` kak
-plug "andreyorst/powerline.kak" defer powerline %{
+plug "jdugan6240/powerline.kak" defer powerline %{
     set-option global powerline_format 'git bufname filetype mode_info line_column position'
     powerline-toggle line_column off
     powerline-theme gruvbox
@@ -127,7 +130,7 @@ plug "andreyorst/powerline.kak" defer powerline %{
 }
 ```
 
-Lets breakdown this:
+Lets break this down:
 - `plug` is a [plug.kak][8] command that loads **powerline.kak** plugin and
   configures it with `defer powerline %{...}` expansion. Deferring means that
   all these configurations will be loaded only when the `powerline` module
