@@ -25,7 +25,7 @@ define-command -hidden powerline-git %{ evaluate-commands %sh{
         fg=$kak_opt_powerline_color02
         bg=$kak_opt_powerline_color04
         [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
-        branch=$(cd "${kak_buffile%/*}" 2>/dev/null && git branch | awk '{print $2;}')
+        branch=$(cd "${kak_buffile%/*}" 2>/dev/null && (git branch | awk '{print $2;}') 2>/dev/null)
         if [ -n "$branch" ]; then
         	printf "%s\n" "set-option -add global powerlinefmt %{$separator{$fg,$bg} $branch  }"
        	fi
