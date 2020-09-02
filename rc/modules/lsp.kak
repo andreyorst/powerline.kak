@@ -16,7 +16,7 @@ define-command -hidden powerline-lsp %{ evaluate-commands %sh{
         fg2=$kak_opt_powerline_color07
         fg3=$kak_opt_powerline_color03
         [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
-        printf "%s\n" "set-option -add global powerlinefmt %{$separator{$fg2,$bg} E:%opt{lsp_diagnostic_error_count} {$fg3,$bg} W:%opt{lsp_diagnostic_error_count} }"
+        printf "%s\n" "set-option -add global powerlinefmt %{$separator{$fg2,$bg} E:%opt{lsp_diagnostic_error_count} {$fg3,$bg} W:%opt{lsp_diagnostic_warning_count} }"
         printf "%s\n" "set-option global powerline_next_bg $bg"
     fi
 }}
