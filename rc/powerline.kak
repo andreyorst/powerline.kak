@@ -44,7 +44,8 @@ available modules:
     filetype:    filetype of current buffer
     client:      client name
     session:     session pid
-    position:    percent position in file" \
+    position:    percent position in file
+    lsp:         shows errors and warnings in file" \
 str powerline_format "git bufname line_column mode_info filetype client session position"
 
 declare-option -hidden -docstring "powerlinefmt is something similar to modelinefmt
@@ -64,6 +65,7 @@ str powerlinefmt
 # | mode-info   | color07    | base_bg (08) |
 # | position    | color05    | color01      |
 # | session     | color14    | color15      |
+# | lsp         | color06    | color09      |
 
 declare-option -hidden str powerline_color00 black  # fg: bufname
 declare-option -hidden str powerline_color01 yellow # bg: position
@@ -71,10 +73,10 @@ declare-option -hidden str powerline_color02 green  # fg: git
 declare-option -hidden str powerline_color03 yellow # bg: bufname
 declare-option -hidden str powerline_color04 black  # bg: git
 declare-option -hidden str powerline_color05 black  # fg: position
-declare-option -hidden str powerline_color06 cyan   # fg: line-column
+declare-option -hidden str powerline_color06 cyan   # fg: line-column, lsp
 declare-option -hidden str powerline_color07 blue   # fg: mode-info
 declare-option -hidden str powerline_color08 black  # base background
-declare-option -hidden str powerline_color09 black  # bg: line-column
+declare-option -hidden str powerline_color09 black  # bg: line-column, lsp
 declare-option -hidden str powerline_color10 yellow # fg: filetype
 declare-option -hidden str powerline_color11 black  # bg: filetype
 declare-option -hidden str powerline_color12 blue   # bg: client

@@ -65,6 +65,7 @@ source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/line_column
 source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/mode_info.kak
 source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/position.kak
 source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/session.kak
+source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/lsp.kak
 ```
 
 And source theme that you want to use:
@@ -172,10 +173,10 @@ define-command -hidden powerline-theme-base16-gruvbox %{
     declare-option -hidden str powerline_color03 "rgb:a89984" # bg: bufname
     declare-option -hidden str powerline_color04 "rgb:3c3836" # bg: git
     declare-option -hidden str powerline_color05 "rgb:282828" # fg: position
-    declare-option -hidden str powerline_color06 "rgb:bdae93" # fg: line-column
+    declare-option -hidden str powerline_color06 "rgb:bdae93" # fg: line-column, lsp
     declare-option -hidden str powerline_color07 "rgb:d5c4a1" # fg: mode-info
     declare-option -hidden str powerline_color08 "rgb:3c3836" # base background
-    declare-option -hidden str powerline_color09 "rgb:504945" # bg: line-column
+    declare-option -hidden str powerline_color09 "rgb:504945" # bg: line-column, lsp
     ...
     declare-option -hidden str powerline_color30 "rgb:7c6f64" # unused
     declare-option -hidden str powerline_color31 "rgb:fbf1c7" # unused
@@ -227,6 +228,7 @@ other modules, if possible. These colors are used by default modules:
 | mode-info   |    color07 | base_bg (color08) |
 | position    |    color05 |           color01 |
 | session     |    color14 |           color15 |
+| lsp         |    color06 |           color09 |
 
 Colors from `color16` to `color31` are declared by the main script, but not used
 by any of default modules so you could use them in your own modules. Make sure
