@@ -398,4 +398,4 @@ the same way.
 [5]: https://github.com/andreyorst/powerline.kak/releases
 [6]: https://img.shields.io/github/commits-since/andreyorst/powerline.kak/latest.svg
 [7]: https://user-images.githubusercontent.com/19470159/47966105-ae902f80-e05f-11e8-8ca4-76213449d3b8.png
-[8]: https://github.com/andreyorst/plug.kak
+[8]: https://github.com/robertmeta/plug.kak
