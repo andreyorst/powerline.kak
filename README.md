@@ -21,11 +21,14 @@ filetype wasn't deduced by Kakoune. Also if you're editing file that has no
 write access, **powerline.kak** will show you a lock symbol near the filename.
 
 ## Installation
-### With [plug.kak][8] (recommended)
+### With andreyorst's [plug.kak][8]
 Add this to your `kakrc`:
 
 ``` kak
-plug "jdugan6240/powerline.kak" config %{
+plug "jdugan6240/powerline.kak" defer powerline %{
+    #Configure powerline.kak as desired
+    powerline-theme gruvbox
+} config %{
     powerline-start
 }
 ```
@@ -33,6 +36,24 @@ plug "jdugan6240/powerline.kak" config %{
 Source your `kakrc` or restart Kakoune, and execute `:plug-install`. Or if you
 don't want to source configuration file or restart Kakoune, simply run
 `plug-install jdugan6240/powerline.kak`. Use `powerline-start` to activate it.
+
+### With alexherbo2's [plug.kak][9]
+Add this to your `kakrc`:
+
+``` kak
+plug powerline https://github.com/jdugan6240/powerline.kak %{
+    powerline-enable # Use powerline-enable here because module is already loaded
+}
+
+hook global -once WinDisplay .* %{
+    #Configure powerline.kak as desired
+    powerline-theme gruvbox
+}
+```
+
+Source your `kakrc` or restart Kakoune, and execute `:plug-install`. Or if you
+don't want to source configuration file or restart Kakoune, simply run
+`plug-install jdugan6240/powerline.kak`. Use `powerline-enable` to activate it.
 
 ### Without plugin manager
 #### Autoload
@@ -82,7 +103,7 @@ powerline-start
 
 If you want to use builtin themes, you'll need to source theme scripts from
 `rc/themes` folder. This is kind of tedious thing to do, and that's why I
-recommend using **plug.kak**, since it does all this for you automatically, and
+recommend using a plugin manager, since it does all this for you automatically, and
 handles your configuration too.
 
 After that you can use **powerline.kak**.
@@ -93,7 +114,8 @@ After that you can use **powerline.kak**.
   value of `modelinefmt`.
 - `powerline-toggle-module` - toggle one of powerline modules `on` and `off`.
 - `powerline-separator` - change separators of the powerline.kak. In order to
-  use powerline icons you need powerline compatible font. This is full list of
+  use powerline icons you need powerline compatible font. Note that, at present,
+  this only sets the separator for the current buffer. This is the full list of
   supported separators:
   - ASCII separators: `ascii-arrow`, `ascii-triangle`,
     `ascii-triangle-inverted`.
@@ -120,7 +142,7 @@ building powerline.
 All **powerline.kak** settings executed with commands are applied in context of
 a buffer, therefore you can have different powerlines for different buffers.
 
-### Example configuration using **plug.kak**
+### Example configuration using andreyorst's **plug.kak**
 ``` kak
 plug "jdugan6240/powerline.kak" defer powerline %{
     set-option global powerline_format 'git bufname filetype mode_info line_column position'
@@ -154,7 +176,7 @@ buffer-dependent you can have different settings for different buffers,
 filetypes, etc.
 
 ## Making themes
-You can create your own themes for **powerline.kak**. Here's the example of good
+You can create your own themes for **powerline.kak**. Here's an example of a good
 theme:
 
 ``` kak
@@ -190,16 +212,16 @@ define-command -hidden powerline-theme-base16-gruvbox %{
 
 That is, themes for **powerline.kak** are commands, that define colors in these
 variables. Each module has foreground and background assets. Note that modifiers
-like **bold** are not supported yet. I'm thinking about it. When defining a
-theme, please make sure that text at the end of your command and string that you
-add to the `powerline_themes` are exactly the same:
+like **bold** are not supported. When defining a theme, please make sure that text 
+at the end of your command and string that you add to the `powerline_themes` are 
+exactly the same:
 
 ``` kak
 set-option -add global powerline_themes "base16-gruvbox"
 define-command   -hidden powerline-theme-base16-gruvbox %{...}
 #                                        ^^^^^^^^^^^^^^
 #                                       This is important
-#                                     Those must be the same
+#                                     These must be the same
 ```
 
 If they are the same **powerline.kak** will show you completion items with
@@ -236,8 +258,8 @@ to add comment which module uses those colors if you want to submit your module
 to **powerline.kak**.
 
 ## Writing a module
-This is bit tricky part, but you can add your own modules to powerline. To
-create a module you need this things:
+This is a bit trickier than writing themes, but you can add your own modules to 
+powerline. To create a module you need the following things:
 
 - declare Boolean option for toggling module on and off.
 - declare string option for contents of the module within the powerline.
@@ -313,7 +335,7 @@ define-command -hidden powerline-position %{ evaluate-commands %sh{
 set-option -add global powerline_modules 'position'
 ```
 
-There's a lot going on, so lets breakdown it.
+There's a lot going on, so lets break it down.
 
 First, we define a `hidden` command, called `powerline-position`, that will be
 called by powerline, when `powerline-build` is executed.
@@ -328,13 +350,13 @@ In this shell expansion we're declaring four variables:
   be set to `$kak_opt_powerline_base_bg`, since it matches default modeline
   background color for current colorscheme
 - `next_bg` - a tricky variable that will tell next module what background color
-  it should use for it's separator. This is very important part, since without
-  it smooth transition between modules isn't possible. It must be set to
+  it should use for it's separator. This is very important, since without it
+  smooth transition between modules isn't possible. It must be set to
   `$kak_opt_powerline_next_bg` which will be explained later.
 - `normal` - a separator with solid body.
 - `thin` - a separator with thin body.
 
-After that we have `if` statement, that ensures that module isn't toggled `off`,
+After that we have an `if` statement, that ensures that module isn't toggled `off`,
 and we actually need to draw our module in powerline. And if it is `on`, we do
 the following:
 
@@ -373,7 +395,7 @@ define-command -hidden powerline-toggle-position -params ..1 %{ evaluate-command
 This command has one optional parameter for `on` and `off` switches which are
 checked inside of it.
 
-That is. This is how you add a module to **powerline.kak**. So if you're writing
+This is how you add a module to **powerline.kak**. So, if you're writing
 a plugin, you can have this code inside your plugin, or you can send a PR with
 it and it will be included to **powerline.kak** as a separate module. But how
 would **powerline.kak** know how to execute these commands?
@@ -399,3 +421,4 @@ the same way.
 [6]: https://img.shields.io/github/commits-since/andreyorst/powerline.kak/latest.svg
 [7]: https://user-images.githubusercontent.com/19470159/47966105-ae902f80-e05f-11e8-8ca4-76213449d3b8.png
 [8]: https://github.com/robertmeta/plug.kak
+[9]: https://github.com/alexherbo2/plug.kak
