@@ -41,19 +41,17 @@ don't want to source configuration file or restart Kakoune, simply run
 Add this to your `kakrc`:
 
 ``` kak
-plug powerline https://github.com/jdugan6240/powerline.kak %{
-    powerline-enable # Use powerline-enable here because module is already loaded
+plug-old powerline https://github.com/jdugan6240/powerline.kak %{
+    hook global ModuleLoaded powerline %{
+        #Configure powerline.kak as desired
+        powerline-theme gruvbox
+    }
+    powerline-start
 }
 
-hook global -once WinDisplay .* %{
-    #Configure powerline.kak as desired
-    powerline-theme gruvbox
-}
 ```
 
-Source your `kakrc` or restart Kakoune, and execute `:plug-install`. Or if you
-don't want to source configuration file or restart Kakoune, simply run
-`plug-install jdugan6240/powerline.kak`. Use `powerline-enable` to activate it.
+Source your `kakrc` or restart Kakoune, and execute `:plug-install`. Use `powerline-enable` to activate it.
 
 ### Without plugin manager
 #### Autoload
