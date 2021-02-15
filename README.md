@@ -112,8 +112,7 @@ After that you can use **powerline.kak**.
   value of `modelinefmt`.
 - `powerline-toggle-module` - toggle one of powerline modules `on` and `off`.
 - `powerline-separator` - change separators of the powerline.kak. In order to
-  use powerline icons you need powerline compatible font. Note that, at present,
-  this only sets the separator for the current buffer. This is the full list of
+  use powerline icons you need powerline compatible font. This is the full list of
   supported separators:
   - ASCII separators: `ascii-arrow`, `ascii-triangle`,
     `ascii-triangle-inverted`.
@@ -137,13 +136,16 @@ building powerline.
 - `powerline_shorten_bufname` - display `bufname` in three different ways:
 `full`, `short`, and `name`.
 
-All **powerline.kak** settings executed with commands are applied in context of
-a buffer, therefore you can have different powerlines for different buffers.
+All **powerline.kak** settings executed with commands are applied by default in context of
+a buffer, therefore you can have different powerlines for different buffers. However, a
+scope can be passed to these commands to set these options at the buffer, window, or global
+scope. For example, `powerline-separator global triangle` runs the `powerline-separator`
+command on a global scope to set the separator globally instead of in the context of a buffer.
 
 ### Example configuration using andreyorst's **plug.kak**
 ``` kak
 plug "jdugan6240/powerline.kak" defer powerline %{
-    set-option global powerline_format 'git bufname filetype mode_info line_column position'
+    powerline-format global 'git bufname filetype mode_info line_column position'
     powerline-toggle line_column off
     powerline-theme gruvbox
 } config %{
@@ -156,7 +158,7 @@ Lets break this down:
   configures it with `defer powerline %{...}` expansion. Deferring means that
   all these configurations will be loaded only when the `powerline` module
   loads.
-- `set-option global powerline_format 'git bufname filetype mode_info line_column position'` - sets
+- `powerline-format global 'git bufname filetype mode_info line_column position'` - sets
   the format of powerline, by adding only git, buffer name, filetype,
   information about mode, line_column and file position in percents.
 - `powerline-toggle line_column off` - disables part of powerline which shows
