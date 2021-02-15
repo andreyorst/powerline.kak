@@ -243,6 +243,9 @@ powerline-format -params 1.. %{ evaluate-commands %sh{
         printf "%s\n" "echo -markup %{{default}powerline is disabled. Enable with \`{meta}powerline-enable{default}' to change format}"
         exit
     fi
+    case $1 in
+        (buffer|global|window) scope=$1; shift ;;
+    esac
     if [ "$1" = "default" ]; then
         formatstring="git bufname line_column mode_info filetype client session position"
     else
@@ -251,7 +254,7 @@ powerline-format -params 1.. %{ evaluate-commands %sh{
             formatstring="${formatstring} $1"; shift
         done
     fi
-    printf "%s\n" "set-option buffer powerline_format %{${formatstring}}"
+    printf "%s\n" "set-option ${scope:-buffer} powerline_format %{${formatstring}}"
     printf "%s\n" "powerline-rebuild-buffer"
 }}
 
