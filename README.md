@@ -1,6 +1,3 @@
-## New Official Home
-[Andrey Orst](https://github.com/andreyorst) has handed this great plugin off to me for the time being. I will do my best to keep `powerline.kak` in good working order.
-
 # powerline.kak
 ![license][1]
 [![GitHub release][2]][3]
@@ -25,7 +22,7 @@ write access, **powerline.kak** will show you a lock symbol near the filename.
 Add this to your `kakrc`:
 
 ``` kak
-plug "jdugan6240/powerline.kak" defer powerline %{
+plug "andreyorst/powerline.kak" defer powerline %{
     #Configure powerline.kak as desired
     powerline-theme gruvbox
 } config %{
@@ -35,13 +32,13 @@ plug "jdugan6240/powerline.kak" defer powerline %{
 
 Source your `kakrc` or restart Kakoune, and execute `:plug-install`. Or if you
 don't want to source configuration file or restart Kakoune, simply run
-`plug-install jdugan6240/powerline.kak`. Use `powerline-start` to activate it.
+`plug-install andreyorst/powerline.kak`. Use `powerline-start` to activate it.
 
 ### With alexherbo2's [plug.kak][9]
 Add this to your `kakrc`:
 
 ``` kak
-plug-old powerline https://github.com/jdugan6240/powerline.kak %{
+plug-old powerline https://github.com/andreyorst/powerline.kak %{
     hook global ModuleLoaded powerline %{
         #Configure powerline.kak as desired
         powerline-theme gruvbox
@@ -63,7 +60,7 @@ an issue.
 Clone this repository somewhere
 
 ```bash
-git clone https://github.com/jdugan6240/powerline.kak.git
+git clone https://github.com/andreyorst/powerline.kak.git
 ```
 
 Source the main script in your `kakrc`:
@@ -144,7 +141,7 @@ command on a global scope to set the separator globally instead of in the contex
 
 ### Example configuration using andreyorst's **plug.kak**
 ``` kak
-plug "jdugan6240/powerline.kak" defer powerline %{
+plug "andreyorst/powerline.kak" defer powerline %{
     powerline-format global 'git bufname filetype mode_info line_column position'
     powerline-toggle line_column off
     powerline-theme gruvbox
@@ -420,5 +417,5 @@ the same way.
 [5]: https://github.com/andreyorst/powerline.kak/releases
 [6]: https://img.shields.io/github/commits-since/andreyorst/powerline.kak/latest.svg
 [7]: https://user-images.githubusercontent.com/19470159/47966105-ae902f80-e05f-11e8-8ca4-76213449d3b8.png
-[8]: https://github.com/robertmeta/plug.kak
+[8]: https://github.com/andreyorst/plug.kak
 [9]: https://github.com/alexherbo2/plug.kak
