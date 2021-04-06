@@ -2,6 +2,9 @@ hook global ModuleLoaded powerline %{ require-module powerline_lsp }
 
 provide-module powerline_lsp %§
 
+declare-option int lsp_diagnostic_error_count
+declare-option int lsp_diagnostic_warning_count
+
 declare-option -hidden bool powerline_module_lsp true
 set-option -add global powerline_modules 'lsp'
 
