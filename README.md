@@ -1,9 +1,9 @@
 # powerline.kak
+
 ![license][1]
 [![GitHub release][2]][3]
 [![GitHub Release Date][4]][5]
 ![GitHub commits (since latest release)][6]
-
 
 Powerline plugin for Kakoune Editor.
 
@@ -18,12 +18,13 @@ filetype wasn't deduced by Kakoune. Also if you're editing file that has no
 write access, **powerline.kak** will show you a lock symbol near the filename.
 
 ## Installation
-### With andreyorst's [plug.kak][8]
+
+### With [plug.kak][8]
+
 Add this to your `kakrc`:
 
 ``` kak
-plug "andreyorst/powerline.kak" defer powerline %{
-    #Configure powerline.kak as desired
+plug "andreyorst/powerline.kak" defer powerline_gruvbox %{
     powerline-theme gruvbox
 } config %{
     powerline-start
@@ -34,60 +35,48 @@ Source your `kakrc` or restart Kakoune, and execute `:plug-install`. Or if you
 don't want to source configuration file or restart Kakoune, simply run
 `plug-install andreyorst/powerline.kak`. Use `powerline-start` to activate it.
 
-### With alexherbo2's [plug.kak][9]
-Add this to your `kakrc`:
-
-``` kak
-plug-old powerline https://github.com/andreyorst/powerline.kak %{
-    hook global ModuleLoaded powerline %{
-        #Configure powerline.kak as desired
-        powerline-theme gruvbox
-    }
-    powerline-start
-}
-
-```
-
-Source your `kakrc` or restart Kakoune, and execute `:plug-install`. Use `powerline-enable` to activate it.
-
 ### Without plugin manager
+
 #### Autoload
+
 Clone or place a symbolic link to the repository into your `autoload`
 directory. Plugin should be loaded fine. If any errors will show up, please open
 an issue.
 
 #### By hand
+
 Clone this repository somewhere
 
-```bash
-git clone https://github.com/andreyorst/powerline.kak.git
+``` bash
+mkdir -p ~/.config/kak/plugins
+git clone https://github.com/andreyorst/powerline.kak.git ~/.config/kak/plugins/
 ```
 
 Source the main script in your `kakrc`:
 
 ``` kak
-source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/powerline.kak
+source "%val{config}/plugins/powerline.kak/rc/powerline.kak"
 ```
 
 Source modules. You can skip those you don't want to use but it highly
 recommended to source at least `bufname.kak`, and `mode_info.kak`:
 
 ``` kak
-source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/bufname.kak
-source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/client.kak
-source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/filetype.kak
-source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/git.kak
-source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/line_column.kak
-source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/mode_info.kak
-source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/position.kak
-source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/session.kak
-source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/modules/lsp.kak
+source "%val{config}/plugins/powerline.kak/rc/modules/bufname.kak"
+source "%val{config}/plugins/powerline.kak/rc/modules/client.kak"
+source "%val{config}/plugins/powerline.kak/rc/modules/filetype.kak"
+source "%val{config}/plugins/powerline.kak/rc/modules/git.kak"
+source "%val{config}/plugins/powerline.kak/rc/modules/line_column.kak"
+source "%val{config}/plugins/powerline.kak/rc/modules/mode_info.kak"
+source "%val{config}/plugins/powerline.kak/rc/modules/position.kak"
+source "%val{config}/plugins/powerline.kak/rc/modules/session.kak"
+source "%val{config}/plugins/powerline.kak/rc/modules/lsp.kak"
 ```
 
 And source theme that you want to use:
 
 ``` kak
-source /home/andreyorst/.config/kak/plugins/powerline.kak/rc/themes/base16-gruvbox.kak
+source "%val{config}/plugins/powerline.kak/rc/themes/base16-gruvbox.kak"
 ```
 
 After that you can enable powerline with:
@@ -104,6 +93,7 @@ handles your configuration too.
 After that you can use **powerline.kak**.
 
 ## Configuration
+
 **powerline.kak** supports these commands:
 - `powerline-toggle` - toggle powerline on and off, by restoring pre-powerline
   value of `modelinefmt`.
@@ -139,11 +129,14 @@ scope can be passed to these commands to set these options at the buffer, window
 scope. For example, `powerline-separator global triangle` runs the `powerline-separator`
 command on a global scope to set the separator globally instead of in the context of a buffer.
 
-### Example configuration using andreyorst's **plug.kak**
+### Example configuration using **plug.kak**
+
 ``` kak
-plug "andreyorst/powerline.kak" defer powerline %{
+ defer powerline %{
     powerline-format global 'git bufname filetype mode_info line_column position'
-    powerline-toggle line_column off
+    powerline-toggle line_column off} defer powerline_bufname %{
+    set-option global powerline_shorten_bufname 'short'
+} defer powerline_gruvbox %{
     powerline-theme gruvbox
 } config %{
     powerline-start
@@ -155,13 +148,14 @@ Lets break this down:
   configures it with `defer powerline %{...}` expansion. Deferring means that
   all these configurations will be loaded only when the `powerline` module
   loads.
-- `powerline-format global 'git bufname filetype mode_info line_column position'` - sets
-  the format of powerline, by adding only git, buffer name, filetype,
-  information about mode, line_column and file position in percents.
-- `powerline-toggle line_column off` - disables part of powerline which shows
-  current line and column. Again, you can have this disabled or enabled for
-  certain filetypes or buffers via `hook`s , etc.
-- `powerline-theme gruvbox` - sets the theme to `gruvbox`.
+  - `powerline-format global 'git bufname filetype mode_info line_column position'` - sets
+    the format of powerline, by adding only git, buffer name, filetype,
+    information about mode, line_column and file position in percents.
+  - `powerline-toggle line_column off` - disables part of powerline which shows
+    current line and column. Again, you can have this disabled or enabled for
+    certain filetypes or buffers via `hook`s , etc.
+- Next, another `defer` that will be executed when theme module is loaded.
+  - `powerline-theme gruvbox` - sets the theme to `gruvbox`.
 - Lastly in `config` block we use `powerline-start` command that loads the
   module, and setups everything. Note that `powerline-start` should be called at
   Kakoune initialization, thus placing it in `config` block is appropriate. If
@@ -173,6 +167,7 @@ buffer-dependent you can have different settings for different buffers,
 filetypes, etc.
 
 ## Making themes
+
 You can create your own themes for **powerline.kak**. Here's an example of a good
 theme:
 
@@ -209,8 +204,8 @@ define-command -hidden powerline-theme-base16-gruvbox %{
 
 That is, themes for **powerline.kak** are commands, that define colors in these
 variables. Each module has foreground and background assets. Note that modifiers
-like **bold** are not supported. When defining a theme, please make sure that text 
-at the end of your command and string that you add to the `powerline_themes` are 
+like **bold** are not supported. When defining a theme, please make sure that text
+at the end of your command and string that you add to the `powerline_themes` are
 exactly the same:
 
 ``` kak
@@ -255,7 +250,8 @@ to add comment which module uses those colors if you want to submit your module
 to **powerline.kak**.
 
 ## Writing a module
-This is a bit trickier than writing themes, but you can add your own modules to 
+
+This is a bit trickier than writing themes, but you can add your own modules to
 powerline. To create a module you need the following things:
 
 - declare Boolean option for toggling module on and off.
@@ -418,4 +414,8 @@ the same way.
 [6]: https://img.shields.io/github/commits-since/andreyorst/powerline.kak/latest.svg
 [7]: https://user-images.githubusercontent.com/19470159/47966105-ae902f80-e05f-11e8-8ca4-76213449d3b8.png
 [8]: https://github.com/andreyorst/plug.kak
-[9]: https://github.com/alexherbo2/plug.kak
+
+<!--  LocalWords:  Powerline Kakoune Kakoune's modeline filetype kak
+      LocalWords:  powerline Autoload pre powerlines filetypes lsp
+      LocalWords:  bufname kbd colorscheme
+ -->
