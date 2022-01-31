@@ -21,8 +21,8 @@ define-command -hidden powerline-theme-base16-gruvbox %{
     declare-option -hidden str powerline_color11 "rgb:504945" # bg: filetype
     declare-option -hidden str powerline_color12 "rgb:665c54" # bg: client
     declare-option -hidden str powerline_color13 "rgb:ebdbb2" # fg: client
-    declare-option -hidden str powerline_color14 "rgb:7c6f64" # fg: session
-    declare-option -hidden str powerline_color15 "rgb:fbf1c7" # bg: session
+    declare-option -hidden str powerline_color14 "rgb:7c6f64" # bg: session
+    declare-option -hidden str powerline_color15 "rgb:fbf1c7" # fg: session
     declare-option -hidden str powerline_color16 "rgb:282828" # unused
     declare-option -hidden str powerline_color17 "rgb:a89984" # unused
     declare-option -hidden str powerline_color18 "rgb:bdae93" # unused

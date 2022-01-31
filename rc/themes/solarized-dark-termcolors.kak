@@ -20,8 +20,8 @@ define-command -hidden powerline-theme-solarized-dark-termcolors %{
     declare-option -hidden str powerline_color11 bright-cyan   # bg: filetype
     declare-option -hidden str powerline_color12 bright-blue   # bg: client
     declare-option -hidden str powerline_color13 black         # fg: client
-    declare-option -hidden str powerline_color14 black         # fg: session
-    declare-option -hidden str powerline_color15 bright-yellow # bg: session
+    declare-option -hidden str powerline_color14 black         # bg: session
+    declare-option -hidden str powerline_color15 bright-yellow # fg: session
     declare-option -hidden str powerline_color16 black         # unused
     declare-option -hidden str powerline_color17 bright-red    # unused
     declare-option -hidden str powerline_color18 cyan          # unused

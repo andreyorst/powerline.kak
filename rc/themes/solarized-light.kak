@@ -38,8 +38,8 @@ define-command -hidden powerline-theme-solarized-light %{ evaluate-commands %sh{
         declare-option -hidden str powerline_color11 ${base1}  # bg: filetype
         declare-option -hidden str powerline_color12 ${base0}  # bg: client
         declare-option -hidden str powerline_color13 ${base02} # fg: client
-        declare-option -hidden str powerline_color14 ${base02} # fg: session
-        declare-option -hidden str powerline_color15 ${base00} # bg: session
+        declare-option -hidden str powerline_color14 ${base02} # bg: session
+        declare-option -hidden str powerline_color15 ${base00} # fg: session
         declare-option -hidden str powerline_color16 ${base02} # unused
         declare-option -hidden str powerline_color17 ${orange} # unused
         declare-option -hidden str powerline_color18 ${cyan}   # unused

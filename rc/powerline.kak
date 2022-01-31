@@ -58,13 +58,13 @@ str powerlinefmt
 # | Name        | foreground | background   |
 # |-------------+------------+--------------|
 # | bufname     | color00    | color03      |
-# | client      | color12    | color13      |
+# | client      | color13    | color12      |
 # | filetype    | color10    | color11      |
 # | git         | color02    | color04      |
 # | line-column | color06    | color09      |
 # | mode-info   | color07    | base_bg (08) |
 # | position    | color05    | color01      |
-# | session     | color14    | color15      |
+# | session     | color15    | color14      |
 # | lsp         | color06    | color09      |
 
 declare-option -hidden str powerline_color00 black  # fg: bufname
@@ -81,8 +81,8 @@ declare-option -hidden str powerline_color10 yellow # fg: filetype
 declare-option -hidden str powerline_color11 black  # bg: filetype
 declare-option -hidden str powerline_color12 blue   # bg: client
 declare-option -hidden str powerline_color13 black  # fg: client
-declare-option -hidden str powerline_color14 cyan   # fg: session
-declare-option -hidden str powerline_color15 black  # bg: session
+declare-option -hidden str powerline_color14 cyan   # bg: session
+declare-option -hidden str powerline_color15 black  # fg: session
 declare-option -hidden str powerline_color16 black  # unused
 declare-option -hidden str powerline_color17 yellow # unused
 declare-option -hidden str powerline_color18 green  # unused

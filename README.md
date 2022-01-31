@@ -235,13 +235,13 @@ other modules, if possible. These colors are used by default modules:
 | Module Name | Foreground |        Background |
 |:------------|-----------:|------------------:|
 | bufname     |    color00 |           color03 |
-| client      |    color12 |           color13 |
+| client      |    color13 |           color12 |
 | filetype    |    color10 |           color11 |
 | git         |    color02 |           color04 |
 | line-column |    color06 |           color09 |
 | mode-info   |    color07 | base_bg (color08) |
 | position    |    color05 |           color01 |
-| session     |    color14 |           color15 |
+| session     |    color15 |           color14 |
 | lsp         |    color06 |           color09 |
 
 Colors from `color16` to `color31` are declared by the main script, but not used
