@@ -20,8 +20,8 @@ define-command -hidden powerline-theme-zenburn %{
     declare-option -hidden str powerline_color11 rgb:4a4a4a # bg: filetype
     declare-option -hidden str powerline_color12 rgb:2a2a2a # bg: client
     declare-option -hidden str powerline_color13 rgb:cc9393 # fg: client
-    declare-option -hidden str powerline_color14 rgb:7f9f7f # fg: session
-    declare-option -hidden str powerline_color15 rgb:4a4a4a # bg: session
+    declare-option -hidden str powerline_color14 rgb:7f9f7f # bg: session
+    declare-option -hidden str powerline_color15 rgb:4a4a4a # fg: session
     declare-option -hidden str powerline_color16 rgb:cc9393 # unused
     declare-option -hidden str powerline_color17 rgb:2a2a2a # unused
     declare-option -hidden str powerline_color18 rgb:7f9f7f # unused

@@ -35,8 +35,8 @@ define-command -hidden powerline-theme-reeder %{ evaluate-commands %sh{
         declare-option -hidden str powerline_color11 ${grey_dark}     # bg: filetype
         declare-option -hidden str powerline_color12 ${black_light}   # bg: client
         declare-option -hidden str powerline_color13 ${grey_dark}     # fg: client
-        declare-option -hidden str powerline_color14 ${grey_dark}     # fg: session
-        declare-option -hidden str powerline_color15 ${black}         # bg: session
+        declare-option -hidden str powerline_color14 ${grey_dark}     # bg: session
+        declare-option -hidden str powerline_color15 ${black}         # fg: session
         declare-option -hidden str powerline_color16 ${black_light}   # unused
         declare-option -hidden str powerline_color17 ${brown_lighter} # unused
         declare-option -hidden str powerline_color18 ${black_light}   # unused

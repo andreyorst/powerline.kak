@@ -40,8 +40,8 @@ define-command -hidden powerline-theme-red-phoenix %{ evaluate-commands %sh{
         declare-option -hidden str powerline_color11 ${light_orange1} # bg: filetype
         declare-option -hidden str powerline_color12 ${orange2}       # bg: client
         declare-option -hidden str powerline_color13 ${default}       # fg: client
-        declare-option -hidden str powerline_color14 ${default}       # fg: session
-        declare-option -hidden str powerline_color15 ${orange3}       # bg: session
+        declare-option -hidden str powerline_color14 ${default}       # bg: session
+        declare-option -hidden str powerline_color15 ${orange3}       # fg: session
         declare-option -hidden str powerline_color16 white            # unused
         declare-option -hidden str powerline_color17 ${orange1}       # unused
         declare-option -hidden str powerline_color18 white            # unused
