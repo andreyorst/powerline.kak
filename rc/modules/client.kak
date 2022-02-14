@@ -22,7 +22,7 @@ define-command -hidden powerline-client %{ evaluate-commands %sh{
     if [ "$kak_opt_powerline_module_client" = "true" ]; then
         bg=$kak_opt_powerline_color12
         fg=$kak_opt_powerline_color13
-        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
+        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}@powerline_base}$normal"
         printf "%s\n" "set-option -add global powerlinefmt %{$separator{$fg,$bg} %val{client} }"
         printf "%s\n" "set-option global powerline_next_bg $bg"
     fi

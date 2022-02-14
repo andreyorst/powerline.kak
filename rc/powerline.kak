@@ -152,6 +152,8 @@ powerline-rebuild-buffer %{
         printf "%s\n" "set-option global powerlinefmt ''"
         printf "%s\n" "set-option global powerline_next_bg %opt{powerline_base_bg}"
 
+        printf "%s\n" "set-face global powerline_base $kak_opt_powerline_base_bg,$kak_opt_powerline_base_bg"
+
         for module in ${kak_opt_powerline_format}; do
             [ ! "${kak_opt_powerline_ignore_warnings}" = "true" ] && warning="catch %{ echo -debug %{powerline.kak: Warning, trying to load non-existing module '${module}'} }"
             module=$(printf "%s\n" ${module} | sed "s:[^a-zA-Z-]:-:g")

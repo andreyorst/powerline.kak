@@ -22,7 +22,7 @@ define-command -hidden powerline-line-column %{ evaluate-commands %sh{
     if [ "$kak_opt_powerline_module_line_column" = "true" ]; then
         fg=$kak_opt_powerline_color06
         bg=$kak_opt_powerline_color09
-        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
+        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}@powerline_base}$normal"
         printf "%s\n" "set-option -add global powerlinefmt %{$separator{$fg,$bg} %val{cursor_line}{$fg,$bg}:{$fg,$bg}%val{cursor_char_column} }"
         printf "%s\n" "set-option global powerline_next_bg $bg"
     fi
