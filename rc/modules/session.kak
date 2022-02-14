@@ -22,7 +22,7 @@ define-command -hidden powerline-session %{ evaluate-commands %sh{
     if [ "$kak_opt_powerline_module_session" = "true" ]; then
         bg=$kak_opt_powerline_color14
         fg=$kak_opt_powerline_color15
-        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
+        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}@powerline_base}$normal"
         printf "%s\n" "set-option -add global powerlinefmt %{$separator{$fg,$bg} %val{session} }"
         printf "%s\n" "set-option global powerline_next_bg $bg"
     fi

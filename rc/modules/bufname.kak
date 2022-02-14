@@ -29,7 +29,7 @@ define-command -hidden powerline-bufname %{ evaluate-commands %sh{
     if [ "$kak_opt_powerline_module_bufname" = "true" ]; then
         fg=$kak_opt_powerline_color00
         bg=$kak_opt_powerline_color03
-        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}}$normal"
+        [ "$next_bg" = "$bg" ] && separator="{$fg,$bg}$thin" || separator="{$bg,${next_bg:-$default}@powerline_base}$normal"
         printf "%s\n" "set-option -add global powerlinefmt %{$separator{$fg,$bg} %opt{powerline_bufname}{{context_info}}%opt{powerline_readonly} }"
         printf "%s\n" "set-option global powerline_next_bg $bg"
     fi
