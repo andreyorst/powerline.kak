@@ -9,13 +9,11 @@ Powerline plugin for Kakoune Editor.
 
 ![image][7]
 
-This plugin aims to make Kakoune's modeline more context dependent, and
-beautiful. **powerline.kak** adds coloring, separators, toggle behavior and
-support for git, as well as modular system for easy extending with new
-modules. Some parts, like git branch and filetype, are shown only if they are
-available, so there will be no filetype section while you're editing file which
-filetype wasn't deduced by Kakoune. Also if you're editing file that has no
-write access, **powerline.kak** will show you a lock symbol near the filename.
+This plugin aims to make Kakoune's modeline more context dependent and beautiful.
+**powerline.kak** provides coloring, separators, toggling commands, support for git, and a modular system to easily extend `powerline.kak` with new modules.
+Some modules, like _git_ and _filetype_, are shown only if they're available.
+For example, the _filetype_ module won't display if Kakaoune can't detect a file's type.
+Also, if you're editing a file without write access, **powerline.kak** will display a lock symbol near the filename.
 
 ## Installation
 
@@ -31,17 +29,24 @@ plug "andreyorst/powerline.kak" defer powerline_gruvbox %{
 }
 ```
 
-Source your `kakrc` or restart Kakoune, and execute `:plug-install`. Or if you
-don't want to source configuration file or restart Kakoune, simply run
-`plug-install andreyorst/powerline.kak`. Use `powerline-start` to activate it.
+Source your `kakrc`, or restart Kakoune.
+Then execute `:plug-install`.
+Or, if you don't want to source the configuration file or restart Kakoune, simply run `plug-install andreyorst/powerline.kak`.
+Lastly, run `powerline-start` to activate it.
 
 ### Without plugin manager
 
 #### Autoload
 
-Clone or place a symbolic link to the repository into your `autoload`
-directory. Plugin should be loaded fine. If any errors will show up, please open
-an issue.
+Clone, or place a symbolic link to, the repository into your `autoload` directory.
+In your `kakrc`, add `powerline-start`.
+Then, under this, add:
+```
+hook global BufOpenFile .* expandtab
+hook global BufNewFile  .* expandtab
+```
+The plugin should now load without any problems.
+If any errors appear, please open an issue.
 
 #### By hand
 
@@ -58,8 +63,9 @@ Source the main script in your `kakrc`:
 source "%val{config}/plugins/powerline.kak/rc/powerline.kak"
 ```
 
-Source modules. You can skip those you don't want to use but it highly
-recommended to source at least `bufname.kak`, and `mode_info.kak`:
+Source modules.
+You can skip those you don't want,
+but it's highly recommended to source at least `bufname.kak` and `mode_info.kak`:
 
 ``` kak
 source "%val{config}/plugins/powerline.kak/rc/modules/bufname.kak"
@@ -73,34 +79,34 @@ source "%val{config}/plugins/powerline.kak/rc/modules/session.kak"
 source "%val{config}/plugins/powerline.kak/rc/modules/lsp.kak"
 ```
 
-And source theme that you want to use:
+And source the theme you want to use:
 
 ``` kak
 source "%val{config}/plugins/powerline.kak/rc/themes/base16-gruvbox.kak"
 ```
 
-After that you can enable powerline with:
+After that, you can enable powerline with:
 
 ``` kak
 powerline-start
 ```
 
-If you want to use builtin themes, you'll need to source theme scripts from
-`rc/themes` folder. This is kind of tedious thing to do, and that's why I
-recommend using a plugin manager, since it does all this for you automatically, and
-handles your configuration too.
+If you want to use built-in themes, you'll need to source theme from the `rc/themes` folder.
+This is kind of a tedious thing to do.
+That's why I recommend using a plugin manager,
+since it handles all the theming and configuration for you.
 
-After that you can use **powerline.kak**.
+After that, you can use **powerline.kak**.
 
 ## Configuration
 
-**powerline.kak** supports these commands:
-- `powerline-toggle` - toggle powerline on and off, by restoring pre-powerline
-  value of `modelinefmt`.
-- `powerline-toggle-module` - toggle one of powerline modules `on` and `off`.
-- `powerline-separator` - change separators of the powerline.kak. In order to
-  use powerline icons you need powerline compatible font. This is the full list of
-  supported separators:
+**powerline.kak** supports these **commands**:
+- `powerline-toggle` - toggle powerline on and off,
+by restoring the pre-powerline value of `modelinefmt`.
+- `powerline-toggle-module` - toggle a powerline module `on` and `off`.
+- `powerline-separator` - change the separators for powerline.kak.
+In order to use powerline icons, you need a powerline compatible font.
+This is the full list of supported separators:
   - ASCII separators: `ascii-arrow`, `ascii-triangle`,
     `ascii-triangle-inverted`.
   - Extended ASCII separators: `bars`, `full-step`, `half-step`, `quarter-step`.
@@ -109,25 +115,27 @@ After that you can use **powerline.kak**.
   - `random` - randomly selects one from above.
   - `custom` - use your own separators. Supports both normal and thin variants.
   - `none` - no separators.
-- `powerline-theme` - change powerline theme.
-- `powerline-format` - change order of powerline parts.
-- `powerline-rebuild` - reconstruct powerline accordingly to options. Sometimes
-  needed when you modify options directly.
+- `powerline-theme` - change powerline's theme.
+- `powerline-format` - change the ordering of modules.
+- `powerline-rebuild` - reconstruct powerline according to options,
+sometimes needed when you modify options directly.
 
-These options are also available for configuration:
-- `powerline_separator` - set separator via option.
+These **options** are also available to set,
+either from within a Kakoune buffer,
+or else in your `kakrc`:
+- `powerline_separator` - values are the same as those above.
 - `powerline_separator_thin` - set thin separator via option.
-- `powerline_format` - set powerline format via option.
-- `powerline_ignore_warnings` - this option makes powerline ignore warnings when
-building powerline.
+- `powerline_format` - available modules are:
+git, bufname, line_column, mode_info, filetype, client, session, position, lsp
+- `powerline_ignore_warnings` - makes powerline ignore warnings when building itself.
 - `powerline_shorten_bufname` - display `bufname` in three different ways:
 `full`, `short`, and `name`.
 
-All **powerline.kak** settings executed with commands are applied by default in context of
-a buffer, therefore you can have different powerlines for different buffers. However, a
-scope can be passed to these commands to set these options at the buffer, window, or global
-scope. For example, `powerline-separator global triangle` runs the `powerline-separator`
-command on a global scope to set the separator globally instead of in the context of a buffer.
+All **powerline.kak** settings executed with commands are applied by default in the context of a buffer;
+therefore, you can have different powerlines for different buffers.
+However, a `scope` can be passed to these commands to set these options at the buffer, window, or global scope.
+For example, `powerline-separator global triangle` runs `powerline-separator` on a _global_ scope,
+which applies to all buffers, instead of just the current one.
 
 ### Example configuration using **plug.kak**
 
@@ -165,6 +173,16 @@ Lets break this down:
 You can add your own configurations here. Since all settings are
 buffer-dependent you can have different settings for different buffers,
 filetypes, etc.
+
+### Example configuration using **kakrc**
+```
+require-module powerline
+set-option global powerline_format 'git bufname filetype mode_info lsp'
+set-option global powerline_shorten_bufname name
+powerline-start
+hook global BufOpenFile .* expandtab
+hook global BufNewFile  .* expandtab
+```
 
 ## Making themes
 
