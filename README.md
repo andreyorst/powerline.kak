@@ -40,11 +40,6 @@ Lastly, run `powerline-start` to activate it.
 
 Clone, or place a symbolic link to, the repository into your `autoload` directory.
 In your `kakrc`, add `powerline-start`.
-Then, under this, add:
-```
-hook global BufOpenFile .* expandtab
-hook global BufNewFile  .* expandtab
-```
 The plugin should now load without any problems.
 If any errors appear, please open an issue.
 
@@ -180,8 +175,6 @@ require-module powerline
 set-option global powerline_format 'git bufname filetype mode_info lsp'
 set-option global powerline_shorten_bufname name
 powerline-start
-hook global BufOpenFile .* expandtab
-hook global BufNewFile  .* expandtab
 ```
 
 ## Making themes
